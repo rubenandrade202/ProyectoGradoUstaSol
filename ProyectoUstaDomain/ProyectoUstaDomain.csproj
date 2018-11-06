@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{00FFC075-C7DF-40FA-BDC1-4819723B754D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProyectoUstaDomain</RootNamespace>
+    <AssemblyName>ProyectoUstaDomain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics.Web.Mvc, Version=5.18.1.79, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ProyectoGradoUstaWeb\Infragistics20181\dll\Infragistics.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClientesProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DomainModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="LogCreditosProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LogPedidosProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MovimientosCajaProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductoCodigoDeBarrasProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductoProveedorProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductosAPedirProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductosBufferAInventarioProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductosProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProveedoresProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoDeUbicacionProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TiposMovimientoCajaProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UbicacionesProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuariosProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VentasProyectoUsta.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\DemoPage\MainDemoPageVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Caja\GmCajaVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Creditos\LogCreditosIgGrid.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Inventario\EsqGridGenProductoAInventarioVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Inventario\PedidosVisitasBaseVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Inventario\PedidosVisitasVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Inventario\ProductoAPedirAddVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Inventario\ProductoAPedirIgVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Inventario\ProductoAPedirVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Inventario\ProductosBufferInventarioIgVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Producto\ProductoAddVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Producto\ProductoFaltanteProveedorIgVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Producto\ProductoIgMainVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Producto\ProductoProveedorVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Producto\ProductoUpdateVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Proveedor\ProveedorAddVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Proveedor\ProveedorUpdateVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Reportes\MovimientoCajaIgRpt.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Reportes\VentasIgRpt.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Ubicaciones\UbicacionesAddVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Ubicaciones\UbicacionesMainIgVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Ubicaciones\UbicacionesUpdateVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Venta\EsquemaGridGenericoVm.cs" />
+    <Compile Include="ViewModel\UnidadDeNegocio\Venta\VentaAddVm.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DomainModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DomainModel.edmx</DependentUpon>
+      <LastGenOutput>DomainModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DomainModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DomainModel.edmx</DependentUpon>
+      <LastGenOutput>DomainModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Instrucciones.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="DomainModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DomainModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DomainModel.edmx.diagram">
+      <DependentUpon>DomainModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProyectoGradoUstaCommon\ProyectoGradoUstaCommon.csproj">
+      <Project>{b469eb44-6b19-4af3-b713-29d2883f75d9}</Project>
+      <Name>ProyectoGradoUstaCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

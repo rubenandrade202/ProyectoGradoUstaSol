@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutMain.cshtml";
+}
+@section Javascript{
+  <script>
+      nsGral.UrlStayAlive = '@Url.Action("StayAlive", "Security")';
+      nsGral.UrlLoadPvPedidosVisitas = '@Url.Action("PedidosVisitasPv","Inventario")';
+      nsGral.UrlRegistrarPedidoRecibido = '@Url.Action("AddPedidoLog", "Inventario")';  
+  </script>
+}
+
+<h2>@ViewBag.NombreNegocio</h2>

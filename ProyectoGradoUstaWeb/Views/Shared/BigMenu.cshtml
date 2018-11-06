@@ -1,0 +1,92 @@
+﻿@model List<ProyectoGradoUstaSecurity.BigMenuParentVm>
+<div class="hor-menu   hidden-sm hidden-xs">
+  <ul class="nav navbar-nav navbar-xs">
+    <!-- DOC: Remove data-hover="megamenu-dropdown" and data-close-others="true" attributes below to disable the horizontal opening on mouse hover -->
+    @foreach (ProyectoGradoUstaSecurity.BigMenuParentVm itemParent in Model)
+    { 
+      <li class="mega-menu-dropdown mega-menu-full" aria-haspopup="true">
+        <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">
+          @itemParent.Nombre
+          <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <div class="mega-menu-content ">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    @if (itemParent.ChildConfiguration.Count > 0)
+                    {
+                      <div class="col-md-2">
+                        <ul class="mega-menu-submenu">
+                          <li>
+                            <h3 style="text-decoration: underline;">@itemParent.ChildConfiguration[0].NombreTipoOpcion</h3>
+                          </li>
+                          @foreach (ProyectoGradoUstaSecurity.BigMenuChildVm itemConfiguracion in itemParent.ChildConfiguration)
+                          {
+                            <li>
+                              <a href="#" onclick="nsGral.ProcesarPagina('@itemConfiguracion.Controlador', '@itemConfiguracion.Accion')">@itemConfiguracion.Nombre</a>
+                            </li>
+                          }
+                        </ul>
+                      </div>
+                    }
+
+                    @if (itemParent.ChildProcess.Count > 0)
+                    {
+                      <div class="col-md-2">
+                        <ul class="mega-menu-submenu">
+                          <li>
+                            <h3 style="text-decoration: underline;">@itemParent.ChildProcess[0].NombreTipoOpcion</h3>
+                          </li>
+                          @foreach (ProyectoGradoUstaSecurity.BigMenuChildVm itemProcess in itemParent.ChildProcess)
+                          {
+                            <li>
+                              <a href="#" onclick="nsGral.ProcesarPagina('@itemProcess.Controlador', '@itemProcess.Accion')">@itemProcess.Nombre</a>
+                            </li>
+                          }
+                        </ul>
+                      </div>
+                    }
+
+                    @if (itemParent.ChildReports.Count > 0)
+                    {
+                      <div class="col-md-2">
+                        <ul class="mega-menu-submenu">
+                          <li>
+                            <h3 style="text-decoration: underline;">@itemParent.ChildReports[0].NombreTipoOpcion</h3>
+                          </li>
+                          @foreach (ProyectoGradoUstaSecurity.BigMenuChildVm itemReportes in itemParent.ChildReports)
+                          {
+                            <li>
+                              <a href="#" onclick="nsGral.ProcesarPagina('@itemReportes.Controlador', '@itemReportes.Accion')">@itemReportes.Nombre</a>
+                            </li>
+                          }
+                        </ul>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </li>
+    }
+  </ul>
+</div>
+
+
+
+
+
+@*<form class="search-form" action="" method="GET">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Buscar Opcion..." name="query">
+        <span class="input-group-btn">
+            <a href="javascript:;" class="btn submit">
+                <i class="icon-magnifier"></i>
+            </a>
+        </span>
+    </div>
+</form>*@

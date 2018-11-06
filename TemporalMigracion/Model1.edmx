@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="POS_V1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Caja">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdMovimiento" Type="tinyint" Nullable="false" />
+          <Property Name="Valor" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="smallint" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="512" />
+          <Property Name="CedulaNit" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="16" />
+          <Property Name="Direccion" Type="varchar" MaxLength="128" />
+          <Property Name="LimiteCredito" Type="int" Nullable="false" />
+          <Property Name="IdEstado" Type="tinyint" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="smallint" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioModificador" Type="smallint" />
+          <Property Name="FechaModificacion" Type="datetime2" Precision="1" />
+        </EntityType>
+        <EntityType Name="CodigosDeBarraProductos">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Deuda">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+          </Key>
+          <Property Name="IdCliente" Type="smallint" Nullable="false" />
+          <Property Name="ValorDeuda" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdVendedor" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductoProveedor">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="IdProveedor" Type="smallint" Nullable="false" />
+          <Property Name="PrecioCompra" Type="decimal" Precision="6" Scale="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdEstado" Type="tinyint" Nullable="false" />
+          <Property Name="Precio" Type="int" Nullable="false" />
+          <Property Name="CantidadActual" Type="smallint" Nullable="false" />
+          <Property Name="CantidadUmbral" Type="smallint" Nullable="false" />
+          <Property Name="IdUbicacionStock" Type="smallint" Nullable="false" />
+          <Property Name="IdUbicacionBodega" Type="smallint" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="smallint" Nullable="false" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="smallint" />
+        </EntityType>
+        <EntityType Name="Proveedores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="VisitaLunes" Type="bit" Nullable="false" />
+          <Property Name="VisitaMartes" Type="bit" Nullable="false" />
+          <Property Name="VisitaMiercoles" Type="bit" Nullable="false" />
+          <Property Name="VisitaJueves" Type="bit" Nullable="false" />
+          <Property Name="VisitaViernes" Type="bit" Nullable="false" />
+          <Property Name="VisitaSabado" Type="bit" Nullable="false" />
+          <Property Name="VisitaDomingo" Type="bit" Nullable="false" />
+          <Property Name="EntregaLunes" Type="bit" Nullable="false" />
+          <Property Name="EntregaMartes" Type="bit" Nullable="false" />
+          <Property Name="EntregaMiercoles" Type="bit" Nullable="false" />
+          <Property Name="EntregaJueves" Type="bit" Nullable="false" />
+          <Property Name="EntregaViernes" Type="bit" Nullable="false" />
+          <Property Name="EntregaSabado" Type="bit" Nullable="false" />
+          <Property Name="EntregaDomingo" Type="bit" Nullable="false" />
+          <Property Name="IdEstado" Type="tinyint" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="smallint" Nullable="false" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="smallint" />
+        </EntityType>
+        <EntityType Name="UbicacionBodega">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="512" />
+          <Property Name="UrlImagen" Type="varchar" MaxLength="512" />
+          <Property Name="IdEstado" Type="tinyint" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioModificador" Type="smallint" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+          <Property Name="IdUsuarioRegistro" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UbicacionStock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="512" />
+          <Property Name="UrlImagen" Type="varchar" MaxLength="512" />
+          <Property Name="IdEstado" Type="tinyint" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="smallint" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioModificador" Type="smallint" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="IdVenta" />
+          </Key>
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="tinyint" Nullable="false" />
+          <Property Name="IdCliente" Type="smallint" Nullable="false" />
+          <Property Name="Total" Type="int" Nullable="false" />
+          <Property Name="IdVendedor" Type="smallint" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="POS_V1ModelStoreContainer">
+          <EntitySet Name="Caja" EntityType="Self.Caja" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="CodigosDeBarraProductos" EntityType="Self.CodigosDeBarraProductos" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="Deuda" EntityType="Self.Deuda" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="ProductoProveedor" EntityType="Self.ProductoProveedor" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="UbicacionBodega" EntityType="Self.UbicacionBodega" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="UbicacionStock" EntityType="Self.UbicacionStock" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="BUS" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="POS_V1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Caja">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdMovimiento" Type="Byte" Nullable="false" />
+          <Property Name="Valor" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="Int16" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="CedulaNit" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="LimiteCredito" Type="Int32" Nullable="false" />
+          <Property Name="IdEstado" Type="Byte" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="Int16" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int16" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="1" />
+        </EntityType>
+        <EntityType Name="CodigosDeBarraProductos">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Deuda">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+          </Key>
+          <Property Name="IdCliente" Type="Int16" Nullable="false" />
+          <Property Name="ValorDeuda" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdVendedor" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductoProveedor">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="IdProveedor" Type="Int16" Nullable="false" />
+          <Property Name="PrecioCompra" Type="Decimal" Precision="6" Scale="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdEstado" Type="Byte" Nullable="false" />
+          <Property Name="Precio" Type="Int32" Nullable="false" />
+          <Property Name="CantidadActual" Type="Int16" Nullable="false" />
+          <Property Name="CantidadUmbral" Type="Int16" Nullable="false" />
+          <Property Name="IdUbicacionStock" Type="Int16" Nullable="false" />
+          <Property Name="IdUbicacionBodega" Type="Int16" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioRegistro" Type="Int16" Nullable="false" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int16" />
+        </EntityType>
+        <EntityType Name="Proveedores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VisitaLunes" Type="Boolean" Nullable="false" />
+          <Property Name="VisitaMartes" Type="Boolean" Nullable="false" />
+          <Property Name="VisitaMiercoles" Type="Boolean" Nullable="false" />
+          <Property Name="VisitaJueves" Type="Boolean" Nullable="false" />
+          <Property Name="VisitaViernes" Type="Boolean" Nullable="false" />
+          <Property Name="VisitaSabado" Type="Boolean" Nullable="false" />
+          <Property Name="VisitaDomingo" Type="Boolean" Nullable="false" />
+          <Property Name="EntregaLunes" Type="Boolean" Nullable="false" />
+          <Property Name="EntregaMartes" Type="Boolean" Nullable="false" />
+          <Property Name="EntregaMiercoles" Type="Boolean" Nullable="false" />
+          <Property Name="EntregaJueves" Type="Boolean" Nullable="false" />
+          <Property Name="EntregaViernes" Type="Boolean" Nullable="false" />
+          <Property Name="EntregaSabado" Type="Boolean" Nullable="false" />
+          <Property Name="EntregaDomingo" Type="Boolean" Nullable="false" />
+          <Property Name="IdEstado" Type="Byte" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioRegistro" Type="Int16" Nullable="false" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int16" />
+        </EntityType>
+        <EntityType Name="UbicacionBodega">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="UrlImagen" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstado" Type="Byte" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int16" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+          <Property Name="IdUsuarioRegistro" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UbicacionStock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="UrlImagen" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstado" Type="Byte" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="Int16" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int16" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="IdVenta" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Byte" Nullable="false" />
+          <Property Name="IdCliente" Type="Int16" Nullable="false" />
+          <Property Name="Total" Type="Int32" Nullable="false" />
+          <Property Name="IdVendedor" Type="Int16" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityContainer Name="POS_V1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Caja" EntityType="Self.Caja" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="CodigosDeBarraProductos" EntityType="Self.CodigosDeBarraProductos" />
+          <EntitySet Name="Deuda" EntityType="Self.Deuda" />
+          <EntitySet Name="ProductoProveedor" EntityType="Self.ProductoProveedor" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" />
+          <EntitySet Name="Proveedores" EntityType="Self.Proveedores" />
+          <EntitySet Name="UbicacionBodega" EntityType="Self.UbicacionBodega" />
+          <EntitySet Name="UbicacionStock" EntityType="Self.UbicacionStock" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="POS_V1ModelStoreContainer" CdmEntityContainer="POS_V1Entities">
+          <EntitySetMapping Name="Caja">
+            <EntityTypeMapping TypeName="POS_V1Model.Caja">
+              <MappingFragment StoreEntitySet="Caja">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="POS_V1Model.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="CedulaNit" ColumnName="CedulaNit" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="LimiteCredito" ColumnName="LimiteCredito" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="IdUsuarioCreador" ColumnName="IdUsuarioCreador" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CodigosDeBarraProductos">
+            <EntityTypeMapping TypeName="POS_V1Model.CodigosDeBarraProductos">
+              <MappingFragment StoreEntitySet="CodigosDeBarraProductos">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deuda">
+            <EntityTypeMapping TypeName="POS_V1Model.Deuda">
+              <MappingFragment StoreEntitySet="Deuda">
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="ValorDeuda" ColumnName="ValorDeuda" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdVendedor" ColumnName="IdVendedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductoProveedor">
+            <EntityTypeMapping TypeName="POS_V1Model.ProductoProveedor">
+              <MappingFragment StoreEntitySet="ProductoProveedor">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="PrecioCompra" ColumnName="PrecioCompra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="POS_V1Model.Productos">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="CantidadActual" ColumnName="CantidadActual" />
+                <ScalarProperty Name="CantidadUmbral" ColumnName="CantidadUmbral" />
+                <ScalarProperty Name="IdUbicacionStock" ColumnName="IdUbicacionStock" />
+                <ScalarProperty Name="IdUbicacionBodega" ColumnName="IdUbicacionBodega" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proveedores">
+            <EntityTypeMapping TypeName="POS_V1Model.Proveedores">
+              <MappingFragment StoreEntitySet="Proveedores">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="VisitaLunes" ColumnName="VisitaLunes" />
+                <ScalarProperty Name="VisitaMartes" ColumnName="VisitaMartes" />
+                <ScalarProperty Name="VisitaMiercoles" ColumnName="VisitaMiercoles" />
+                <ScalarProperty Name="VisitaJueves" ColumnName="VisitaJueves" />
+                <ScalarProperty Name="VisitaViernes" ColumnName="VisitaViernes" />
+                <ScalarProperty Name="VisitaSabado" ColumnName="VisitaSabado" />
+                <ScalarProperty Name="VisitaDomingo" ColumnName="VisitaDomingo" />
+                <ScalarProperty Name="EntregaLunes" ColumnName="EntregaLunes" />
+                <ScalarProperty Name="EntregaMartes" ColumnName="EntregaMartes" />
+                <ScalarProperty Name="EntregaMiercoles" ColumnName="EntregaMiercoles" />
+                <ScalarProperty Name="EntregaJueves" ColumnName="EntregaJueves" />
+                <ScalarProperty Name="EntregaViernes" ColumnName="EntregaViernes" />
+                <ScalarProperty Name="EntregaSabado" ColumnName="EntregaSabado" />
+                <ScalarProperty Name="EntregaDomingo" ColumnName="EntregaDomingo" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UbicacionBodega">
+            <EntityTypeMapping TypeName="POS_V1Model.UbicacionBodega">
+              <MappingFragment StoreEntitySet="UbicacionBodega">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="UrlImagen" ColumnName="UrlImagen" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UbicacionStock">
+            <EntityTypeMapping TypeName="POS_V1Model.UbicacionStock">
+              <MappingFragment StoreEntitySet="UbicacionStock">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="UrlImagen" ColumnName="UrlImagen" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas">
+            <EntityTypeMapping TypeName="POS_V1Model.Ventas">
+              <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IdVendedor" ColumnName="IdVendedor" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,200 @@
+﻿@model RealizarInventarioPageVm
+@{
+    ViewBag.Title = "IngresarPedidosSistema";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+
+<script>
+    var nsMkInv = nsMkInv || {};
+    nsMkInv.SelCmbUbicacion = $("#cmbUbicacionNeogcio");
+    nsMkInv.SelCmbSearch = $("#cmbSearchProduct");
+    nsMkInv.SelGridProductosAInventario = $("#gmProductosAInventario");
+    nsMkInv.UrlCodebarRead = '@Url.Action("CheckCodeBarExist", "Producto")';
+    nsMkInv.UrlProcesarRecords = '@Url.Action("UpdateQtyProductosPorInventario")';
+    nsGral.TituloPagina = 'Realizar Inventario';
+    nsGral.ModuloPagina = "Inventario";
+
+    $("#btnEliminarRecords").click(function () {
+        //debugger
+        nsMkInv.SelGridProductosAInventario = $("#gmProductosAInventario");
+        var selectedItemsGrid = nsMkInv.SelGridProductosAInventario.igGridSelection("selectedRows");
+        if (selectedItemsGrid != null && selectedItemsGrid != undefined && selectedItemsGrid.length > 0) {
+            var arrayIds = new Array();
+            $.each(selectedItemsGrid, function (idx) {
+                //arrayIds.push(Number(selectedItemsGrid[idx].element[0].cells[1].innerText));//id
+                arrayIds.push(Number(selectedItemsGrid[idx].id));
+            });
+            if (arrayIds.length > 0) {
+                nsGral.PromptSweet('Desea eliminar los registros seleccionados?', nsMkInv.EliminarItemsLeidos, arrayIds);
+            }
+        } else {
+            nsGral.MensajeAlert("Debe seleccionar uno o mas registros");
+        }
+    });
+
+    $("#btnProcesaRecords").click(function () {
+        //debugger
+        nsMkInv.SelGridProductosAInventario = $("#gmProductosAInventario");
+        var selectedItemsGrid = nsMkInv.SelGridProductosAInventario.igGridSelection("selectedRows");
+        if (selectedItemsGrid != null && selectedItemsGrid != undefined && selectedItemsGrid.length > 0) {
+            var arrayIds = new Array();
+            $.each(selectedItemsGrid, function (idx) {
+                //debugger
+                var idUbicacion = nsMkInv.SelGridProductosAInventario.igGrid("getCellValue", selectedItemsGrid[idx].id, "IdUbicacion");
+                var qty = nsMkInv.SelGridProductosAInventario.igGrid("getCellValue", selectedItemsGrid[idx].id, "Qty");
+                arrayIds.push({ IdParent: Number(selectedItemsGrid[idx].id), Id: Number(qty), Value: Number(idUbicacion) });
+                //arrayIds.push({ IdParent: Number(selectedItemsGrid[idx].element[0].cells[1].innerText), Id: Number(selectedItemsGrid[idx].element[0].cells[5].innerText), Value: Number(selectedItemsGrid[idx].element[0].cells[2].innerHTML)});
+            });
+            /*
+            
+            /// IdParent => El id del producto en cuestión
+        /// Id => La cantidad de unidades leidas
+        /// Value => El id de la ubicación donde se realiza el inventario
+            */
+
+
+            if (arrayIds.length > 0) {
+                nsGral.PromptSweet('Desea procesar los registros seleccionados, esto afectara el inventario?', nsMkInv.ProcesarItemsLeidos, arrayIds);
+            }
+        } else {
+            nsGral.MensajeAlert("Debe seleccionar uno o mas registros");
+        }
+    });
+
+    function dropDownClosedCmbSearch(evt, ui) {
+        nsMkInv.SelCmbSearch = $("#cmbSearchProduct")
+        var items = nsMkInv.SelCmbSearch.igCombo("selectedItems");
+        if (items != undefined && items != null && items.length > 0) {
+            var idProducto = items[0].data.Id;
+            var nombreProducto = items[0].data.Value;
+            nsMkInv.AddItemToGrid(idProducto, nombreProducto);
+        }
+        nsMkInv.SelCmbSearch.igCombo("text", "");
+    }
+
+    $("#cmbSearchProduct").keypress(function (e) {
+        nsMkInv.SelCmbSearch = $("#cmbSearchProduct");
+        //nsGral.CheckSession();
+        var codeBar = nsMkInv.SelCmbSearch.igCombo("text");
+        if (e.keyCode == 13 && codeBar.length > 0) {
+            $.ajax(
+                {
+                    url: nsMkInv.UrlCodebarRead,
+                    type: 'POST',
+                    data: { codeBar: codeBar },
+                    success: function (rp) {
+                        if (rp.Success) {//El codigo de barras existe en DB
+                            nsMkInv.SelCmbSearch.igCombo("clearInput");
+                            var nombreProducto = rp.Data.NewNombre;
+                            if (rp.Alert) {//El producto asociado al CB esta inactivo, preguntar si activar!! y dar facilidad gestion precio
+                                nsMkInv.AvisoSonoro();
+                                nsGral.MensajeBad("El producto " + nombreProducto +" esta inactivo, debe activarlo primero");
+                            } else {
+                                var idProducto = rp.Data.Id;
+                                nsMkInv.AddItemToGrid(idProducto, nombreProducto);
+                            }
+                        } else {//El CB no existe en DB o error en server
+                            nsGral.MensajeBad(rp.MessageBad[0]);
+                            nsMkInv.AvisoSonoro();
+                        }
+                    }, error: function (er) {
+                        debugger;
+                    }
+                });
+        }
+    });
+
+    nsMkInv.AvisoSonoro = function () {
+        var sound = document.getElementById("soundNoExistant");
+        sound.play();
+    }
+
+    function cmbUbicacionesSelectionChanged(evt, ui) {
+
+        if (ui.items != undefined && ui.items != null && ui.items.length > 0) {
+            $("#contenedorDynamicHidden").removeClass("invisible");
+        } else {
+            $("#contenedorDynamicHidden").addClass("invisible");
+        }
+    }
+
+    nsMkInv.AddItemToGrid = function (idProducto, nombreProducto) {
+        //debugger
+        nsMkInv.SelGridProductosAInventario = $("#gmProductosAInventario");
+        nsMkInv.SelCmbUbicacion = $("#cmbUbicacionNeogcio");
+        var dataSelectedUbicacion = nsMkInv.SelCmbUbicacion.igCombo("selectedItems")[0].data;
+        if (nsMkInv.SelGridProductosAInventario.igGrid("rowById", idProducto).length > 0) {
+            var currentQty = nsMkInv.SelGridProductosAInventario.igGrid("getCellValue", idProducto, "Qty");
+            currentQty = currentQty + 1;
+            nsMkInv.SelGridProductosAInventario.igGridUpdating("updateRow", idProducto, { Qty: currentQty });
+        } else {
+            nsMkInv.SelGridProductosAInventario.igGridUpdating("addRow",
+                { Id: idProducto, ProductoNombre: nombreProducto, Qty: 1, IdUbicacion: dataSelectedUbicacion.Id, UbicacionNombre: dataSelectedUbicacion.Value });
+        }
+    }
+
+    nsMkInv.ProcesarItemsLeidos = function (arrayRecords) {        
+        $.ajax(
+            {
+                url: nsMkInv.UrlProcesarRecords,
+                type: 'POST',
+                data: { recordsToProcess: arrayRecords },
+                success: function (rp) {
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    if (rp.Success) {                        
+                        //se limpian de pantalla los Id de los records procesados
+                        var arrayToProcess = new Array();
+                        $.each(arrayRecords, function (idx) {
+                            arrayToProcess.push(arrayRecords[idx].IdParent);
+                        });
+                        nsMkInv.EliminarItemsLeidos(arrayToProcess);
+                    } 
+                }, error: function (er1) {
+                    debugger
+                }
+            })
+    }
+
+    nsMkInv.EliminarItemsLeidos = function (arrayIds) {
+        //debugger
+        nsMkInv.SelGridProductosAInventario = $("#gmProductosAInventario");
+        $.each(arrayIds, function (idx) {
+            nsMkInv.SelGridProductosAInventario.igGridUpdating("deleteRow", arrayIds[idx]);
+        });
+    }
+</script>
+
+
+<div class="row">
+    <div class="col-md-1">
+        Ubicación
+    </div>
+    <div class="col-md-2">
+        @Html.Infragistics().Combo(Model.CmbUbicacionesNegocio)
+    </div>
+</div>
+<div id="contenedorDynamicHidden" class="row invisible">
+    <div class="col-md-1">
+        Codigo o nombre
+    </div>
+    <div class="col-md-2">
+        @Html.Infragistics().Combo(Model.CmbProductosSearch)
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <input type="button" id="btnEliminarRecords" value="ELIMINAR" />
+    </div>
+    <div class="col-md-2">
+        <input type="button" id="btnProcesaRecords"  value="PROCESAR" />
+    </div>
+</div>
+<div class="row">
+    @Html.Infragistics().Grid(Model.GridProductosAInventario)
+</div>
+
+<audio id="soundNoExistant" controls="controls" style="display:none;">
+    <source  src="~/Content/Sounds/NoProduct.mp3" type="audio/mpeg" />
+</audio>
+
+

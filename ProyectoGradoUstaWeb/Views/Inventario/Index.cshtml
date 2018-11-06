@@ -1,0 +1,288 @@
+﻿@model InventarioMainPageVm
+@{
+    ViewBag.Title = "Clientes";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+<script src="~/scripts/App/Inventario/Inventario101.js"></script>
+<script>
+    nsInven.UrlActualizarProviders = '@Url.Action("UpdateProductoProveedor","Producto")';
+    nsInven.UrlDesasociarProviders = '@Url.Action("UpdateDesasociarProductoProveedor", "Producto")';
+    nsInven.UrlAddProductosAPedir = '@Url.Action("AddProductosAPedir")';
+    nsInven.UrlDeleteProductosAPedir = '@Url.Action("DeleteProductosAPedir")';
+    nsInven.UrlActualizarValorProductoAPedir = '@Url.Action("UpdateValorProductoAPedir")';
+    nsInven.UrlDinamicContent = '@Url.Content("~/Content/Images/")';
+    nsInven.UrlInactivarProductos = '@Url.Action("Delete", "Producto")';
+    nsInven.UrlUpdateProductoGeneric = '@Url.Action("UpdateGeneric", "Producto")';
+    nsInven.UrlSetFilter = '@Url.Action("SetFilter")';   
+    nsInven.UrlUpdateStatusConfirmacionProductosAPedir = '@Url.Action("UpdateStatusConfimrmadoProductosAPedir")';  
+    nsInven.UrlSetFilterProviderProductosPedidos = '@Url.Action("SetFilterProviderProductosPedidos")';    
+    nsGral.TituloPagina = 'Productos Faltantes';
+    nsGral.ModuloPagina = "Inventario";
+</script>
+<style>
+    #divProveedoresSemana { font-size:10px;}
+</style>
+
+
+<div class="row">
+    <div id="divProveedoresSemana" style="display:none;">
+        <ul class="nav nav-tabs">
+            <li id="tabNuevoEdicionProducto" class="active"><a href="#home" data-toggle="tab1">Proveedores Semana</a></li>
+            <li style="float:left;" onclick="nsGral.HideShowTags('divProveedoresSemana', 'btnAyudaProviders'); return false;"><a data-toggle="tab" href="#">X</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div id="tab1" class="tab-pane fade in active">
+                
+                @*<div class="well2">*@
+                <div class="col-md-12">
+                    VISITA
+                </div> 
+                <div class="col-md-6">                   
+                        <div class="col-md-4">
+                            <span class="thumbnail">
+                                Lunes:
+                                <br />    
+                                @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Visita_Lunes"))
+                                {
+                                    @item.Id
+                                    @:<br />
+                                }
+                            </span>                               
+                        </div>
+                        <div class="col-md-4">
+                            <span class="thumbnail">
+                                Martes:
+                                <br />                              
+                                @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Visita_Martes"))
+                                {
+                                    @item.Id
+                                    @:<br />
+                                }
+                            </span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="thumbnail">
+                                Miercoles:
+                                <br />
+                                @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Visita_Miercoles"))
+                                {
+                                    @item.Id
+                                    @:<br />
+                                }
+                            </span>
+                        </div>                                                                    
+                </div>
+                <div class="col-md-6">                  
+                        <div class="col-md-3">
+                            <span class="thumbnail">
+                                Jueves:
+                                <br />
+                                @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Visita_Jueves"))
+                                {
+                                    @item.Id
+                                    @:<br />
+                                }
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="thumbnail">
+                                Viernes:
+                                <br />
+                                @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Visita_Viernes"))
+                                {
+                                    @item.Id
+                                    @:<br />
+                                }
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="thumbnail">
+                                Sabado:
+                                <br />
+                                @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Visita_Sabado"))
+                                {
+                                    @item.Id
+                                    @:<br />
+                                }
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="thumbnail">
+                                Domingo:
+                                <br />
+                                @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Visita_Domingo"))
+                                {
+                                    @item.Id
+                                    @:<br />
+                                }
+                            </span>
+                        </div>                     
+                </div>
+
+                <div class="col-md-12">
+                    ENTREGA
+                </div>
+                <div class="col-md-6">                   
+                    <div class="col-md-4">
+                        <span class="thumbnail">
+                            Lunes
+                            <br />
+                            @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Entrega_Lunes"))
+                            {
+                                @item.Id
+                                @:<br />
+                            }                               
+                        </span>  
+                    </div>    
+                    <div class="col-md-4">
+                        <span class="thumbnail">
+                            Martes:
+                            <br />                            
+                            @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Entrega_Martes"))
+                            {
+                                @item.Id
+                                @:<br />
+                            }
+                            
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="thumbnail">
+                            Miercoles:
+                            <br />
+                            @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Entrega_Miercoles"))
+                            {
+                                @item.Id
+                                @:<br />
+                            }
+                        </span>
+                    </div>
+                   
+                </div>
+                <div class="col-md-6">                   
+                    <div class="col-md-3">
+                        <span class="thumbnail">
+                            Jueves:
+                            <br />
+                            @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Entrega_Jueves"))
+                            {
+                                @item.Id
+                                @:<br />
+                            }
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="thumbnail">
+                            Viernes:
+                            <br />
+                            @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Entrega_Viernes"))
+                            {
+                                @item.Id
+                                @:<br />
+                            }
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="thumbnail">
+                            Sabado:
+                            <br />
+                            @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Entrega_Sabado"))
+                            {
+                                @item.Id
+                                @:<br />
+                            }
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="thumbnail">
+                            Domingo:
+                            <br />
+                            @foreach (var item in Model.ProveedoresProyection.Where(x => x.Value == "Entrega_Domingo"))
+                            {
+                                @item.Id
+                                @:<br />
+                            }
+                        </span>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-2">
+                @Html.Infragistics().Combo(Model.CmbProveedores)
+            </div>
+            <div class="col-md-1">
+                <input type="button" data-toggle="tooltip" title="Asociar Proveedores a producto(s)!" id="btnAsociaProviders" value="ASO."  />
+            </div>
+            <div class="col-md-1">
+                <input type="button" data-toggle="tooltip" title="Desasociar Proveedores a producto(s)!" id="btnDesasociaProviders" value="DES." />
+            </div>
+            <div class="col-md-1">
+                <input type="button" data-toggle="tooltip" title="Ver el listado de los proveedores en SEMANA!" id="btnAyudaProviders" value="VER." />
+            </div>
+
+            <div class="col-md-1">
+                <input type="button" data-toggle="tooltip" title="Desactivar los producto(s) seleccionado(s)" id="btnInactivarProductos" value="INA." />
+            </div>
+
+            <div class="col-md-1">
+                <input type="button" data-toggle="tooltip" title="Actualiza umbral de los producto(s) seleccionado(s)" id="btnUpdateUmbral" value="UMB." />
+            </div>
+            <div class="col-md-1">
+                <input type="button" data-toggle="tooltip" title="Programa producto(s) a visitas!" id="btnProgramarProductos" value="PRO." />
+            </div>
+            <div class="col-md-1">
+                <label>Día</label>
+                <input type="checkbox" id="chbCareDay" data-toggle="tooltip" title="Realiza programaciones teniendo en cuenta el día actual" />
+            </div>
+            <div class="col-md-1">                
+                <input type="checkbox" name="my-checkbox-boostrap" id="chbFiltroUmbral" data-checked="false" data-size="mini" data-on-text="UU" data-off-text="US" >
+            </div>
+            <div class="col-md-2">
+                <img src="~/Content/Images/Icons/infoIconsStatus.png" />                
+            </div>
+           
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-2">
+            @Html.Infragistics().Combo(Model.CmbProveedoresProductosPedidosFlt)            
+        </div>   
+        <div class="col-md-1">
+            <input type="button" data-toggle="tooltip" title="Elimina productos a pedir que no han sido confirmados" id="btnEliminarProductosAPedir" value="ELI." />
+        </div>
+        <div class="col-md-1">
+            <input type="button" data-toggle="tooltip" title="Confirmación a alto nivel de productos programados" id="btnConfirmarProductosAPedir" value="CON." />
+        </div>
+        <div class="col-md-1">
+            <input type="button" data-toggle="tooltip" title="Desconfirmación a alto nivel de productos programados" id="btnDesconfirmarProductosAPedir" value="DES." />
+        </div>
+
+        
+    </div>
+</div>
+<div class="row">   
+    <div class="col-md-6">
+        @Html.Infragistics().Grid(Model.GridProveedoresProductosFaltantes)
+    </div>
+    <div class="col-md-6">
+        @Html.Infragistics().Grid(Model.GridproductosAPedir)
+    </div>
+</div>
+
+<script>
+    
+</script>
+
+
+
+
+
+
+
+
+

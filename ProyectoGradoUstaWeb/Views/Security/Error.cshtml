@@ -1,0 +1,27 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Error Page";
+    Layout = ViewBag.LayoutSet == true || ViewBag.LayoutSet == null ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+
+<h2>Ha ocurrido un error en el sistema. Reinicie sesión o consulte al administrador.</h2>
+<br />
+
+@if (Model != null && HttpContext.Current.IsDebuggingEnabled)
+{
+    @:Esta información aparece debido a que el sitio tiene el flag de debug activo
+    <br />
+    <div>
+        <p>
+            <b>Exception:</b> @Model.Exception.Message<br />
+            <b>Controller:</b> @Model.ControllerName<br />
+            <b>Action:</b> @Model.ActionName
+        </p>
+        <div style="overflow:scroll">
+            <pre>
+                    @Model.Exception.StackTrace
+            </pre>
+        </div>
+    </div>
+}
+

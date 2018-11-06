@@ -1,0 +1,210 @@
+﻿@using Infragistics.Web.Mvc;
+@using ProyectoGradoUstaSecurity;
+@model  GridModel
+@{
+    ViewBag.Title = "Proveedores";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+<script src='@Url.Content("~/scripts/App/Proveedores/ProveedoresV100.js")'></script>
+
+<div id="divContenedorProveedores">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <form id="frmProveedor" onsubmit="return false" action="javascript:0">
+                <input type="submit" style="display:none" id="btnSubmitFrmProveedor" />
+                <div id="divNuevaEdicionProveedor" style="display:none;">
+                    <ul class="nav nav-tabs">
+                        <li id="tabNuevoEdicionProveedor" class="active"><a href="#home" data-toggle="tab1">Agregar/Actualizar Proveedor</a></li>
+                        <li style="float:left;" onclick="nsPro.LimpiarForm(); nsGral.HideShowTags('divNuevaEdicionProveedor', 'btnOpenNewProveedor'); return false;"><a data-toggle="tab" href="#">X</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="well2">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptNombre">Nombre</label>
+                                            <input type="text" id="iptNombre" required />
+                                        </div>
+                                    </div>                                    
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptDescripcion">Descripción</label>
+                                            <input type="text" id="iptDescripcion" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptNit">Nit</label>
+                                            <input type="text" id="iptNit" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptTelefono">Telefono</label>
+                                            <input type="text" id="iptTelefono" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1">                                        
+                                            <div class="col-md-9">
+                                                <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptVisitaLunes">Visita Lunes</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="checkbox" id="iptVisitaLunes" />
+                                            </div>                                                                                  
+                                        </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptVisitaMartes">Visita Martes</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptVisitaMartes" />
+                                        </div>
+
+                         
+                                    </div>                                    
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptVisitaMiercoles">Visita Miercoles</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptVisitaMiercoles" />
+                                        </div>
+                            
+                                    </div>                                    
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptVisitaJueves">Visita Jueves</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptVisitaJueves" />
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptVisitaViernes">Visita Viernes</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptVisitaViernes" />
+                                        </div>
+                                   
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptVisitaSabado">Visita Sabado</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptVisitaSabado" />
+                                        </div>
+                              
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptVisitaDomingo">Visita Domingo</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptVisitaDomingo" />
+                                        </div>
+                                 
+                                    </div>  
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptEntregaLunes">Entrega Lunes</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptEntregaLunes" />
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptEntregaMartes">Entrega Martes</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptEntregaMartes" />
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptEntregaMiercoles">Entrega Miercoles</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptEntregaMiercoles" />
+                                        </div>
+                  
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptEntregaJueves">Entrega Jueves</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptEntregaJueves" />
+                                        </div>
+                          
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptEntregaViernes">Entrega Viernes</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptEntregaViernes" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptEntregaSabado">Entrega Sabado</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptEntregaSabado" />
+                                        </div>
+                  
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="col-md-9">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptEntregaDomingo">Entrega Domingo</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" id="iptEntregaDomingo" />
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="row text-right">
+                                        <button class="btn btn-default2" onclick="nsPro.TryNuevaEditarProveedor(); return false;">Agregar/Actualizar</button>                                       
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" id="divUbicaciones">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <button class="btn btn-default2 btn-sm btn-search-panel" id="btnOpenNewProveedor" onclick="nsGral.HideShowTags('btnOpenNewProveedor', 'divNuevaEdicionProveedor');">Nuevo</button>
+                    </div>
+                </div>
+                @(Html.Infragistics().Grid(Model))
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    nsPro.UrlTryAdd = '@Url.Action("Add")';
+    nsPro.UrlTryDelete = '@Url.Action("Delete")';
+    nsPro.UrlTryUpdate = '@Url.Action("Update")';
+    nsGral.TituloPagina = 'Proveedores';
+    nsGral.ModuloPagina = "Base POS";
+</script>
+

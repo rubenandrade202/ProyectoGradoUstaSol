@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Login POS</title>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/global/plugins/font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/global/plugins/simple-line-icons/simple-line-icons.min.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" />
+    <link href="~/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/global/css/components.min.css" rel="stylesheet" />
+    <link href="~/assets/global/css/plugins.min.css" rel="stylesheet" />
+    <link href="~/assets/pages/css/login-5.min.css" rel="stylesheet" />
+    @*<link rel="shortcut icon" href="favicon.ico" />*@
+</head>
+<body class="login">
+    <!-- BEGIN : LOGIN PAGE 5-2 -->
+    <div class="user-login-5">
+        <div class="row bs-reset">
+            <div class="col-md-6 login-container bs-reset">
+                <img class="login-logo login-6" src="~/Content/Images/Login/Logo.png" />               
+                <div class="login-content">
+                    <h1>@ViewBag.NombreNegocio</h1>
+                    @*<h1>Proyecto De Grado Usta Distancia</h1>
+                    <p> Tutor: Mario Dustano Contreras</p>
+                    <p> Presentado Por: Ruben Dario Andrade Manrique</p>*@ 
+                    <div class="login-form">
+                        @RenderBody()
+                    </div>                                 
+                    <!-- BEGIN FORGOT PASSWORD FORM -->
+                    <form class="forget-form" action="javascript:;" method="post">                       
+                    </form>
+                    <!-- END FORGOT PASSWORD FORM -->
+                </div>
+                <div class="login-footer">
+                    <div class="row bs-reset">
+                        <div class="col-xs-5 bs-reset">
+                            <ul class="login-social">
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="icon-social-facebook"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="icon-social-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="icon-social-dribbble"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-7 bs-reset">
+                            <div class="login-copyright text-right">
+                                <p>Copyright &copy; @DateTime.Now.Year - Ruben Dario Andrade Manrique</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 bs-reset">
+                <div class="login-bg"> </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/scripts/jquery-2.2.4.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <script src="~/assets/global/plugins/js.cookie.min.js"></script>
+    <script src="~/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/global/plugins/jquery.blockui.min.js"></script>
+    <link href="~/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" />
+    <script src="~/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="~/assets/global/plugins/jquery-validation/js/additional-methods.min.js"></script>
+    <script src="~/assets/global/plugins/select2/js/select2.full.min.js"></script>
+    <script src="~/assets/global/plugins/backstretch/jquery.backstretch.min.js"></script>    
+    <script src="~/assets/global/scripts/app.min.js"></script>
+    <script src="~/assets/pages/scripts/login-5.js"></script>       
+</body>
+</html>

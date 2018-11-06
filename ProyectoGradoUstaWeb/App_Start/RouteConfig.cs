@@ -16,7 +16,8 @@ namespace ProyectoGradoUstaWeb
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Security", action = "LogIn", id = UrlParameter.Optional }
+                //defaults: new { controller = "Producto", action = "Index", id = UrlParameter.Optional }//Para realizar pruebas especificas e inice en la vista deseada saltandose el login
             );
         }
     }

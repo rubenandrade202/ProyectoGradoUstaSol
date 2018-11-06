@@ -1,0 +1,54 @@
+﻿@model InventarioIngresarPedidosPageVm
+@{
+    ViewBag.Title = "IngresarPedidosSistema";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+<script src="~/scripts/App/Inventario/AgregarPedidosInventarioV102.js"></script>
+<script>
+    nsApi.UrlSetproviderAndDateSelected = '@Url.Action("SetProviderAndDateSelected")';
+    nsApi.UrlDeleteProductosBuffer = '@Url.Action("DeleteProductosBufferInventario")';
+    nsApi.UrlUpdateCampoProductoBuffer = '@Url.Action("UpdateCampoRecordProductoBufferAinventario")';
+    nsApi.UrlIngresarProductoABuffer = '@Url.Action("AddproductoABufferParaInventario")';
+    nsApi.UrlProcesarProductosBuffer = '@Url.Action("ProcesarRegistrosBufferAInventario")';
+    nsApi.UrlCodebarRead = '@Url.Action("CheckCodeBarExist", "Producto")';
+    nsGral.TituloPagina = 'Ingresar Items a Inventario';
+    nsGral.ModuloPagina = "Inventario";
+</script>
+
+<div class="row">
+    <div class="col-md-2">
+        Proveedor:
+    </div>
+    <div class="col-md-3">
+        @Html.Infragistics().Combo(Model.CmbProveedores)
+    </div>   
+    <div class="col-md-2">
+        Fecha:
+    </div>
+    <div class="col-md-3">
+        @Html.Infragistics().DatePicker(Model.FechaPedido)
+    </div> 
+</div>
+<div id="contenedorDynamicHidden" class="invisible">
+    <div class="row">
+        <div class="col-md-2">
+            Codigo / Nombre Producto
+        </div>
+        <div class="col-md-2">
+            @Html.Infragistics().Combo(Model.CmbProductosSearch)
+        </div>
+        <div class="col-md-1">
+            <input type="button" id="btnDescartarBuffer" value="DESCARTAR" />
+        </div>
+        <div class="col-md-1">
+            <input type="button" id="btnProcesarBuffer" value="PROCESAR." />
+        </div>        
+    </div>
+    <div class="row">
+        @Html.Infragistics().Grid(Model.GridItemsPedidos)
+    </div>
+</div>
+
+
+
+

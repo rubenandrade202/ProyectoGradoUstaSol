@@ -1,0 +1,32 @@
+﻿@model ProyectoGradoUstaSecurity.InfoUsuarioLogOutVm
+
+        <li class="dropdown dropdown-user">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                <img alt="" class="img-circle" src="~/Content/Images/FrameLayout/user-icon.png" />                
+                <span class="username username-hide-on-mobile"> @Model.UserName </span>
+                <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-default">
+                <li>
+                    <a href="#">
+                        <i class="icon-user"></i> @Model.NombreRol
+                    </a>
+                </li>
+                @*<li>
+                    colocar banderas correspondientes
+                    <a href="#">
+                        <i class="icon-calendar"></i> @Model.CurrentIdiom
+                    </a>
+                </li>*@
+                @*<li>
+                    <a href="#">
+                        <i class="icon-calendar"></i>Change to &nbsp;@Model.NombreOpcionIdiom
+                    </a>
+                </li>*@                              
+                <li class="divider"> </li>               
+                <li>
+                    <a href="../../Security/LogOut"><i class="icon-key"></i>Cerrar Sesion</a>               
+                </li>
+            </ul>
+        </li>
+

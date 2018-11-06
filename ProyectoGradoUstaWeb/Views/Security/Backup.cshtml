@@ -1,0 +1,16 @@
+﻿@{
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+<script src='@Url.Content("~/scripts/App/Seguridad/Seguridad101.js")'></script>
+<script>
+    nsGral.TituloPagina = 'Backup';
+    nsGral.ModuloPagina = "Administración";
+</script>
+<script>
+    nsSecurity.UrlMakeBkp = '@Url.Action("MakeBackup")';
+</script>
+<div>Al dar click en el boton procesar backup, se gestionara un backup de la base de datos todal
+    del sistema de forma asincrona, es decir, puede realizar el proceso y puede seguir trabajando 
+    en el sistema. El archivo de backup se enviará al correo registrado: <span style="color:red"> @ViewBag.CorreoConfigurado</span></div>
+<input type="button" id="btnRealizarBackup" value="Realizar Backup" onclick="nsSecurity.ProcesarBackup();" />
+

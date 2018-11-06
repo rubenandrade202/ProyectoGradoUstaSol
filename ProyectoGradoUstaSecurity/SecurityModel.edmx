@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProyectoUstaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="UsuariosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+          <Property Name="IdIdioma" Type="tinyint" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="int" Nullable="false" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+          <Property Name="UsuarioEmpresa" Type="bit" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdiomasProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdIdioma" />
+          </Key>
+          <Property Name="IdIdioma" Type="tinyint" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OpcionesProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+          </Key>
+          <Property Name="IdOpcion" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdOpcionPadre" Type="smallint" />
+          <Property Name="NombreEspanol" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="NombreIngles" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Orden" Type="smallint" Nullable="false" />
+          <Property Name="Controlador" Type="varchar" MaxLength="128" />
+          <Property Name="Accion" Type="varchar" MaxLength="129" />
+          <Property Name="IdTipoOpcionHija" Type="smallint" />
+          <Property Name="IdUsuarioCreador" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+        </EntityType>
+        <EntityType Name="OpcionesRolProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdOpcion" Type="smallint" Nullable="false" />
+          <Property Name="IdRol" Type="smallint" Nullable="false" />
+          <Property Name="Actualizar" Type="bit" Nullable="false" />
+          <Property Name="Consultar" Type="bit" Nullable="false" />
+          <Property Name="Imprimir" Type="bit" Nullable="false" />
+          <Property Name="Exportar" Type="bit" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+        </EntityType>
+        <EntityType Name="OpcionesUsuarioProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdOpcion" Type="smallint" Nullable="false" />
+          <Property Name="IdUsuario" Type="smallint" Nullable="false" />
+          <Property Name="Actualizar" Type="bit" Nullable="false" />
+          <Property Name="Consultar" Type="bit" Nullable="false" />
+          <Property Name="Imprimir" Type="bit" Nullable="false" />
+          <Property Name="Exportar" Type="bit" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+        </EntityType>
+        <EntityType Name="RolesProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreRol" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdEstado" Type="bit" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+        </EntityType>
+        <EntityType Name="TipoOpcionMenuProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdTipo" />
+          </Key>
+          <Property Name="IdTipo" Type="smallint" Nullable="false" />
+          <Property Name="NombreEspañol" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="NombreIngles" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsuariosRolesProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="IdRol" Type="smallint" Nullable="false" />
+          <Property Name="MenuEspecifico" Type="bit" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_UsuariosRolesProyectoUsta_RolesProyectoUsta">
+          <End Role="RolesProyectoUsta" Type="Self.RolesProyectoUsta" Multiplicity="1" />
+          <End Role="UsuariosRolesProyectoUsta" Type="Self.UsuariosRolesProyectoUsta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RolesProyectoUsta">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="UsuariosRolesProyectoUsta">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuariosRolesProyectoUsta_UsuariosProyectoUsta">
+          <End Role="UsuariosProyectoUsta" Type="Self.UsuariosProyectoUsta" Multiplicity="1" />
+          <End Role="UsuariosRolesProyectoUsta" Type="Self.UsuariosRolesProyectoUsta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsuariosProyectoUsta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuariosRolesProyectoUsta">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProyectoUstaModelStoreContainer">
+          <EntitySet Name="UsuariosProyectoUsta" EntityType="Self.UsuariosProyectoUsta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IdiomasProyectoUsta" EntityType="Self.IdiomasProyectoUsta" Schema="SEC" store:Type="Tables" />
+          <EntitySet Name="OpcionesProyectoUsta" EntityType="Self.OpcionesProyectoUsta" Schema="SEC" store:Type="Tables" />
+          <EntitySet Name="OpcionesRolProyectoUsta" EntityType="Self.OpcionesRolProyectoUsta" Schema="SEC" store:Type="Tables" />
+          <EntitySet Name="OpcionesUsuarioProyectoUsta" EntityType="Self.OpcionesUsuarioProyectoUsta" Schema="SEC" store:Type="Tables" />
+          <EntitySet Name="RolesProyectoUsta" EntityType="Self.RolesProyectoUsta" Schema="SEC" store:Type="Tables" />
+          <EntitySet Name="TipoOpcionMenuProyectoUsta" EntityType="Self.TipoOpcionMenuProyectoUsta" Schema="SEC" store:Type="Tables" />
+          <EntitySet Name="UsuariosRolesProyectoUsta" EntityType="Self.UsuariosRolesProyectoUsta" Schema="SEC" store:Type="Tables" />
+          <AssociationSet Name="FK_UsuariosRolesProyectoUsta_RolesProyectoUsta" Association="Self.FK_UsuariosRolesProyectoUsta_RolesProyectoUsta">
+            <End Role="RolesProyectoUsta" EntitySet="RolesProyectoUsta" />
+            <End Role="UsuariosRolesProyectoUsta" EntitySet="UsuariosRolesProyectoUsta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuariosRolesProyectoUsta_UsuariosProyectoUsta" Association="Self.FK_UsuariosRolesProyectoUsta_UsuariosProyectoUsta">
+            <End Role="UsuariosProyectoUsta" EntitySet="UsuariosProyectoUsta" />
+            <End Role="UsuariosRolesProyectoUsta" EntitySet="UsuariosRolesProyectoUsta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProyectoUstaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ProyectoUstaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UsuariosProyectoUsta" EntityType="ProyectoUstaModel.UsuariosProyectoUsta" />
+          <EntitySet Name="IdiomasProyectoUsta" EntityType="ProyectoUstaModel.IdiomasProyectoUsta" />
+          <EntitySet Name="OpcionesProyectoUsta" EntityType="ProyectoUstaModel.OpcionesProyectoUsta" />
+          <EntitySet Name="OpcionesUsuarioProyectoUsta" EntityType="ProyectoUstaModel.OpcionesUsuarioProyectoUsta" />
+          <EntitySet Name="RolesProyectoUsta" EntityType="ProyectoUstaModel.RolesProyectoUsta" />
+          <EntitySet Name="TipoOpcionMenuProyectoUsta" EntityType="ProyectoUstaModel.TipoOpcionMenuProyectoUsta" />
+          <EntitySet Name="UsuariosRolesProyectoUsta" EntityType="ProyectoUstaModel.UsuariosRolesProyectoUsta" />
+          <AssociationSet Name="FK_UsuariosRolesProyectoUsta_UsuariosProyectoUsta" Association="ProyectoUstaModel.FK_UsuariosRolesProyectoUsta_UsuariosProyectoUsta">
+            <End Role="UsuariosProyectoUsta" EntitySet="UsuariosProyectoUsta" />
+            <End Role="UsuariosRolesProyectoUsta" EntitySet="UsuariosRolesProyectoUsta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuariosRolesProyectoUsta_RolesProyectoUsta" Association="ProyectoUstaModel.FK_UsuariosRolesProyectoUsta_RolesProyectoUsta">
+            <End Role="RolesProyectoUsta" EntitySet="RolesProyectoUsta" />
+            <End Role="UsuariosRolesProyectoUsta" EntitySet="UsuariosRolesProyectoUsta" />
+          </AssociationSet>
+          <EntitySet Name="OpcionesRolProyectoUsta" EntityType="ProyectoUstaModel.OpcionesRolProyectoUsta" />
+        </EntityContainer>
+        <EntityType Name="UsuariosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="IdIdioma" Type="Byte" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioRegistro" Type="Int32" Nullable="false" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+          <Property Name="UsuarioEmpresa" Type="Boolean" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UsuariosRolesProyectoUsta" Relationship="ProyectoUstaModel.FK_UsuariosRolesProyectoUsta_UsuariosProyectoUsta" FromRole="UsuariosProyectoUsta" ToRole="UsuariosRolesProyectoUsta" />
+        </EntityType>
+        <EntityType Name="IdiomasProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdIdioma" />
+          </Key>
+          <Property Name="IdIdioma" Type="Byte" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OpcionesProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+          </Key>
+          <Property Name="IdOpcion" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOpcionPadre" Type="Int16" />
+          <Property Name="NombreEspanol" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="NombreIngles" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Orden" Type="Int16" Nullable="false" />
+          <Property Name="Controlador" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Accion" Type="String" MaxLength="129" FixedLength="false" Unicode="false" />
+          <Property Name="IdTipoOpcionHija" Type="Int16" />
+          <Property Name="IdUsuarioCreador" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+        </EntityType>
+        <EntityType Name="OpcionesUsuarioProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdOpcion" Type="Int16" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int16" Nullable="false" />
+          <Property Name="Actualizar" Type="Boolean" Nullable="false" />
+          <Property Name="Consultar" Type="Boolean" Nullable="false" />
+          <Property Name="Imprimir" Type="Boolean" Nullable="false" />
+          <Property Name="Exportar" Type="Boolean" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+        </EntityType>
+        <EntityType Name="RolesProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreRol" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstado" Type="Boolean" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+          <NavigationProperty Name="UsuariosRolesProyectoUsta" Relationship="ProyectoUstaModel.FK_UsuariosRolesProyectoUsta_RolesProyectoUsta" FromRole="RolesProyectoUsta" ToRole="UsuariosRolesProyectoUsta" />
+        </EntityType>
+        <EntityType Name="TipoOpcionMenuProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdTipo" />
+          </Key>
+          <Property Name="IdTipo" Type="Int16" Nullable="false" />
+          <Property Name="NombreEspañol" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="NombreIngles" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UsuariosRolesProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="IdRol" Type="Int16" Nullable="false" />
+          <Property Name="MenuEspecifico" Type="Boolean" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioRegistro" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UsuariosProyectoUsta" Relationship="ProyectoUstaModel.FK_UsuariosRolesProyectoUsta_UsuariosProyectoUsta" FromRole="UsuariosRolesProyectoUsta" ToRole="UsuariosProyectoUsta" />
+          <NavigationProperty Name="RolesProyectoUsta" Relationship="ProyectoUstaModel.FK_UsuariosRolesProyectoUsta_RolesProyectoUsta" FromRole="UsuariosRolesProyectoUsta" ToRole="RolesProyectoUsta" />
+        </EntityType>
+        <Association Name="FK_UsuariosRolesProyectoUsta_UsuariosProyectoUsta">
+          <End Type="ProyectoUstaModel.UsuariosProyectoUsta" Role="UsuariosProyectoUsta" Multiplicity="1" />
+          <End Type="ProyectoUstaModel.UsuariosRolesProyectoUsta" Role="UsuariosRolesProyectoUsta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UsuariosProyectoUsta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuariosRolesProyectoUsta">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuariosRolesProyectoUsta_RolesProyectoUsta">
+          <End Type="ProyectoUstaModel.RolesProyectoUsta" Role="RolesProyectoUsta" Multiplicity="1" />
+          <End Type="ProyectoUstaModel.UsuariosRolesProyectoUsta" Role="UsuariosRolesProyectoUsta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RolesProyectoUsta">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="UsuariosRolesProyectoUsta">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OpcionesRolProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdOpcion" Type="Int16" Nullable="false" />
+          <Property Name="IdRol" Type="Int16" Nullable="false" />
+          <Property Name="Actualizar" Type="Boolean" Nullable="false" />
+          <Property Name="Consultar" Type="Boolean" Nullable="false" />
+          <Property Name="Imprimir" Type="Boolean" Nullable="false" />
+          <Property Name="Exportar" Type="Boolean" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProyectoUstaModelStoreContainer" CdmEntityContainer="ProyectoUstaEntities">
+          <EntitySetMapping Name="UsuariosProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaModel.UsuariosProyectoUsta">
+              <MappingFragment StoreEntitySet="UsuariosProyectoUsta">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="UsuarioEmpresa" ColumnName="UsuarioEmpresa" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IdIdioma" ColumnName="IdIdioma" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IdiomasProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaModel.IdiomasProyectoUsta">
+              <MappingFragment StoreEntitySet="IdiomasProyectoUsta">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdIdioma" ColumnName="IdIdioma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OpcionesProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaModel.OpcionesProyectoUsta">
+              <MappingFragment StoreEntitySet="OpcionesProyectoUsta">
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioCreador" ColumnName="IdUsuarioCreador" />
+                <ScalarProperty Name="IdTipoOpcionHija" ColumnName="IdTipoOpcionHija" />
+                <ScalarProperty Name="Accion" ColumnName="Accion" />
+                <ScalarProperty Name="Controlador" ColumnName="Controlador" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="NombreIngles" ColumnName="NombreIngles" />
+                <ScalarProperty Name="NombreEspanol" ColumnName="NombreEspanol" />
+                <ScalarProperty Name="IdOpcionPadre" ColumnName="IdOpcionPadre" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OpcionesUsuarioProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaModel.OpcionesUsuarioProyectoUsta">
+              <MappingFragment StoreEntitySet="OpcionesUsuarioProyectoUsta">
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioCreador" ColumnName="IdUsuarioCreador" />
+                <ScalarProperty Name="Exportar" ColumnName="Exportar" />
+                <ScalarProperty Name="Imprimir" ColumnName="Imprimir" />
+                <ScalarProperty Name="Consultar" ColumnName="Consultar" />
+                <ScalarProperty Name="Actualizar" ColumnName="Actualizar" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolesProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaModel.RolesProyectoUsta">
+              <MappingFragment StoreEntitySet="RolesProyectoUsta">
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioCreador" ColumnName="IdUsuarioCreador" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoOpcionMenuProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaModel.TipoOpcionMenuProyectoUsta">
+              <MappingFragment StoreEntitySet="TipoOpcionMenuProyectoUsta">
+                <ScalarProperty Name="NombreIngles" ColumnName="NombreIngles" />
+                <ScalarProperty Name="NombreEspañol" ColumnName="NombreEspañol" />
+                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuariosRolesProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaModel.UsuariosRolesProyectoUsta">
+              <MappingFragment StoreEntitySet="UsuariosRolesProyectoUsta">
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="MenuEspecifico" ColumnName="MenuEspecifico" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OpcionesRolProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaModel.OpcionesRolProyectoUsta">
+              <MappingFragment StoreEntitySet="OpcionesRolProyectoUsta">
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioCreador" ColumnName="IdUsuarioCreador" />
+                <ScalarProperty Name="Exportar" ColumnName="Exportar" />
+                <ScalarProperty Name="Imprimir" ColumnName="Imprimir" />
+                <ScalarProperty Name="Consultar" ColumnName="Consultar" />
+                <ScalarProperty Name="Actualizar" ColumnName="Actualizar" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

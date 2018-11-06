@@ -1,0 +1,146 @@
+﻿@using Infragistics.Web.Mvc;
+@model  ProductoMainPageVm
+@{    
+    ViewBag.Title = "Productos";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+@*<style>
+    #currentCodigoBarras > li {
+        display: inline-block;
+        zoom: 1;
+        *display: inline;
+    }
+
+    textarea {
+        text-transform: uppercase;
+    }
+
+    div > div.ui-widget.ui-helper-clearfix{
+        height: 21px !important;
+    }
+
+</style>*@
+<script src='@Url.Content("~/scripts/App/Productos/ProductosV102.js")'></script>
+
+<div id="divContenedorProductos">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <form id="frmProducto" onsubmit="return false" action="javascript:0">
+                <input type="submit" style="display:none" id="btnSubmitFrmProducto" />
+                <div id="divNuevaEdicionProducto" style="display:none;">
+                    <ul class="nav nav-tabs">
+                        <li id="tabNuevoEdicionProducto" class="active"><a href="#home" data-toggle="tab1">Agregar/Actualizar Producto</a></li>
+                        <li style="float:left;" onclick="nsProduc.LimpiarForm(); nsGral.HideShowTags('divNuevaEdicionProducto', 'btnOpenNewProducto'); return false;"><a data-toggle="tab" href="#">X</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="well2">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptNombre">Nombre</label>
+                                            <textarea rows="2" cols="27" id="iptNombre" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptPrecio">Precio</label>
+                                            <input type="number" min="0" max="100000" id="iptPrecio" value="0" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptQtyActual">Qty Actual</label>
+                                            <input type="number" min="0" max="1000" width="500" id="iptQtyActual" value="0" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptQtyUmbral">Qty Umbral</label>
+                                            <input type="number" min="0" max="1000" value="0" required id="iptQtyUmbral" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="cmbUbicacionNegocio">Ubc. Negocio</label>
+                                            @Html.Infragistics().Combo(Model.CmbUbicacionNegocio)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="cmbUbicacionStock">Ubc. Stock</label>
+                                            @Html.Infragistics().Combo(Model.CmbUbicacionStock)
+                                        </div>
+                                    </div>                                    
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptCodigoBarras">Codigo(s) Barras</label>
+                                            <input type="text" id="iptCodigoBarras" autocomplete="off" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="panel panel-default">
+                                            <h1 class="panel-title">PROVEEDORES</h1>
+                                            @Html.Infragistics().Grid(Model.GridProveedoresProducto)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="panel panel-default">
+                                            <h1 class="panel-title">CODIGOS BARRAS</h1>
+                                            @Html.Infragistics().Grid(Model.GridCodigosBarrasProducto)
+                                        </div>
+                                    </div>
+                                </div>                              
+                                <div class="row text-right">
+                                    <button class="btn btn-default2" onclick="nsProduc.TryNuevaEditarProveedor(); return false;">Agregar/Actualizar</button>
+                                    @*<div class="btn-group btn-opt-panel">
+                                            <a href="#" class="btn btn-default2">Options</a>
+                                            <a href="#" class="btn btn-default2 dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a onclick="nsAwb.ExportarExcellGuiaAwb();">@ResourceFdimUsa.ExportarAExcel</a></li>
+                                                <li><a href="#">Export to PDF</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#">Send by e-mail</a></li>
+                                            </ul>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" id="divProductos">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <button class="btn btn-default2 btn-sm btn-search-panel" id="btnOpenNewProducto" onclick="nsGral.HideShowTags('btnOpenNewProducto', 'divNuevaEdicionProducto');">Nuevo</button>
+                    </div>
+                </div>
+                @(Html.Infragistics().Grid(Model.GridProductos))
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    nsProduc.UrlTryAdd = '@Url.Action("Add")';
+    nsProduc.UrlTryDelete = '@Url.Action("Delete")';
+    nsProduc.UrlTryUpdate = '@Url.Action("Update")';
+    nsProduc.UrlCheckCodeBar = '@Url.Action("CheckCodeBarExist")';
+    nsProduc.ProvidersJson = JSON.parse('@Html.Raw(ViewBag.ProveedoresJson)');
+    nsProduc.UrlFilterCb = '@Url.Action("FilterCb")';  
+    nsProduc.UrlClearFilterCb = '@Url.Action("LimpiarFiltroCb")';    
+    nsProduc.UrlFilterPv = '@Url.Action("FilterPv")';
+    nsProduc.UrlClearFilterPv = '@Url.Action("LimpiarFiltroPv")';
+    nsGral.TituloPagina = 'Productos';
+    nsGral.ModuloPagina = "Base POS";
+</script>

@@ -1,0 +1,268 @@
+﻿@using Infragistics.Web.Mvc;
+@using ProyectoGradoUstaSecurity;
+@model  UbicacionesMainPageVm
+@{
+    ViewBag.Title = "Roles";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+
+@*<script src='@Url.Content("~/scripts/App/Ubicaciones/UbicacionesV101.js")'></script>*@
+
+<script>
+    var nsUbc = nsUbc || {};
+    nsUbc.SelNombre;
+    nsUbc.SelCmbTipoUbicacion;
+    nsUbc.SelCmbDescripcion;
+    nsUbc.SelBtnFrmUbicacion;
+    nsUbc.SelGridUbicaciones;
+    nsUbc.SelCanvasImage;
+    nsUbc.UrlTryAdd = '@Url.Action("Add")';
+    nsUbc.UrlTryDelete = '@Url.Action("Delete")';
+    nsUbc.UrlTryUpdate = '@Url.Action("Update")';
+    nsUbc.IdActualizando = 0;
+    nsUbc.UrlImagenSupermercado = '@ViewBag.UrlImagenSupermercado';//'Url.Content("~/Content/Images/Ubicaciones/pruebaPlano.jpg")';
+    nsUbc.UrlIconoUbicacion = '@Url.Content("~/Content/Images/Ubicaciones/marcador.png")';
+    nsUbc.CanvasCtx;
+    nsUbc.ImagenSupermercado;
+    nsUbc.ImagenIcono;
+    nsUbc.IconoCargado;
+    nsUbc.ImagenSupermercadoCargado;
+    nsUbc.PosicionX;
+    nsUbc.PosicionY;
+    nsGral.TituloPagina = 'Ubicaciones';
+    nsGral.ModuloPagina = "Base POS";
+
+
+    $(document).ready(function () {
+        nsUbc.SelCanvasImage = document.getElementById("imgSupermercado");
+        nsUbc.CanvasCtx = nsUbc.SelCanvasImage.getContext("2d");
+        nsUbc.ImagenIcono = new Image();
+        nsUbc.ImagenIcono.src = nsUbc.UrlIconoUbicacion;                   
+        nsUbc.ImagenSupermercado = new Image();
+        nsUbc.ImagenSupermercado.src = nsUbc.UrlImagenSupermercado;
+        nsUbc.ImagenSupermercado.onload = function () {
+            nsUbc.CanvasCtx.drawImage(nsUbc.ImagenSupermercado, 0, 0);
+            nsUbc.SelCanvasImage.addEventListener("mousedown", nsUbc.HandlerMouseClickedImgCanvas, false);
+        }
+        nsUbc.ImagenIcono.onload = function () {            
+            nsUbc.IconoCargado = true;
+        }
+    });
+
+    nsUbc.HandlerMouseClickedImgCanvas = function (mouse) {
+        // Get corrent mouse coords
+        nsUbc.CanvasCtx.drawImage(nsUbc.ImagenSupermercado, 0, 0);
+        var rect = nsUbc.SelCanvasImage.getBoundingClientRect();
+        var mouseXPos = (mouse.x - rect.left - 10);
+        var mouseYPos = (mouse.y - rect.top - 10);
+        nsUbc.CargarImagenEIcono(mouseXPos, mouseYPos);        
+    }
+
+    nsUbc.CargarImagenEIcono = function (posX, posY) {
+        nsUbc.PosicionX = posX;
+        nsUbc.PosicionY = posY;
+        nsUbc.CanvasCtx.drawImage(nsUbc.ImagenSupermercado, 0, 0);
+        nsUbc.CanvasCtx.drawImage(nsUbc.ImagenIcono, posX, posY, 20, 20);
+    }
+
+    nsUbc.TryNuevaEditarUbicacion = function () {        
+        nsUbc.SelBtnFrmUbicacion = $("#btnSubmitFrmUbicacion");
+        nsUbc.SelNombre = $("#iptNombreUbicacion");
+        nsUbc.SelCmbTipoUbicacion = $("#cmbTiposUbicacion");
+        nsUbc.SelCmbDescripcion = $("#iptDescripcion");
+        nsUbc.SelGridUbicaciones = $("#gmUbicaciones");
+
+        nsUbc.SelBtnFrmUbicacion.click();
+        var validTipoUbicacion = nsUbc.SelCmbTipoUbicacion.igCombo("validate");
+        var valueNombreUbicacion = nsUbc.SelNombre.val();
+        var valueDescripcion = nsUbc.SelCmbDescripcion.val();
+        if (validTipoUbicacion && (valueNombreUbicacion != null && valueNombreUbicacion != undefined && valueNombreUbicacion != '')) {
+            var valueIdTipoUbicacion = nsUbc.SelCmbTipoUbicacion.igCombo("value");
+            if (nsUbc.IdActualizando == 0) {
+                var posicion = nsUbc.PosicionX + "," + nsUbc.PosicionY;
+                var lstCandidates = [
+                { IdTipoUbicacion: valueIdTipoUbicacion, Nombre: valueNombreUbicacion, Descripcion: valueDescripcion, UrlImagen: posicion }
+                ];
+                lstCandidates = JSON.stringify({ 'lstCandidates': lstCandidates });
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    url: nsUbc.UrlTryAdd,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: lstCandidates,
+                    success: function (rp) {
+                        nsGral.ProcesarResponseBasicVm(rp);
+                        if (rp.Success) {
+                            nsUbc.SelGridUbicaciones.igGrid("dataBind");
+                            nsUbc.LimpiarForm();
+                        }
+                    },
+                    error: function (er1, er2) {
+                        nsGral.MensajeBad(er1 + er2);
+                    }
+                });
+            } else {
+                var posicion = nsUbc.PosicionX + "," + nsUbc.PosicionY;
+                var lstCandidates = [
+                { Id: nsUbc.IdActualizando, NewIdTipoUbicacion: valueIdTipoUbicacion, NewNombre: valueNombreUbicacion, NewDescripcion: valueDescripcion, NewUrlImagen: posicion }
+                ];
+                lstCandidates = JSON.stringify({ 'lstCandidates': lstCandidates });
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    url: nsUbc.UrlTryUpdate,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: lstCandidates,
+                    success: function (rp) {
+                        nsGral.ProcesarResponseBasicVm(rp);
+                        if (rp.Success) {
+                            nsUbc.SelGridUbicaciones.igGrid("dataBind");
+                            nsUbc.LimpiarForm();
+                        }
+                    },
+                    error: function (er1, er2) {
+                        nsGral.MensajeBad(er1 + er2);
+                    }
+                });
+            }
+        } else {
+            nsGral.MensajeAlert("Debe diligenciar los campos obligatorios");
+        }
+    }
+
+    nsUbc.LimpiarForm = function () {
+        nsUbc.IdActualizando = 0;
+        nsUbc.SelNombre = $("#iptNombreUbicacion");
+        nsUbc.SelCmbTipoUbicacion = $("#cmbTiposUbicacion");
+        nsUbc.SelCmbDescripcion = $("#iptDescripcion");
+
+        nsUbc.SelNombre.val('');
+        nsUbc.SelCmbDescripcion.val('');
+        nsUbc.SelCmbTipoUbicacion.igCombo("clearInput");
+    }
+
+    function rowDeletingGridUbicaciones(evt, ui) {
+        nsUbc.SelGridUbicaciones = $("#gmUbicaciones");
+        var idsAEliminar = new Array();
+        idsAEliminar.push(ui.rowID);
+        nsGral.PromptSweet('Desea borrar el registro', nsUbc.TryEliminarUbicacion, idsAEliminar);
+        return false;
+    }
+
+    nsUbc.TryEliminarUbicacion = function (idsAEliminar) {
+        nsUbc.SelGridUbicaciones = $("#gmUbicaciones");
+        if (idsAEliminar != null && idsAEliminar != undefined && idsAEliminar.length > 0) {
+            $.ajax(
+                {
+                    url: nsUbc.UrlTryDelete,
+                    type: 'POST',
+                    data: { idsToDelete: idsAEliminar },
+                    success: function (rp) {
+                        nsGral.ProcesarResponseBasicVm(rp);
+                        if (rp.Success) {
+                            nsUbc.SelGridUbicaciones.igGrid("dataBind");
+                        }
+                    }, error: function (er1, er2) {
+                        nsGral.MensajeBad(er1 + er2);
+                    }
+                });
+        } else {
+            nsGral.MensajeBad("No se estan enviando datos a funcion en codigo cliente!");
+        }
+    }
+
+    nsUbc.LoadInfoEdit = function (currentId, currentIdTipoUbicacion, urlImagen) {
+        debugger
+        var posX = 0;
+        var posY = 0;
+        if (urlImagen != null && urlImagen != undefined && urlImagen != "") {
+            var arrayInfo = urlImagen.split(",");
+            posX = arrayInfo[0];
+            posY = arrayInfo[1];
+        }
+
+        nsUbc.CargarImagenEIcono(posX, posY);
+        nsUbc.SelNombre = $("#iptNombreUbicacion");
+        nsUbc.SelCmbTipoUbicacion = $("#cmbTiposUbicacion");
+        nsUbc.SelCmbDescripcion = $("#iptDescripcion");
+        nsUbc.SelGridUbicaciones = $("#gmUbicaciones");
+
+        nsUbc.IdActualizando = currentId;
+        nsUbc.SelNombre.val(nsUbc.SelGridUbicaciones.igGrid("getCellValue", currentId, "NombreUbicacion"));
+        nsUbc.SelCmbDescripcion.val(nsUbc.SelGridUbicaciones.igGrid("getCellValue", currentId, "Descripcion"));
+        nsUbc.SelCmbTipoUbicacion.igCombo("value", currentIdTipoUbicacion);
+        nsGral.HideShowTags('btnOpenNewUbicacion', 'divNuevaEdicionUbicacion');
+    }
+</script>
+
+
+
+
+<div id="divContenedorUbicaciones">
+    <div class="row">
+        <div class="col-md-12 col-lg-12"> 
+            <form id="frmUbicacion" onsubmit="return false" action="javascript:0" >
+                <input type="submit" style="display:none" id="btnSubmitFrmUbicacion" /> 
+                <div id="divNuevaEdicionUbicacion" style="display:none;">
+                    <ul class="nav nav-tabs">
+                        <li id="tabNuevoEdicionUbicacion" class="active"><a href="#home" data-toggle="tab1">Agregar/Actualizar Ubicacion</a></li>
+                        <li style="float:left;" onclick="nsUbc.LimpiarForm(); nsGral.HideShowTags('divNuevaEdicionUbicacion', 'btnOpenNewUbicacion'); return false;"><a data-toggle="tab" href="#">X</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="well2">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptNombreUbicacion">Nombre</label>
+                                            <input type="text" id="iptNombreUbicacion" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="cmbTiposUbicacion">Tipo ubicacion</label>
+                                            @Html.Infragistics().Combo(Model.CmbTiposUbicacion)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptDescripcion">Descripción</label>
+                                            <input type="text" id="iptDescripcion" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <canvas height="300" width="400" id="imgSupermercado">                                        
+                                    </canvas>                                    
+                                </div>
+                                <div class="row text-right">
+                                    <button class="btn btn-default2" onclick="nsUbc.TryNuevaEditarUbicacion(); return false;">Agregar/Actualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" id="divUbicaciones">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <button class="btn btn-default2 btn-sm btn-search-panel" id="btnOpenNewUbicacion" onclick="nsGral.HideShowTags('btnOpenNewUbicacion', 'divNuevaEdicionUbicacion');">Nuevo</button>                                               
+                    </div>
+                </div>
+                @(Html.Infragistics().Grid(Model.GmMainUbicaciones))
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+

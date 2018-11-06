@@ -1,0 +1,127 @@
+﻿@using Infragistics.Web.Mvc;
+@model ReportesMainPageVm
+@{
+    ViewBag.Title = "Reportes";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+<script src='@Url.Content("~/scripts/App/Reportes/ReportesV100.js")'></script>
+<script>
+    nsRep.UrlSetearFechasReporteMovimientoCaja = '@Url.Action("SetFechasFilterMovimientoCaja")';
+    nsRep.UrlSetearFechasReporteVentas = '@Url.Action("SetFechasFilterReporteventas")';
+    nsRep.UrlClearFechasReporteMovimientoCaja = '@Url.Action("ClearFechasFilterMovimientoCaja")';
+    nsRep.UrlClearFechasReporteVentas = '@Url.Action("ClearFechasFilterReporteventas")';
+    nsRep.UrlGetTotalValorInventario = '@Url.Action("GetTotalValorInventario")';   
+    nsGral.TituloPagina = 'Generales';
+    nsGral.ModuloPagina = "Reportes";
+</script>
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <ul class="nav nav-tabs">
+            <li id="liLabel1"><a data-toggle="tab" href="#Home" onclick="nsRep.RefreshTabHome()">Creditos</a></li>            
+            <li id="liLabel2"><a data-toggle="tab" href="#tab2" onclick="nsRep.RefreshTab2()">Movimientos Caja</a></li>
+            <li id="liLabel3"><a data-toggle="tab" href="#tab3" onclick="nsRep.RefreshTab3()">Ventas</a></li>            
+            <li id="liLabel4"><a data-toggle="tab" href="#tab4" onclick="nsRep.RefreshTab4()">Total Inventario</a></li> 
+        </ul>
+        <div class="tab-content">
+            <div id="Home" class="tab-pane fade in active">
+                <div class="row">
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend> Creditos Actuales </legend>
+                            @Html.Infragistics().Grid(Model.Gm_Creditos)                           
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend> Log Creditos</legend>
+                            @Html.Infragistics().Grid(Model.Gm_LogCreditos)
+                        </fieldset>
+                    </div>                    
+                </div>                
+            </div>
+            <div id="tab2" class="tab-pane fade ">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="poLbl">Fecha Inicial:</label>
+                            @Html.Infragistics().DatePicker(Model.FechaDesdeMovimientoCaja)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="poLbl">Fecha Final:</label>
+                            @Html.Infragistics().DatePicker(Model.FechaHastaMovimientoCaja)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="button" id="btnFltFechasMovimiento" value="Filtrar" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="button" id="btnClearFltFechasMovimiento" value="Todos" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        @Html.Infragistics().Grid(Model.Gm_MovimientoCaja)
+                    </div>
+                    <div class="col-md-3">
+                        Grafica
+                    </div>
+                </div>
+
+            </div>
+            <div id="tab3" class="tab-pane fade ">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="poLbl">Fecha Inicial:</label>
+                            @Html.Infragistics().DatePicker(Model.FechaDesdeVentas)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="poLbl">Fecha Final:</label>
+                            @Html.Infragistics().DatePicker(Model.FechaHastaVentas)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="button" id="btnFltFechasReporteVentas" value="Filtrar" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="button" id="btnClearFltFechasReporteVentas" value="Todos" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        @Html.Infragistics().Grid(Model.Gm_VentasGral)
+                    </div>
+                    <div class="col-md-3">
+                        Grafica
+                    </div>
+                </div>
+            </div>    
+            <div id="tab4" class="tab-pane fade ">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="poLbl">Valor:</label>
+                            <span id="spnValorInventario"></span>
+                        </div>
+                    </div>                                                          
+                </div>               
+            </div>        
+        </div>
+    </div>
+</div>
+
+
+
+

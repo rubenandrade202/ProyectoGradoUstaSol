@@ -1,0 +1,275 @@
+﻿@using Infragistics.Web.Mvc;
+@using ProyectoGradoUstaSecurity;
+@model  ModelosPaginaRolesVm
+@{
+    ViewBag.Title = "Roles";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+<script>nsGral.TituloPagina = '@ViewBag.Title';</script>
+<style>
+    .btnSmallTemporal {
+        height: 20px;
+        /*width:25px;*/
+    }
+
+    .ocultoCustom {
+        display: none !important;
+    }
+</style>
+
+<div class="row" style="min-height:310px;">
+    <div class="col-md-7">
+        <span>Roles</span>
+        @(Html.Infragistics().Grid(Model.ModeloRoles))
+    </div>
+    <div class="col-md-5 ocultocustom" style="display: none;" id="metadatosUsuarios">
+        Usuarios
+        <br />
+        @Html.Infragistics().Combo("cmbUsuarioRol").TextKey("Value").ValueKey("Id").AddClientEvent("selectionChanging", "nsRolesComboUserSelectionChanging").DataSource(ViewBag.UsuariosSistemaUsa).Render()
+        @Html.Infragistics().Grid(Model.ModeloUsuariosByRol)
+    </div>
+</div>
+<hr />
+<div class="row ocultocustom" style="display: none;" id="metadatosOpciones">
+    <div class="col-md-12">
+        Opciones
+    </div>
+    <div class="col-md-12">
+        @Html.Infragistics().TreeGrid(Model.ModeloOpcionesByRol)
+    </div>
+</div>
+
+
+<script>
+    var nsRoles = nsRoles || {};
+    nsRoles.StatusParentsChecked = new Array();
+    nsRoles.SelGridRoles = $("#gmRoles");
+    nsRoles.SelComboUsuarios = $("#cmbUsuarioRol");
+    nsRoles.SelGridUsuariosPorRol = $("#gmUsuariosPorRol");
+    nsRoles.SelTreeGridOpcionesPorRol = $("#tgmOpcionesByRol");
+    nsRoles.MsjEliminar = 'Desea Eliminar';
+    nsRoles.UrlTryDeleteRoles = '@Url.Action("DeleteRoles")';
+    nsRoles.UrlTryAddRoles = '@Url.Action("AddRoles")';
+    nsRoles.UrlSetFilterRoles = '@Url.Action("SetFiltersRoles")';
+    nsRoles.CurrentRolSelected = 0;
+    nsRoles.UrlRemoveUsersFromRole = '@Url.Action("RemoveUsersFromRol")';
+    nsRoles.UrlTryAddUsersToRole = '@Url.Action("AddUsersToRol")';
+    nsRoles.UrlTryUpdateOptionsRole = '@Url.Action("UpdateOpcionesRol")';
+    nsGral.TituloPagina = 'Roles';
+    nsGral.ModuloPagina = "Administración";
+   
+    function nsRolesRowExpanding(evt, ui) {
+        $.grep(nsRoles.StatusParentsChecked, function (e) {
+            if (e.Id == ui.dataRecord.IdOpcion) {
+                //marcar
+                if (e.State) {
+                    $("input[id$='_" + e.Id + "']").prop('checked', true);
+                } else {//desmarcar
+                    $("input[id$='_" + e.Id + "']").prop('checked', false);
+                }
+            }
+        });
+    }
+
+    function nsRolesComboUserSelectionChanging(evt, ui) {
+        if (ui.items.length > 0) {
+            var idUsuario = ui.items[0].data.Id;
+            var idUsuarios = new Array();
+            idUsuarios.push(idUsuario);
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: nsRoles.UrlTryAddUsersToRole,
+                    data: { idUsuarios: idUsuarios, idRol: nsRoles.CurrentRolSelected },
+                    success: function (rp) {
+                        nsGral.ProcesarResponseBasicVm(rp);
+                        if (rp.Success) {
+                            nsRoles.SelComboUsuarios.igCombo("text", "");
+                            nsRoles.SelGridUsuariosPorRol.igGrid("dataBind");
+                        }
+                    },
+                    error: function (rp) {
+                        debugger
+                    }
+                });
+        }
+    }
+
+    function nsRolesRowSelectionChanged(evt, ui) {       
+        if (ui.selectedRows.length > 0) {
+            nsRoles.MostrarMetadatos();
+            var idRolSelected = ui.selectedRows[0].id;
+            $.ajax(
+                {
+                    url: nsRoles.UrlSetFilterRoles,
+                    type: 'POST',
+                    data: { idRolSelected: idRolSelected },
+                    success: function (rp) {
+                        debugger
+                        nsRoles.CurrentRolSelected = idRolSelected;
+                        nsRoles.SelGridUsuariosPorRol.igGrid("dataBind");
+                        nsRoles.SelTreeGridOpcionesPorRol.igTreeGrid("dataBind");
+                    }, error: function (rp) {
+                        nsRoles.CurrentRolSelected = 0;
+                        debugger
+                    }
+                });
+        } else {
+            nsRoles.OcultarMetadatos();
+            var idRolSelected = 0;
+            nsRoles.CurrentRolSelected = 0
+            $.ajax(
+                {
+                    url: nsRoles.UrlSetFilterRoles,
+                    type: 'POST',
+                    data: { idRolSelected: idRolSelected },
+                    success: function (rp) {
+                        nsRoles.SelGridUsuariosPorRol.igGrid("dataBind");
+                    }, error: function (rp) {
+                        debugger
+                    }
+                });
+        }
+    }
+
+    function nsRolesEditRowEnded(evt, ui) {
+        if (ui.update) {
+            nsRoles.SelGridRoles.igGrid("saveChanges",
+                function (rp) {
+
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    nsRoles.SelGridRoles.igGrid("dataBind");
+                },
+            function (rp) {
+
+                if (rp.Success == undefined) {
+                    nsGral.ProcesarResponseBasicVm(rp.responseJSON);
+                }
+                nsRoles.SelGridRoles.igGrid("dataBind");
+            });
+        }
+    }
+
+    function nsRolesPromptEliminarRol(evt, ui) {
+        var idToDelete = new Array();
+        idToDelete.push(ui.rowID);
+        nsGral.PromptSweet(nsRoles.MsjEliminar, nsRoles.EliminarRoles, idToDelete);
+        return false;
+    }
+
+    nsRoles.AddRoles = function (nameRoles) {        
+        if (nameRoles != null && nameRoles != undefined) {
+            $.ajax(
+                {
+                    url: nsRoles.UrlTryAddRoles,
+                    type: 'POST',
+                    data: { rolesToCreate: nameRoles },
+                    success: function (rp) {
+                        nsGral.ProcesarResponseBasicVm(rp);
+                        if (rp.Success) {
+                            nsRoles.SelGridRoles.igGrid("dataBind");
+                        }
+                    },
+                    error: function (rp) {
+                        debugger
+                        console.log("Error" + rp);
+                    }
+                });
+        }
+    }
+
+    nsRoles.EliminarRoles = function (idRoles) {
+        if (idRoles != null && idRoles != undefined) {
+            $.ajax(
+                {
+                    url: nsRoles.UrlTryDeleteRoles,
+                    type: 'POST',
+                    data: { roles: idRoles },
+                    success: function (rp) {
+                        nsGral.ProcesarResponseBasicVm(rp);
+                        if (rp.Success) {
+                            nsRoles.OcultarMetadatos();
+                            nsRoles.SelGridRoles.igGrid("dataBind");
+                        }
+                    },
+                    error: function (rp) {
+                        debugger
+                        console.log("Error" + rp);
+                    }
+                });
+        }
+    }
+
+    nsRoles.RemoverUsuarioFromRol = function (idUsuario) {
+        if (nsRoles.CurrentRolSelected != 0 && idUsuario != null && idUsuario != undefined && idUsuario > 0) {
+            var idUsuarios = new Array();
+            idUsuarios.push(idUsuario);
+            $.ajax(
+                {
+                    url: nsRoles.UrlRemoveUsersFromRole,
+                    type: 'POST',
+                    data: { idUsuarios: idUsuarios },
+                    success: function (rp) {
+                        nsGral.ProcesarResponseBasicVm(rp);
+                        nsRoles.SelGridUsuariosPorRol.igGrid("dataBind");
+                    }, error: function (rp) {
+                        debugger;
+                    }
+                });
+        }
+    }
+
+    nsRoles.OcultarMetadatos = function () {
+        $("#metadatosUsuarios").hide();
+        $("#metadatosOpciones").hide();
+    }
+
+    nsRoles.MostrarMetadatos = function () {
+        $("#metadatosUsuarios").show();
+        $("#metadatosOpciones").show();
+    }
+
+    nsRoles.UpdateOpcionesMenu = function (ev, idOpcion, parentId) {
+       
+        var obj = {
+            Id: idOpcion,
+            State: ev.srcElement.checked,
+            ItIs: (parentId === undefined) ? true : false
+        };
+        
+
+        if (obj.ItIs) {
+            nsRoles.StatusParentsChecked = $.grep(nsRoles.StatusParentsChecked, function (e) {
+                return e.Id != obj.Id;
+            });
+
+            nsRoles.StatusParentsChecked.push(obj);
+        } else {
+            $('#' + parentId + "_").prop('checked', true);
+        }
+
+        if (obj.State && obj.ItIs == 1) {
+            $("input[id$='_" + obj.Id +"']").prop('checked', true);
+            $('#' + obj.Id + "_").prop('checked', true);
+
+        }else if(!obj.State && obj.ItIs == 1){
+            $("input[id$='_" + obj.Id + "']").prop('checked', false);
+            $('#' + obj.Id + "_").prop('checked', false);
+        }
+
+        $.ajax(
+            {
+                url: nsRoles.UrlTryUpdateOptionsRole,
+                type: 'POST',
+                data: { opcionToUpdate: obj, idRol: nsRoles.CurrentRolSelected },
+                success: function (rp) {
+                    nsGral.ProcesarResponseBasicVm(rp);
+                },
+                error: function (rp) {
+                    debugger;
+                }
+            });
+    }
+
+</script>
+

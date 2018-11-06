@@ -1,0 +1,199 @@
+﻿@model ProyectoUstaDomain.PedidosVisitasVm
+
+<script>
+    var nsPvPedidos = nsPvPedidos || {};
+    nsPvPedidos.UrlUpdateStatusConfirmacionProductosAPedir = '@Url.Action("UpdateStatusConfimrmadoProductosAPedir", "Inventario")';
+    $("#liQuickSideVisitas").removeClass("active");
+    $("#liQuickSideBarPedidos").addClass("active");
+
+    $(".procesarConfirmación").click(function () {        
+        var idProveedor = this.id.replace("2_", "");
+        var chbListprovider = $("input:checkbox[id^=chb_" + idProveedor + "]");//$("#chb_" + idProveedor);
+        var arrayRecordsToProcess = new Array();
+        $.each(chbListprovider, function (idx) {
+            arrayRecordsToProcess.push({ Id: chbListprovider[idx].id.replace("chb_" + idProveedor + "_", ""), State: $(chbListprovider[idx]).is(':checked') });
+        });
+        $.ajax(
+            {
+                url: nsPvPedidos.UrlUpdateStatusConfirmacionProductosAPedir,
+                type: 'POST',
+                data: { candidates: arrayRecordsToProcess, confirmPv : true },
+                success: function (rp) {                    
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    if (rp.Success) {
+                        nsGral.CargarPvPedidosVentas();
+                    }
+                }, error: function (er1) {
+                    nsGral.MensajeAlert("error en $(.procesarConfirmación).click script vista parcial");                    
+                }
+            });        
+    });
+
+    $(".procesarEntrega").click(function () {        
+        var idProveedor = this.id.replace("1_", "");        
+        var valorPedido = $("#txtValorPedido_" + idProveedor).val();
+        if (valorPedido != "" && valorPedido != null && valorPedido != undefined && valorPedido > 0) {
+            var nombreProveedor = $("#nameProveedor_" + idProveedor).text();
+            var template = $('#templatePromptRecibirPedido').html();
+            Mustache.parse(template);
+            var rendered = Mustache.render(template,
+                {
+                    ProveedorNombre: nombreProveedor, ValorPedido: valorPedido, IdProveedor: idProveedor
+                });
+            $("#contenedorPedidosVisitas").block({
+                theme: true,
+                title: "CONFIRMAR?",
+                message: rendered
+            });
+        } else {
+            nsGral.MensajeAlert("debe digitar un valor numerico positivo para el pedido que esta recibiendo");
+        }
+    });
+
+    $("#btnProcesarOtroPedido").click(function () {        
+        var observaciones = $("#txtObservacionesOtrosPedidos").val();
+        var valor = $("#txtValorPedidoOtros").val();
+        if (observaciones != null && observaciones != undefined && observaciones != "" && valor != null && valor != undefined && valor != "") {            
+            var nombreProveedor = observaciones;
+            var template = $('#templatePromptRecibirOtrosPedidos').html();
+            Mustache.parse(template);
+            var rendered = Mustache.render(template,
+                {
+                    ProveedorNombre: nombreProveedor, ValorPedido: valor
+                });
+            $("#contenedorPedidosVisitas").block({
+                theme: true,
+                title: "CONFIRMAR?",
+                message: rendered
+            });
+        } else {
+            nsGral.MensajeAlert("Debe diligenciar el proveedor y el valor del pedido");
+        }
+    });
+
+    nsPvPedidos.RecibirPedido = function (idProveedor, nombreProveedor,  valor) {
+        $.ajax(
+            {
+                url: nsGral.UrlRegistrarPedidoRecibido,
+                type: 'POST',
+                data: { idProveedor: idProveedor, nombreProveedor:nombreProveedor, valor: valor },
+                success: function (rp) {
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    if (rp.Success) {
+                        nsGral.CargarPvPedidosVentas();
+                    }
+                },
+                error: function (er1, er2) {
+                    debugger;
+                    nsGral.MensajeAlert("Error en ajax nsPvPedidos.RecibirPedido");
+                }
+            });
+    }
+</script>
+<style>
+    .pedido-confirmado {background-color: lightblue !important; }
+</style>
+
+@*PEDIDOS*@
+<div class="tab-pane page-quick-sidebar-settings active" id="quick_sidebar_tab_1">    
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapsablePedidosPagados">Total Pagado Pedidos día:@string.Format("{0:C0}", Model.TotalPagadoDía) </button>
+    @if (Model.ListaPedidosPagadosDia.Count > 0)
+    {
+        <ul id="collapsablePedidosPagados" class="collapse">
+
+            @foreach (ProyectoGradoUstaCommon.BasicIntDateVm item in Model.ListaPedidosPagadosDia)
+            {            
+                <li>@item.Value &nbsp; @string.Format("{0:C0}", item.Id) &nbsp;- @item.Date.TimeOfDay.Hours:@item.Date.TimeOfDay.Minutes</li>           
+            }
+        </ul>        
+    }   
+
+    <div class="panel-group accordion" id="accordion1">
+        <div class="panel panel-default">
+            <h4 class="panel-title">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapse0" aria-expanded="false"> OTROS PEDIDOS</a>
+            </h4>
+        </div>
+        <div id="collapse0" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+            <div class="panel-body" style="height:300px; overflow-y:auto;">
+                <div class="mt-checkbox-list">    
+                    <p>
+                        Observaciones (Proveedor o info relacionada)
+                        <input type="text" id="txtObservacionesOtrosPedidos"/>
+                    </p>          
+                    <p>
+                        Valor real del pedido
+                        <input type="number" min="1" max="2000000" id="txtValorPedidoOtros" placeholder="$.." />
+                    </p>
+                    <p>
+                        <a class="btn blue" id="btnProcesarOtroPedido">RECIBIR PEDIDO</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+            @foreach (ProyectoUstaDomain.PedidosVisitasBaseVm item in Model.PedidosPorRecibir)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a id="nameProveedor_@item.IdProveedor" class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapse1_@item.IdProveedor" aria-expanded="false"> @item.NombreProveedor</a>
+                        </h4>
+                    </div>
+                    <div id="collapse1_@item.IdProveedor" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                        <div class="panel-body" style="height:300px; overflow-y:auto;">
+                            <div class="mt-checkbox-list">
+                                @foreach (ProyectoGradoUstaCommon.BasicDependantIntWithNameVm itemInterno in item.Records)
+                                {
+                                    <label>
+                                        *&nbsp;@itemInterno.NameId X @itemInterno.IdParent
+                                        <span></span>
+                                    </label>
+                                }
+                                <p>
+                                    Valor real del pedido
+                                    <input type="number" min="1" max="2000000" id="txtValorPedido_@item.IdProveedor" placeholder="$.." />
+                                </p>
+                                <p>
+                                    <a class="btn blue procesarEntrega" id="1_@item.IdProveedor">RECIBIR PEDIDO</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }                    
+       </div>
+
+</div>
+@*VISITAS*@
+<div class="tab-pane page-quick-sidebar-settings" id="quick_sidebar_tab_2">
+    <div class="panel-group accordion" id="accordion2">
+
+        @foreach (ProyectoUstaDomain.PedidosVisitasBaseVm item in Model.PedidosPorConfirmar)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse2_@item.IdProveedor" aria-expanded="false"> @item.NombreProveedor</a>
+                    </h4>
+                </div>
+                <div id="collapse2_@item.IdProveedor" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                    <div class="panel-body" style="height:300px; overflow-y:auto;">
+                        <div class="mt-checkbox-list">
+                            @foreach (ProyectoGradoUstaCommon.BasicDependantIntWithNameVm itemInterno in item.Records)
+                            {
+                                <label class="mt-checkbox">
+                                    @itemInterno.NameId X @itemInterno.IdParent                                                                                                           
+                                   <input type="checkbox" checked id="chb_@(item.IdProveedor)_@itemInterno.Id" name="test">                                    
+                                    <span></span>
+                                </label>
+                            }
+                            <p>
+                               <a class="btn blue procesarConfirmación" id="2_@item.IdProveedor">CONFIRMAR</a>                                
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }                    
+    </div>
+</div>

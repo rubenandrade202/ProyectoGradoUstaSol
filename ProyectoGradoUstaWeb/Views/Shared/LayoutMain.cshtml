@@ -1,0 +1,198 @@
+﻿@{
+  Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Proyecto Usta</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" />
+    <link href="~/assets/global/css/components.min.css" rel="stylesheet" />
+    <link href="~/assets/global/css/plugins.min.css" rel="stylesheet" />
+    <link href="~/assets/layouts/css/layout.min.css" rel="stylesheet" />
+    <link href="~/assets/layouts/css/themes/darkblue.min.css" rel="stylesheet" /> @*OJO CON ESTE PUEDE SER UTIL*@
+    <link href="~/assets/layouts/css/custom.min.css" rel="stylesheet" />
+    <link href="~/Infragistics20181/css/themes/bootstrap3/default/infragistics.theme.css" rel="stylesheet" />
+    <link href="~/Infragistics20181/css/structure/infragistics.css" rel="stylesheet" />
+
+    @*<link href="~/Content/App/General/ProyectoUsta.css" rel="stylesheet" />*@
+    <link href="~/scripts/sweetalert-master/dist/sweetalert.css" rel="stylesheet" />
+    @RenderSection("Styles", false)
+    <script src="~/scripts/modernizr-2.8.3.js"></script>
+    <script src="~/scripts/jquery-2.2.4.min.js"></script>
+    <script src="~/scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Infragistics20181/js/infragistics.core.js"></script>
+    <script src="~/Infragistics20181/js/infragistics.dv.js"></script>
+    <script src="~/Infragistics20181/js/infragistics.lob.js"></script>
+    @*<script src="~/Infragistics20161/js/infragistics.loader.js"></script>*@
+    <script src="~/scripts/bootstrap.js"></script>
+    <script src="~/assets/global/plugins/js.cookie.min.js"></script>
+    <script src="~/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/global/plugins/jquery.blockui.min.js"></script>
+    <script src="~/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <script src="~/assets/global/scripts/app.min.js"></script>
+    <script src="~/assets/layouts/layout/scripts/layout.min.js"></script>
+    <script src="~/assets/layouts/layout/scripts/demo.min.js"></script>
+    <script src="~/assets/layouts/global/scripts/quick-sidebar.min.js"></script>
+    <script src="~/assets/layouts/global/scripts/quick-nav.min.js"></script>
+    <script src="~/scripts/noty/packaged/jquery.noty.packaged.min.js"></script>
+    <script src="~/scripts/sweetalert-master/dist/sweetalert.min.js"></script>
+    <script src="~/scripts/App/Generales/GralApp.js"></script>
+    <script src="~/scripts/mustache.js"></script>
+    @RenderSection("PreJavascript", false)
+    <script id="templatePromptRecibirPedido" type="x-tmpl-mustache">
+        Recibir pedido de {{ProveedorNombre}} por {{ValorPedido}} ?
+        <br />
+        <input type="button" value="No" onclick="javascript: nsGral.DesbloquearElemento('contenedorPedidosVisitas')" />
+        <input type="button" value="Ok" onclick="javascript:nsPvPedidos.RecibirPedido({{ IdProveedor }},'{{ProveedorNombre}}', {{ValorPedido}})" />
+    </script>
+    <script id="templatePromptRecibirOtrosPedidos" type="x-tmpl-mustache">
+        Procesar pedido con observaciones {{ProveedorNombre}} por {{ValorPedido}} ?
+        <br />
+        <input type="button" value="No" onclick="javascript: nsGral.DesbloquearElemento('contenedorPedidosVisitas')" />
+        <input type="button" value="Ok" onclick="javascript:nsPvPedidos.RecibirPedido(0,'{{ProveedorNombre}}', {{ValorPedido}})" />
+    </script>
+
+
+
+</head>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-full-width">
+  <div class="page-wrapper">
+    <div class="page-header navbar navbar-fixed-top">
+      <div class="page-header-inner ">
+        <!--LOGO -->
+        <div class="page-logo">
+          <a href="../Home/Index">
+            <img src="~/Content/Images/FrameLayout/logo-usta.png" alt="logo" class="logo-default" />
+          </a>
+        </div>
+        @*MENU PRINCIPAL MEGA*@
+        @Html.Partial("~/Views/Shared/BigMenu.cshtml", new ProyectoGradoUstaBus.SecurityBl().GetMenuStructureByUser(Convert.ToInt32(Session["UserId"]), Convert.ToInt32(Session["UserIdIdioma"])))
+        <div class="top-menu">
+          <ul class="nav navbar-nav pull-right">
+            <!-- INFORMACION USUARIO -->
+            @Html.Partial("~/Views/Shared/InfoUsuarioLogOut.cshtml", new ProyectoGradoUstaBus.SecurityBl().GetInfoLogOutUsuario(Convert.ToInt32(Session["UserId"])))
+            @*SIDE BAR PEDIDOS-VISITAS*@
+            <li class="dropdown dropdown-quick-sidebar-toggler">
+              <a  href="javascript:nsGral.CargarPvPedidosVentas();" class="dropdown-toggle">
+                <i class="icon-logout"></i>
+              </a>
+            </li>
+          </ul>
+      
+            <!-- BEGIN QUICK SIDEBAR -->
+            <a href="javascript:" class="page-quick-sidebar-toggler">
+                <i class="icon-login"></i>
+            </a>
+            <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
+                <div class="page-quick-sidebar">
+                    <ul class="nav nav-tabs">
+                        <li id="liQuickSideBarPedidos">                           
+                            <a id="anchorQuickSideBarPedidos" href="javascript:" data-target="#quick_sidebar_tab_1" data-toggle="tab" aria-expanded="true" >
+                                PEDIDOS
+                                @*<span id="spnPedidos" class="badge badge-danger">?</span>*@
+                            </a>                                                          
+                        </li>
+                        <li id="liQuickSideVisitas">                            
+                            <a id="anchorQuickSideBarVisitas" href="javascript:" data-target="#quick_sidebar_tab_2" data-toggle="tab" aria-expanded="false">
+                                VISITAS
+                                @*<span id="spnVisitas" class="badge badge-success">?</span>*@
+                            </a>                                                           
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="contenedorPedidosVisitas">                      
+                    </div>
+                </div>
+            </div>
+            <!-- END QUICK SIDEBAR -->
+         
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"> </div>
+    <div class="page-container">
+      <div class="page-content-wrapper">
+        <div class="page-content">
+          <!-- BARRA PRINCIPAL PAGINA -->
+          <div class="page-bar">
+            @*BREADCRUMB PAGINA TODO => POR CODIGO JS DEJAR LA SIGUIENTE ESTRUCTURA CORRESPONDIENTE A LA PAGINA QUE SE ESTA NAVEGANDO, ACCEDER POR EL ID DEL UL id="pageBreadCrumbUsta"*@
+            @*<ul class="page-breadcrumb" id="pageBreadCrumbUsta">
+              <li>
+                <a id="moduleBreadcrumb" href="#">Home</a>
+                <i class="fa fa-circle"></i>
+              </li>
+              <li>
+                <span id="tituloPageBreadcrumb">Index</span>
+              </li>
+            </ul>*@            
+            <div class="page-toolbar">
+              @*<div class="btn-group pull-right">
+                <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown">
+                  Acciones Pagina
+                  <i class="fa fa-angle-down"></i>
+                </button>
+               <!--  BARRA ACCIONES PARA LA PAGINA TODO => => POR CODIGO JS DEJAR LA SIGUIENTE ESTRUCTURA CORRESPONDIENTE AL UL SIGUIENTE A LAS OPCIOENS QUE TIENE LA PAGINA QUE SE ESTA NAVEGANDO, ACCEDER POR EL ID DEL UL id="btnGeneralActionsUsta" -->
+                <ul class="dropdown-menu pull-right" role="menu" id="btnGeneralActionsUsta">
+                  <li>
+                    <a href="#">
+                      <i class="icon-bell"></i> Action
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="icon-shield"></i> Another action
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="icon-user"></i> Something else here
+                    </a>
+                  </li>
+                  <li class="divider"> </li>
+                  <li>
+                    <a href="#">
+                      <i class="icon-bag"></i> Separated link
+                    </a>
+                  </li>
+                </ul>
+              </div>*@
+            </div>
+          </div>
+          <div id="PartialDiv">
+            @RenderBody()
+          </div>
+        </div>
+        <!-- END CONTENT BODY -->
+      </div>
+      <!-- END CONTENT -->
+
+
+<!--ACA ESTABA-->
+        
+
+
+    </div>
+    <!-- END CONTAINER -->
+    <!-- BEGIN FOOTER -->
+    <div class="page-footer">
+      <div class="page-footer-inner">
+        @*@DateTime.Now.Year &copy; Ruben Dario Andrade Manrique USTA Distancia*@
+          @DateTime.Now.Year &copy; Ruben Dario Andrade Manrique
+      </div>
+      <div class="scroll-to-top">
+        <i class="icon-arrow-up"></i>
+      </div>
+    </div>
+    <!-- END FOOTER -->
+  </div>
+
+  @RenderSection("Javascript", false)
+</body>
+</html>

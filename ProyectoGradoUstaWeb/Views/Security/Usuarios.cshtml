@@ -1,0 +1,497 @@
+﻿@using ProyectoGradoUstaSecurity;
+@using Infragistics.Web.Mvc;
+@model UsuariosPageVm
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+<script>nsGral.TituloPagina = '@ViewBag.Title';</script>
+<script>
+    var nsUsuariosUsa = nsUsuariosUsa || {};
+    nsUsuariosUsa.StatusDataAd = '@Model.StatusUsersAd.ToString().ToLower()';
+    nsGral.TituloPagina = 'Usuarios';
+    nsGral.ModuloPagina = "Administración";
+</script>
+
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+            <div id="formNewUser" style="display:none;">
+                <ul class="nav nav-tabs">
+                    <li id="tabFiltroMainPageUsers" class="active"><a href="#home" data-toggle="tab1">Usuario</a></li>
+                    <li style="float:left;" onclick="nsGral.HideShowTags('formNewUser', 'btnOpenTabNewUser'); return false;"><a data-toggle="tab" href="#">X</a></li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div id="tab1" class="tab-pane fade in active">
+                        <div class="well2">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @if (ViewBag.AdActive)
+                                    {
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="chbAdUser">Usuario AD</label>
+                                            <input type="checkbox" id="chbAdUser" />
+                                        </div>
+                                    }                                    
+                                </div>                                    
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptUserNameThird">Nombre Usuario</label>
+                                        @Html.Infragistics().Combo(Model.UsuariosAd)
+                                        <input type="text" id="iptUserNameThird" style="width:198px; height:30px; display:none;" />
+                                        @*<label id="lblLoadingUsers">Loading...</label>*@
+                                    </div>
+                                </div>                                    
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="">Rol</label>
+                                        @Html.Infragistics().Combo(Model.Roles)
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="">Idioma</label>
+                                        @Html.Infragistics().Combo(Model.Idiomas)
+                                    </div>
+                                </div>                                    
+                            </div>                  
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="">Menu Especifico</label>
+                                        <input type="checkbox" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="">Correo</label>
+                                        @Html.Infragistics().TextEditor(Model.Email)
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="">Contraseña</label>
+                                        @Html.Infragistics().TextEditor(Model.PassWord)
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="">Repetir&nbsp;Contraseña</label>
+                                        @Html.Infragistics().TextEditor(Model.PassWordVerify)
+                                    </div>
+                                </div>                                                                      
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-default2" id="btnAgregarUsuario" onclick="nsUsuariosUsa.TryAddUser(); return false;">Agregar</button>
+                                        <button class="btn btn-default2" id="btnActualizarUsuario" onclick="nsUsuariosUsa.TryUpdateUser(); return false;" style="display:none;">Actualizar</button>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="row" id="divGridMainPageUsers">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <button class="btn btn-default2 btn-sm btn-search-panel" id="btnOpenTabNewUser" onclick="nsUsuariosUsa.LoadUserForm();">Agregar Usuario</button>
+                </div>
+            </div>
+            @(Html.Infragistics().Grid(Model.Usuarios))
+        </div>
+    </div>
+</div>
+
+@*<button class="btn btn-default2" id="btnAgregarUsuario" onclick="nsUsuariosUsa.TryAddUser(); return false;">Add</button>
+<button class="btn btn-default2" id="btnActualizarUsuario" onclick="nsUsuariosUsa.TryUpdateUser(); return false;" style="display:none;">Actualizar</button>*@
+
+@*<div class="row" id="pnlGridUsuarios">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <button class="btn btn-default2 btn-sm btn-search-panel" id="btnNuevoUsuario" onclick="nsUsuariosUsa.LoadUserForm();">Nuevo</button>
+
+                </div>
+            </div>
+            (Html.Infragistics().Grid(Model.Usuarios))
+        </div>
+    </div>
+</div>*@
+
+<script>
+    var nsUsuariosUsa = nsUsuariosUsa || {};
+    nsUsuariosUsa.UrlEliminarUsers = '@Url.Action("DeleteUsers")';
+    nsUsuariosUsa.UrlAddUsers = '@Url.Action("AddUsersAd")';
+    nsUsuariosUsa.UrlAddUsersThird = '@Url.Action("AddUserThird")';
+    nsUsuariosUsa.UrlUpdateUserAd = '@Url.Action("UpdateUserAd")';
+    nsUsuariosUsa.UrlUpdateUserThird = '@Url.Action("UpdateUserThird")';
+    nsUsuariosUsa.UrlCheckName = '@Url.Action("CheckUserName")';
+    nsUsuariosUsa.UrlCheckAdDataAvailability = '@Url.Action("CheckDataAdAvailable")';
+    nsUsuariosUsa.UrlCheckEmailAvailability = '@Url.Action("CheckEmailAvailable")';
+    nsUsuariosUsa.SelGridUsuarios = $("#gmUsuariosUsa");
+    nsUsuariosUsa.SelCmbAdUsers = $("#cmbUsuariosAd");
+    nsUsuariosUsa.SelEmail = $("#txtEmail");
+    nsUsuariosUsa.IdIntervalChecking = 0;
+    nsUsuariosUsa.CurrentUpdatingUser =
+        {
+            Id: 0,
+            Email: '',
+            PasswordToken: ''
+        };
+
+    function valueChangedEditorEmail(evt, ui) {
+        if (ui.text != '') {
+            var email = ui.text.toLowerCase();
+            nsUsuariosUsa.ChecEmailAvailability(email);
+        }
+    }
+
+    function renderedComboAdCheckData(evt, ui) {
+        if (!nsUsuariosUsa.StatusDataAd) {
+            nsUsuariosUsa.SelCmbAdUsers.hide();
+            nsUsuariosUsa.IdIntervalChecking = setInterval(nsUsuariosUsa.CheckDataAvailabitity, 3000);
+        } else {
+            $("#lblLoadingUsers").hide();
+        }
+    }
+
+    nsUsuariosUsa.CheckDataAvailabitity = function () {
+        $.ajax(
+            {
+                url: nsUsuariosUsa.UrlCheckAdDataAvailability,
+                success: function (rp) {
+                    if (rp.Success) {
+                        clearInterval(nsUsuariosUsa.IdIntervalChecking);
+                        nsUsuariosUsa.SelCmbAdUsers.show();
+                        $("#lblLoadingUsers").hide();
+                    }
+                }, error: function (rp) {
+                    debugger;
+                }
+            });
+    }
+
+    nsUsuariosUsa.ChecEmailAvailability = function (email) {
+        $.ajax(
+            {
+                url: nsUsuariosUsa.UrlCheckEmailAvailability,
+                data: { email: email },
+                success: function (rp) {
+                    if (!rp.Success) {
+                        nsGral.ProcesarResponseBasicVm(rp);
+                        nsUsuariosUsa.SelEmail.igTextEditor("value", "");
+                    }
+                }, error: function (rp) {
+                    debugger
+                }
+            });
+    }
+
+    $("#btnCloseTab").click(function () {
+        $("#btnNuevoUsuario").show();
+        $("#divSearch").hide();
+    });
+
+    $("#chbAdUser").click(function () {
+        if ($(this).is(':checked')) {
+            $("#cmbUsuariosAd").show();
+            $("#iptUserNameThird").hide();
+            $("#rowThird").hide();
+        } else {
+            $("#iptUserNameThird").show();
+            $("#cmbUsuariosAd").hide();
+            $("#rowThird").show();
+        }
+    });
+
+    nsUsuariosUsa.LoadInfoUserToForm = function (id, idRol, idIdioma) {
+        nsUsuariosUsa.LoadUserForm();
+        nsGral.HideShowTags('btnAgregarUsuario', 'btnActualizarUsuario');
+        $('#iptUserNameThird').removeAttr('placeholder');
+        //debugger
+        //get other data from grid
+        var userName = $("#gmUsuariosUsa").igGrid("getCellValue", id, "UserName");
+        var email = $("#gmUsuariosUsa").igGrid("getCellValue", id, "Email");
+        var usuarioElite = $("#gmUsuariosUsa").igGrid("getCellValue", id, "UsuarioElite");
+        if (usuarioElite) {
+            $("#chbAdUser").prop("checked", true);
+            $("#cmbUsuariosAd").igCombo("text", userName);
+            $("#cmbUsuariosAd").show();
+            $("#iptUserNameThird").hide();
+            $("#rowThird").hide();
+        } else {
+            $("#iptUserNameThird").prop("disabled", true);
+            $("#iptUserNameThird").show();
+            $("#cmbUsuariosAd").hide();
+            $("#rowThird").show();
+            $("#chbAdUser").prop("checked", false);
+            $("#iptUserNameThird").val(userName);
+        }
+        $("#chbAdUser").prop("disabled", true);
+        $("#cmbRoles").igCombo("value", idRol);
+        $("#cmbIdiomas").igCombo("value", idIdioma);
+        $("#txtEmail").igTextEditor("value", email);
+        $("#txtPassword").igTextEditor("value", "01012020");
+        $("#txtPasswordVerify").igTextEditor("value", "01012020");
+
+        nsUsuariosUsa.CurrentUpdatingUser =
+        {
+            Id: id,
+            Email: email,
+            PasswordToken: "01012020"
+        };
+    }
+
+    nsUsuariosUsa.LoadUserForm = function () {
+        nsUsuariosUsa.LimpiarFormularioIngreso();
+        $("#iptUserNameThird").attr("placeholder", "tp-");
+        nsGral.HideShowTags('btnOpenTabNewUser', 'formNewUser');
+        nsGral.HideShowTags('btnActualizarUsuario', 'btnAgregarUsuario');
+    }
+
+    nsUsuariosUsa.DeactivateUser = function (idUser) {
+        var arrayIdUsers = new Array();
+        arrayIdUsers.push(idUser);
+        $.ajax(
+            {
+                url: nsUsuariosUsa.UrlEliminarUsers,
+                data: { idUsuarios: arrayIdUsers },
+                type: 'POST',
+                beforeSend: function () {
+                    nsGral.BloquearElemento("pnlGridUsuarios");
+                },
+                success: function (rp) {
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    if (rp.Success) {
+                        nsUsuariosUsa.SelGridUsuarios.igGrid("dataBind");
+                    }
+                },
+                error: function (rp) {
+                    debugger;
+                },
+                complete: function () {
+                    nsGral.DesbloquearElemento("pnlGridUsuarios");
+                }
+            });
+    }
+
+    nsUsuariosUsa.UpdateUserAd = function (idUser, idRol, idIdioma) {
+        $.ajax(
+            {
+                url: nsUsuariosUsa.UrlUpdateUserAd,
+                type: 'POST',
+                data: {idUser: idUser, idRol: idRol, idIdioma: idIdioma},
+                beforeSend: function () {
+                    nsGral.BloquearElemento("tab1");
+                },
+                success: function (rp) {
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    if (rp.Success) {
+                        nsUsuariosUsa.LimpiarFormularioIngreso();
+                        nsUsuariosUsa.SelGridUsuarios.igGrid("dataBind");
+                        $("#btnCloseTab").click();
+                    }
+                }, error: function (rp) {
+                    debugger
+                },
+                complete: function () {
+                    nsGral.DesbloquearElemento("tab1");
+                }
+            });
+    }
+
+    nsUsuariosUsa.AddUsersAd = function (arrayUserNames, idRol, idIdioma, usuarioElite) {
+        $.ajax(
+            {
+                url: nsUsuariosUsa.UrlAddUsers,
+                type: 'POST',
+                data: { userNames: arrayUserNames, idRol: idRol, idIdioma: idIdioma, usuarioElite: usuarioElite },
+                beforeSend: function () {
+                    nsGral.BloquearElemento("tab1");
+                },
+                success: function (rp) {
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    if (rp.Success) {
+                        nsUsuariosUsa.LimpiarFormularioIngreso();
+                        nsUsuariosUsa.SelGridUsuarios.igGrid("dataBind");
+                    }
+                },
+                error: function (rp) {
+                    debugger;
+                },
+                complete: function () {
+                    nsGral.DesbloquearElemento("tab1");
+                }
+            });
+    }
+
+    nsUsuariosUsa.UpdateUsuarioThird = function (idUser, idRol, idIdioma, passWord, email) {
+       
+        $.ajax(
+            {
+                url: nsUsuariosUsa.UrlUpdateUserThird,
+                type: 'POST',
+                data: { idUser: idUser, idRol: idRol, idIdioma: idIdioma,  passWord: passWord, email: email },
+                beforeSend: function () {
+                    nsGral.BloquearElemento("tab1");
+                },
+                success: function (rp) {
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    if (rp.Success) {
+                        //nsUsuariosUsa.LimpiarFormularioIngreso();
+                        nsUsuariosUsa.SelGridUsuarios.igGrid("dataBind");
+                        //$("#btnCloseTab").click();
+                    }
+                },
+                error: function (rp) {
+                    debugger;
+                },
+                complete: function () {
+                    nsGral.DesbloquearElemento("tab1");
+                }
+            });
+    }
+
+    nsUsuariosUsa.AddUserThird = function (username, email, passWord, idRol, idIdioma) {
+        $.ajax(
+            {
+                url: nsUsuariosUsa.UrlAddUsersThird,
+                type: 'POST',
+                data: { userName: username, email: email, passWord: passWord, idRol: idRol, idIdioma: idIdioma },
+                beforeSend: function () {
+                    nsGral.BloquearElemento("tab1");
+                },
+                success: function (rp) {
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    if (rp.Success) {
+                        nsUsuariosUsa.LimpiarFormularioIngreso();
+                        nsUsuariosUsa.SelGridUsuarios.igGrid("dataBind");
+                    }
+                },
+                error: function (rp) {
+                    debugger;
+                },
+                complete: function () {
+                    nsGral.DesbloquearElemento("tab1");
+                }
+            });
+    }
+
+    nsUsuariosUsa.LimpiarFormularioIngreso = function () {
+        $("#cmbUsuariosAd").igCombo("clearInput");
+        $("#cmbRoles").igCombo("clearInput");
+        $("#cmbIdiomas").igCombo("clearInput");
+        $("#iptUserNameThird").val("");
+        $("#txtPassword").igTextEditor("value", "");
+        $("#txtPasswordVerify").igTextEditor("value", "");
+        $("#txtEmail").igTextEditor("value", "");
+        $("#chbAdUser").prop("disabled", false);
+        $("#iptUserNameThird").prop("disabled", false);
+        if ($("#chbAdUser").is(':checked')) {
+            $("#cmbUsuariosAd").show();
+            $("#iptUserNameThird").hide();
+            $("#iptPassword").prop('disabled', true);
+            $("#iptPasswordVerify").prop('disabled', true);
+            $("#emailUser").prop('disabled', true);
+        } else {
+            $("#iptUserNameThird").show();
+            $("#cmbUsuariosAd").hide();
+            $("#iptPassword").prop('disabled', false);
+            $("#iptPasswordVerify").prop('disabled', false);
+            $("#emailUser").prop('disabled', false);
+        }
+    }
+
+    nsUsuariosUsa.TryAddUser = function () {
+        if ($("#cmbRoles").igCombo("validate") == true
+            && $("#cmbIdiomas").igCombo("validate") == true) {
+            var userNameUsersSelected = new Array();
+            var idRolSelected = $("#cmbRoles").igCombo("value");
+            var idIdiomaSelected = $("#cmbIdiomas").igCombo("value");
+            if ($("#chbAdUser").is(':checked')) {
+                if ($("#cmbUsuariosAd").igCombo("validate") == true) {
+                    $.each($("#cmbUsuariosAd").igCombo("selectedItems"), function (current) {
+                        userNameUsersSelected.push($("#cmbUsuariosAd").igCombo("selectedItems")[current].data.UserName);
+                    });
+                    nsUsuariosUsa.AddUsersAd(userNameUsersSelected, idRolSelected, idIdiomaSelected, true);
+                } else {
+                    nsGral.MensajeAlert('DebeDiligenciarTodo');
+                }
+            } else {
+                var nombreTercero = $("#iptUserNameThird").val();
+                if (nombreTercero != "" &&
+                    $("#txtPassword").igTextEditor("validate") == true &&
+                    $("#txtPasswordVerify").igTextEditor("validate") == true &&
+                    $("#txtEmail").igTextEditor("validate") == true
+                    ) {
+                    var passWord = $("#txtPassword").igTextEditor("value");
+                    var email = $("#txtEmail").igTextEditor("value");
+                    nsUsuariosUsa.AddUserThird(nombreTercero, email, passWord, idRolSelected, idIdiomaSelected);
+                } else {
+                    nsGral.MensajeAlert('DebeDiligenciarTodo');
+                }
+            }
+
+        } else {
+            nsGral.MensajeAlert('DebeDiligenciarTodo');
+        }
+    }
+
+    $("#iptUserNameThird").blur(function () {
+        var value = $(this).val();
+        if (value == null || value == undefined || value == "") {
+
+        } else {
+            $.ajax(
+                {
+                    url: nsUsuariosUsa.UrlCheckName,
+                    data: { userName: value },
+                    success: function (rp) {
+                        if (rp.Success) {
+                            $("#iptUserNameThird").val("");
+                            nsGral.MensajeAlert(value + " " + 'DatoYaExiste');
+                        }
+                    },
+                    error: function () {
+                        debugger
+                    }
+                });
+        }
+    });
+
+    nsUsuariosUsa.TryUpdateUser = function () {
+        if ($("#cmbRoles").igCombo("validate") == true && $("#cmbIdiomas").igCombo("validate") == true) {
+            var idRol = $("#cmbRoles").igCombo("value");
+            var idIdioma = $("#cmbIdiomas").igCombo("value");
+            if ($("#chbAdUser").is(':checked')) {
+                nsUsuariosUsa.UpdateUserAd(nsUsuariosUsa.CurrentUpdatingUser.Id, idRol, idIdioma);
+            } else {
+                if ($("#txtPassword").igTextEditor("validate") == true &&
+                    $("#txtPasswordVerify").igTextEditor("validate") == true &&
+                    $("#txtEmail").igTextEditor("validate") == true
+                    ) {
+                    var passWord = $("#txtPassword").igTextEditor("value");
+                    var email = $("#txtEmail").igTextEditor("value");
+                    if (passWord == nsUsuariosUsa.CurrentUpdatingUser.PasswordToken) {
+                        passWord = '';
+                    }
+
+                    nsUsuariosUsa.UpdateUsuarioThird(nsUsuariosUsa.CurrentUpdatingUser.Id, idRol, idIdioma, passWord, email);
+                } else {
+                    nsGral.MensajeAlert('DebeDiligenciarTodo');
+                }
+            }
+        } else {
+            nsGral.MensajeAlert('DebeDiligenciarTodo');
+        }
+    }
+
+</script>

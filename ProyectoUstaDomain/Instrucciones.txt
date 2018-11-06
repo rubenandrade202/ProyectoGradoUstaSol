@@ -1,0 +1,6 @@
+﻿1- llamar al edmx: DomainModel.edmx
+2- utilizar mmismo connection string que seguridad o viceversa NombreProyectoEntities
+3- seleccionar tabla prueba de esquema BUS
+4- no pluralizar, incluir foreign key columns in the model, import selected stored procedures
+5- Llamar Model namespace: NombreProyectoDomainModel
+6- Save config como NombreProyectoDomainCtx

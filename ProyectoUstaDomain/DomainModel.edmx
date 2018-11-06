@@ -1,0 +1,698 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProyectoUstaDomainModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ClientesProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="64" />
+          <Property Name="Telefono" Type="varchar" MaxLength="16" />
+          <Property Name="CupoAsignado" Type="int" Nullable="false" />
+          <Property Name="CupoEmpleado" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+          <Property Name="IdUsuarioModificado" Type="int" />
+          <Property Name="FechaModificado" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="LogCreditosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Valor" Type="int" Nullable="false" />
+          <Property Name="IdCliente" Type="smallint" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LogPedidosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProveedor" Type="smallint" Nullable="false" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="64" />
+          <Property Name="FechaReferencia" Type="smalldatetime" Nullable="false" />
+          <Property Name="ValorPedido" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovimientosCajaProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Valor" Type="int" Nullable="false" />
+          <Property Name="FechaRegsitro" Type="smalldatetime" Nullable="false" />
+          <Property Name="IdTipoMovimiento" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductoCodigoDeBarrasProyectoUsta">
+          <Key>
+            <PropertyRef Name="CodigoDeBarras" />
+          </Key>
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="CodigoDeBarras" Type="varchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductoProveedorProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="IdProveedor" Type="smallint" Nullable="false" />
+          <Property Name="PrecioCompra" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+          <Property Name="FechaModificado" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="ProductosAPedirProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdRecord" />
+          </Key>
+          <Property Name="IdRecord" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="IdProveedor" Type="smallint" Nullable="false" />
+          <Property Name="Qty" Type="smallint" Nullable="false" />
+          <Property Name="FechaVisita" Type="smalldatetime" Nullable="false" />
+          <Property Name="DiaVisita" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="FechaEntrega" Type="smalldatetime" Nullable="false" />
+          <Property Name="DiaEntrega" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Confirmado" Type="bit" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+          <Property Name="FechaModificado" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="ProductosBufferAInventarioProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="IdProveedor" Type="smallint" Nullable="false" />
+          <Property Name="QtyPedida" Type="smallint" Nullable="false" />
+          <Property Name="QtyRealAIngresar" Type="smallint" Nullable="false" />
+          <Property Name="CostoItem" Type="int" Nullable="false" />
+          <Property Name="PrecioAsignado" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="int" Nullable="false" />
+          <Property Name="FechaReferencia" Type="smalldatetime" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+          <Property Name="IdUsuarioModificado" Type="int" />
+          <Property Name="FechaModificado" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="ProductosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Precio" Type="int" Nullable="false" />
+          <Property Name="CantidadActual" Type="smallint" Nullable="false" />
+          <Property Name="CantidadUmbral" Type="smallint" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="IdUbicacionStock" Type="smallint" />
+          <Property Name="IdUbicacionNegocio" Type="smallint" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="int" Nullable="false" />
+          <Property Name="FechaModificado" Type="smalldatetime" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+        </EntityType>
+        <EntityType Name="ProveedoresProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="512" />
+          <Property Name="Nit" Type="varchar" MaxLength="32" />
+          <Property Name="Telefono" Type="int" />
+          <Property Name="Visita_Lunes" Type="bit" Nullable="false" />
+          <Property Name="Visita_Martes" Type="bit" Nullable="false" />
+          <Property Name="Visita_Miercoles" Type="bit" Nullable="false" />
+          <Property Name="Visita_Jueves" Type="bit" Nullable="false" />
+          <Property Name="Visita_Viernes" Type="bit" Nullable="false" />
+          <Property Name="Visita_Sabado" Type="bit" Nullable="false" />
+          <Property Name="Visita_Domingo" Type="bit" Nullable="false" />
+          <Property Name="Entrega_Lunes" Type="bit" Nullable="false" />
+          <Property Name="Entrega_Martes" Type="bit" Nullable="false" />
+          <Property Name="Entrega_Miercoles" Type="bit" Nullable="false" />
+          <Property Name="Entrega_Jueves" Type="bit" Nullable="false" />
+          <Property Name="Entrega_Viernes" Type="bit" Nullable="false" />
+          <Property Name="Entrega_Sabado" Type="bit" Nullable="false" />
+          <Property Name="Entrega_Domingo" Type="bit" Nullable="false" />
+          <Property Name="IdEstado" Type="bit" Nullable="false" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="int" Nullable="false" />
+          <Property Name="FechaModificado" Type="smalldatetime" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+        </EntityType>
+        <EntityType Name="TipoDeUbicacionProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TiposMovimientoCajaProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UbicacionesProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdTipoUbicacion" Type="smallint" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="512" />
+          <Property Name="UrlImagen" Type="varchar" MaxLength="512" />
+          <Property Name="IdEstado" Type="bit" Nullable="false" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+          <Property Name="IdUsuarioCreador" Type="int" Nullable="false" />
+          <Property Name="FechaModificado" Type="smalldatetime" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+        </EntityType>
+        <EntityType Name="VentasProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="smallint" Nullable="false" />
+          <Property Name="IdCliente" Type="smallint" Nullable="false" />
+          <Property Name="IdVendedor" Type="int" Nullable="false" />
+          <Property Name="Total" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="smalldatetime" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsuariosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+          <Property Name="IdIdioma" Type="tinyint" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime2" Precision="1" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="int" Nullable="false" />
+          <Property Name="FechaModificado" Type="datetime2" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="int" />
+          <Property Name="UsuarioEmpresa" Type="bit" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="ProyectoUstaDomainModelStoreContainer">
+          <EntitySet Name="ClientesProyectoUsta" EntityType="Self.ClientesProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="LogCreditosProyectoUsta" EntityType="Self.LogCreditosProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="LogPedidosProyectoUsta" EntityType="Self.LogPedidosProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="MovimientosCajaProyectoUsta" EntityType="Self.MovimientosCajaProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="ProductoCodigoDeBarrasProyectoUsta" EntityType="Self.ProductoCodigoDeBarrasProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="ProductoProveedorProyectoUsta" EntityType="Self.ProductoProveedorProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="ProductosAPedirProyectoUsta" EntityType="Self.ProductosAPedirProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="ProductosBufferAInventarioProyectoUsta" EntityType="Self.ProductosBufferAInventarioProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="ProductosProyectoUsta" EntityType="Self.ProductosProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="ProveedoresProyectoUsta" EntityType="Self.ProveedoresProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="TipoDeUbicacionProyectoUsta" EntityType="Self.TipoDeUbicacionProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="TiposMovimientoCajaProyectoUsta" EntityType="Self.TiposMovimientoCajaProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="UbicacionesProyectoUsta" EntityType="Self.UbicacionesProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="VentasProyectoUsta" EntityType="Self.VentasProyectoUsta" Schema="BUS" store:Type="Tables" />
+          <EntitySet Name="UsuariosProyectoUsta" EntityType="Self.UsuariosProyectoUsta" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProyectoUstaDomainModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ProyectoUstaDomainCtx" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TipoDeUbicacionProyectoUsta" EntityType="ProyectoUstaDomainModel.TipoDeUbicacionProyectoUsta" />
+          <EntitySet Name="UbicacionesProyectoUsta" EntityType="ProyectoUstaDomainModel.UbicacionesProyectoUsta" />
+          <EntitySet Name="UsuariosProyectoUsta" EntityType="ProyectoUstaDomainModel.UsuariosProyectoUsta" />
+          <EntitySet Name="ProveedoresProyectoUsta" EntityType="ProyectoUstaDomainModel.ProveedoresProyectoUsta" />
+          <EntitySet Name="ProductoCodigoDeBarrasProyectoUsta" EntityType="ProyectoUstaDomainModel.ProductoCodigoDeBarrasProyectoUsta" />
+          <EntitySet Name="ProductosProyectoUsta" EntityType="ProyectoUstaDomainModel.ProductosProyectoUsta" />
+          <EntitySet Name="ProductoProveedorProyectoUsta" EntityType="ProyectoUstaDomainModel.ProductoProveedorProyectoUsta" />
+          <EntitySet Name="VentasProyectoUsta" EntityType="ProyectoUstaDomainModel.VentasProyectoUsta" />
+          <EntitySet Name="MovimientosCajaProyectoUsta" EntityType="ProyectoUstaDomainModel.MovimientosCajaProyectoUsta" />
+          <EntitySet Name="TiposMovimientoCajaProyectoUsta" EntityType="ProyectoUstaDomainModel.TiposMovimientoCajaProyectoUsta" />
+          <EntitySet Name="LogCreditosProyectoUsta" EntityType="ProyectoUstaDomainModel.LogCreditosProyectoUsta" />
+          <EntitySet Name="ProductosAPedirProyectoUsta" EntityType="ProyectoUstaDomainModel.ProductosAPedirProyectoUsta" />
+          <EntitySet Name="LogPedidosProyectoUsta" EntityType="ProyectoUstaDomainModel.LogPedidosProyectoUsta" />
+          <EntitySet Name="ClientesProyectoUsta" EntityType="ProyectoUstaDomainModel.ClientesProyectoUsta" />
+          <EntitySet Name="ProductosBufferAInventarioProyectoUsta" EntityType="ProyectoUstaDomainModel.ProductosBufferAInventarioProyectoUsta" />
+        </EntityContainer>
+        <EntityType Name="TipoDeUbicacionProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UbicacionesProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdTipoUbicacion" Type="Int16" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="UrlImagen" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstado" Type="Boolean" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdUsuarioCreador" Type="Int32" Nullable="false" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="0" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UsuariosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="IdIdioma" Type="Byte" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="1" />
+          <Property Name="IdUsuarioRegistro" Type="Int32" Nullable="false" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="1" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+          <Property Name="UsuarioEmpresa" Type="Boolean" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProveedoresProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Nit" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="Int32" />
+          <Property Name="Visita_Lunes" Type="Boolean" Nullable="false" />
+          <Property Name="Visita_Martes" Type="Boolean" Nullable="false" />
+          <Property Name="Visita_Miercoles" Type="Boolean" Nullable="false" />
+          <Property Name="Visita_Jueves" Type="Boolean" Nullable="false" />
+          <Property Name="Visita_Viernes" Type="Boolean" Nullable="false" />
+          <Property Name="Visita_Sabado" Type="Boolean" Nullable="false" />
+          <Property Name="Visita_Domingo" Type="Boolean" Nullable="false" />
+          <Property Name="Entrega_Lunes" Type="Boolean" Nullable="false" />
+          <Property Name="Entrega_Martes" Type="Boolean" Nullable="false" />
+          <Property Name="Entrega_Miercoles" Type="Boolean" Nullable="false" />
+          <Property Name="Entrega_Jueves" Type="Boolean" Nullable="false" />
+          <Property Name="Entrega_Viernes" Type="Boolean" Nullable="false" />
+          <Property Name="Entrega_Sabado" Type="Boolean" Nullable="false" />
+          <Property Name="Entrega_Domingo" Type="Boolean" Nullable="false" />
+          <Property Name="IdEstado" Type="Boolean" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdUsuarioCreador" Type="Int32" Nullable="false" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="0" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ProductoCodigoDeBarrasProyectoUsta">
+          <Key>
+            <PropertyRef Name="CodigoDeBarras" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="CodigoDeBarras" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ProductosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Int32" Nullable="false" />
+          <Property Name="CantidadActual" Type="Int16" Nullable="false" />
+          <Property Name="CantidadUmbral" Type="Int16" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="IdUbicacionStock" Type="Int16" />
+          <Property Name="IdUbicacionNegocio" Type="Int16" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdUsuarioRegistro" Type="Int32" Nullable="false" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="0" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ProductoProveedorProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="IdProveedor" Type="Int16" Nullable="false" />
+          <Property Name="PrecioCompra" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="IdUsuarioRegistro" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="VentasProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int16" Nullable="false" />
+          <Property Name="IdCliente" Type="Int16" Nullable="false" />
+          <Property Name="IdVendedor" Type="Int32" Nullable="false" />
+          <Property Name="Total" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="MovimientosCajaProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Valor" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegsitro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdTipoMovimiento" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TiposMovimientoCajaProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="LogCreditosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Valor" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int16" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="ProductosAPedirProyectoUsta">
+          <Key>
+            <PropertyRef Name="IdRecord" />
+          </Key>
+          <Property Name="IdRecord" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="IdProveedor" Type="Int16" Nullable="false" />
+          <Property Name="Qty" Type="Int16" Nullable="false" />
+          <Property Name="FechaVisita" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DiaVisita" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEntrega" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DiaEntrega" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Confirmado" Type="Boolean" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdUsuarioModificador" Type="Int32" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="LogPedidosProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProveedor" Type="Int16" Nullable="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="FechaReferencia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ValorPedido" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="ClientesProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="CupoAsignado" Type="Int32" Nullable="false" />
+          <Property Name="CupoEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdUsuarioModificado" Type="Int32" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="ProductosBufferAInventarioProyectoUsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="IdProveedor" Type="Int16" Nullable="false" />
+          <Property Name="QtyPedida" Type="Int16" Nullable="false" />
+          <Property Name="QtyRealAIngresar" Type="Int16" Nullable="false" />
+          <Property Name="CostoItem" Type="Int32" Nullable="false" />
+          <Property Name="PrecioAsignado" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioRegistro" Type="Int32" Nullable="false" />
+          <Property Name="FechaReferencia" Type="DateTime" Precision="0" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdUsuarioModificado" Type="Int32" />
+          <Property Name="FechaModificado" Type="DateTime" Precision="0" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProyectoUstaDomainModelStoreContainer" CdmEntityContainer="ProyectoUstaDomainCtx">
+          <EntitySetMapping Name="TipoDeUbicacionProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.TipoDeUbicacionProyectoUsta">
+              <MappingFragment StoreEntitySet="TipoDeUbicacionProyectoUsta">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UbicacionesProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.UbicacionesProyectoUsta">
+              <MappingFragment StoreEntitySet="UbicacionesProyectoUsta">
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioCreador" ColumnName="IdUsuarioCreador" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="UrlImagen" ColumnName="UrlImagen" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdTipoUbicacion" ColumnName="IdTipoUbicacion" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuariosProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.UsuariosProyectoUsta">
+              <MappingFragment StoreEntitySet="UsuariosProyectoUsta">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="UsuarioEmpresa" ColumnName="UsuarioEmpresa" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IdIdioma" ColumnName="IdIdioma" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProveedoresProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.ProveedoresProyectoUsta">
+              <MappingFragment StoreEntitySet="ProveedoresProyectoUsta">
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioCreador" ColumnName="IdUsuarioCreador" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="Entrega_Domingo" ColumnName="Entrega_Domingo" />
+                <ScalarProperty Name="Entrega_Sabado" ColumnName="Entrega_Sabado" />
+                <ScalarProperty Name="Entrega_Viernes" ColumnName="Entrega_Viernes" />
+                <ScalarProperty Name="Entrega_Jueves" ColumnName="Entrega_Jueves" />
+                <ScalarProperty Name="Entrega_Miercoles" ColumnName="Entrega_Miercoles" />
+                <ScalarProperty Name="Entrega_Martes" ColumnName="Entrega_Martes" />
+                <ScalarProperty Name="Entrega_Lunes" ColumnName="Entrega_Lunes" />
+                <ScalarProperty Name="Visita_Domingo" ColumnName="Visita_Domingo" />
+                <ScalarProperty Name="Visita_Sabado" ColumnName="Visita_Sabado" />
+                <ScalarProperty Name="Visita_Viernes" ColumnName="Visita_Viernes" />
+                <ScalarProperty Name="Visita_Jueves" ColumnName="Visita_Jueves" />
+                <ScalarProperty Name="Visita_Miercoles" ColumnName="Visita_Miercoles" />
+                <ScalarProperty Name="Visita_Martes" ColumnName="Visita_Martes" />
+                <ScalarProperty Name="Visita_Lunes" ColumnName="Visita_Lunes" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Nit" ColumnName="Nit" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductoCodigoDeBarrasProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.ProductoCodigoDeBarrasProyectoUsta">
+              <MappingFragment StoreEntitySet="ProductoCodigoDeBarrasProyectoUsta">
+                <ScalarProperty Name="CodigoDeBarras" ColumnName="CodigoDeBarras" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductosProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.ProductosProyectoUsta">
+              <MappingFragment StoreEntitySet="ProductosProyectoUsta">
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUbicacionNegocio" ColumnName="IdUbicacionNegocio" />
+                <ScalarProperty Name="IdUbicacionStock" ColumnName="IdUbicacionStock" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="CantidadUmbral" ColumnName="CantidadUmbral" />
+                <ScalarProperty Name="CantidadActual" ColumnName="CantidadActual" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductoProveedorProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.ProductoProveedorProyectoUsta">
+              <MappingFragment StoreEntitySet="ProductoProveedorProyectoUsta">
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="PrecioCompra" ColumnName="PrecioCompra" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VentasProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.VentasProyectoUsta">
+              <MappingFragment StoreEntitySet="VentasProyectoUsta">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IdVendedor" ColumnName="IdVendedor" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovimientosCajaProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.MovimientosCajaProyectoUsta">
+              <MappingFragment StoreEntitySet="MovimientosCajaProyectoUsta">
+                <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
+                <ScalarProperty Name="FechaRegsitro" ColumnName="FechaRegsitro" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TiposMovimientoCajaProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.TiposMovimientoCajaProyectoUsta">
+              <MappingFragment StoreEntitySet="TiposMovimientoCajaProyectoUsta">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogCreditosProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.LogCreditosProyectoUsta">
+              <MappingFragment StoreEntitySet="LogCreditosProyectoUsta">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductosAPedirProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.ProductosAPedirProyectoUsta">
+              <MappingFragment StoreEntitySet="ProductosAPedirProyectoUsta">
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificador" ColumnName="IdUsuarioModificador" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="Confirmado" ColumnName="Confirmado" />
+                <ScalarProperty Name="DiaEntrega" ColumnName="DiaEntrega" />
+                <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+                <ScalarProperty Name="DiaVisita" ColumnName="DiaVisita" />
+                <ScalarProperty Name="FechaVisita" ColumnName="FechaVisita" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="IdRecord" ColumnName="IdRecord" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogPedidosProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.LogPedidosProyectoUsta">
+              <MappingFragment StoreEntitySet="LogPedidosProyectoUsta">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="ValorPedido" ColumnName="ValorPedido" />
+                <ScalarProperty Name="FechaReferencia" ColumnName="FechaReferencia" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientesProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.ClientesProyectoUsta">
+              <MappingFragment StoreEntitySet="ClientesProyectoUsta">
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificado" ColumnName="IdUsuarioModificado" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="CupoEmpleado" ColumnName="CupoEmpleado" />
+                <ScalarProperty Name="CupoAsignado" ColumnName="CupoAsignado" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductosBufferAInventarioProyectoUsta">
+            <EntityTypeMapping TypeName="ProyectoUstaDomainModel.ProductosBufferAInventarioProyectoUsta">
+              <MappingFragment StoreEntitySet="ProductosBufferAInventarioProyectoUsta">
+                <ScalarProperty Name="FechaModificado" ColumnName="FechaModificado" />
+                <ScalarProperty Name="IdUsuarioModificado" ColumnName="IdUsuarioModificado" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="FechaReferencia" ColumnName="FechaReferencia" />
+                <ScalarProperty Name="IdUsuarioRegistro" ColumnName="IdUsuarioRegistro" />
+                <ScalarProperty Name="PrecioAsignado" ColumnName="PrecioAsignado" />
+                <ScalarProperty Name="CostoItem" ColumnName="CostoItem" />
+                <ScalarProperty Name="QtyRealAIngresar" ColumnName="QtyRealAIngresar" />
+                <ScalarProperty Name="QtyPedida" ColumnName="QtyPedida" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

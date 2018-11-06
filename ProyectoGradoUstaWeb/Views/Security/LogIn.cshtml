@@ -1,0 +1,48 @@
+﻿@model ProyectoGradoUstaCommon.BasicStrVm
+@{
+    ViewBag.Title = "LogIn";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<div class="row">
+<div class="login-form">
+    @using (Html.BeginForm("Login", "Security", FormMethod.Post, new { autocomplete = "off" }))
+    {     
+        @Html.AntiForgeryToken()
+        <br />
+            <div class="row">
+                @if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Any()))
+                {
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        @Html.ValidationSummary()
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-xs-6">
+                        @Html.TextBoxFor(x => x.Id, new { @class = "form-control", @required = "required", placeholder = "username", @autofocus = "true", autocomplete = "off" })
+                    </div>
+                    <div class="col-xs-6">
+                        @Html.PasswordFor(x => x.Value, new { @class = "form-control", @required = "required", placeholder = "password", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="rememberme mt-checkbox mt-checkbox-outline">
+                            <input type="checkbox" name="remember" value="1" /> Remember me
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="col-sm-8 text-right">
+                        <div class="forgot-password">
+                            <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
+                        </div>
+                        @*<button class="btn blue" type="submit">Sign In</button>*@
+                        <button class="btn btn blue btn-md">Iniciar Sesion</button>
+                    </div>
+                </div>
+            </div>
+    }
+</div>
+</div>
+

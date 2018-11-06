@@ -1,0 +1,34 @@
+﻿@using Infragistics.Web.Mvc;
+@model  GridModel
+@{
+    ViewBag.Title = "Clientes";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+<script src='@Url.Content("~/scripts/App/Clientes/ClientesV101.js")'></script>
+
+<div id="divContenedorClientes">    
+    <div class="row" id="divGridClientes">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">                        
+                        <button class="btn btn-default2 btn-sm btn-search-panel" id="btnOpenNewCliente" onclick="clienNs.StartRowEdit()">Nuevo</button>
+                    </div>
+                </div>
+                @(Html.Infragistics().Grid(Model))
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    clienNs.UrlTryAdd = '@Url.Action("Add")';
+    clienNs.UrlTryDelete = '@Url.Action("Delete")';
+    clienNs.UrlTryUpdate = '@Url.Action("Update")';
+    clienNs.UrlCheckName = '@Url.Action("CheckNameAvailability")';    
+    clienNs.UrlUpdateSaldoDeuda = '@Url.Action("UpdateSaldoDeuda")';    
+    nsGral.TituloPagina = 'Clientes';
+    nsGral.ModuloPagina = "Base POS";
+</script>
+

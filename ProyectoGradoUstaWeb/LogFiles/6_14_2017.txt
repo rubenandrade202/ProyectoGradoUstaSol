@@ -1,0 +1,29 @@
+System.ArgumentException: The parameter 'address' cannot be an empty string.
+Parameter name: address
+   at System.Net.Mail.MailAddress..ctor(String address, String displayName, Encoding displayNameEncoding)
+   at System.Net.Mail.MailAddress..ctor(String address)
+   at ProyectoGradoUstaUtility.Mail.<>c__DisplayClass0_0.<Send>b__0(String x) in C:\Development\POS\ProyectoGradoUstaSol\ProyectoGradoUstaUtility\Utility\Mail.cs:line 35
+   at System.Collections.Generic.List`1.ForEach(Action`1 action)
+   at ProyectoGradoUstaUtility.Mail.<Send>d__0.MoveNext() in C:\Development\POS\ProyectoGradoUstaSol\ProyectoGradoUstaUtility\Utility\Mail.cs:line 33
+GRAVE
+6/14/2017_10:41 PM
+System.Net.Mail.SmtpException: The server returned an invalid response to the EHLO command.
+   at System.Net.Mail.SmtpConnection.ConnectAndHandshakeAsyncResult.End(IAsyncResult result)
+   at System.Net.Mail.SmtpTransport.EndGetConnection(IAsyncResult result)
+   at System.Net.Mail.SmtpClient.ConnectCallback(IAsyncResult result)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at ProyectoGradoUstaUtility.Mail.<Send>d__0.MoveNext() in C:\Development\POS\ProyectoGradoUstaSol\ProyectoGradoUstaUtility\Utility\Mail.cs:line 39
+GRAVE
+6/14/2017_10:50 PM
+System.ArgumentException: The parameter 'address' cannot be an empty string.
+Parameter name: address
+   at System.Net.Mail.MailAddress..ctor(String address, String displayName, Encoding displayNameEncoding)
+   at System.Net.Mail.MailAddress..ctor(String address)
+   at ProyectoGradoUstaUtility.Mail.<>c__DisplayClass0_0.<Send>b__0(String x) in C:\Development\POS\ProyectoGradoUstaSol\ProyectoGradoUstaUtility\Utility\Mail.cs:line 35
+   at System.Collections.Generic.List`1.ForEach(Action`1 action)
+   at ProyectoGradoUstaUtility.Mail.<Send>d__0.MoveNext() in C:\Development\POS\ProyectoGradoUstaSol\ProyectoGradoUstaUtility\Utility\Mail.cs:line 33
+GRAVE
+6/14/2017_10:51 PM

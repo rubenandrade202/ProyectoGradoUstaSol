@@ -1,0 +1,19 @@
+﻿@model ProyectoUstaDomain.MainDemoPageVm
+
+@{
+    ViewBag.Title = "Roles";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+
+Combo normal
+
+@Html.Infragistics().Combo(Model.CmbNormal)
+<br />
+
+Combo remoto:
+@Html.Infragistics().Combo(Model.CmbRemoto)
+<br />
+
+Date picker:
+@Html.Infragistics().DatePicker(Model.DpkPrueba)
+

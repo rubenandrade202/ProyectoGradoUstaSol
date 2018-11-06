@@ -1,0 +1,27 @@
+﻿@using Infragistics.Web.Mvc;
+@model  GridModel
+@{
+    ViewBag.Title = "Clientes";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+
+<input type="button" value="Migrar Productos" id="btnMigrarProductos" />
+
+<script>
+
+    $("#btnMigrarProductos").click(function () {
+        $.ajax(
+            {
+                url: '@Url.Action("MigrarProductos")',
+                success: function (rp) {
+                    debugger
+                },
+                error: function (er1) {
+                    debugger
+                }
+            });
+    });
+
+</script>
+
+

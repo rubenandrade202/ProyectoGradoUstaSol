@@ -1,0 +1,427 @@
+﻿@{
+    ViewBag.Title = "Opciones Sistema";
+    Layout = ViewBag.LayoutSet == true ? "~/Views/Shared/LayoutMain.cshtml" : null;
+}
+<script>nsGral.TituloPagina = '@ViewBag.Title';</script>
+
+
+<style>
+    .panelEspecifico {
+        margin-top: 0px;
+    }
+
+    .ocultoCustom {
+        display: none !important;
+    }
+</style>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-inline form-group">
+            <label for="iptNuevoModulo">Modulo</label>
+            <input type="text" class="form-control inputCustom" id="iptNuevoModulo">
+            <label for="iptNuevaPagina">Pagina</label>
+            <input type="text" class="form-control inputCustom" id="iptNuevaPagina" disabled>
+            <button id="btnCrear" type="button" class="btn btn-default2 btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Crear</button>
+            <button id="btnEliminar" type="button" class="btn btn-default2 btn-xs" disabled><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Eliminar</button>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="panelBtnMetadatos" class="ocultocustom" style="display:none;">
+            <button id="btnSalvarParametro" type="button" class="btn btn-default2 btn-xs"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Guardar</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">@Html.Partial("~/Views/Security/_IgTreeMenuOpciones.cshtml", (Infragistics.Web.Mvc.TreeGridModel)ViewBag.TgmOpciones)</div>
+    <div class="col-md-4">
+        <div id="panelPagina" class="panel panel-default panelespecifico ocultocustom" style="display:none;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Configuracion&nbsp;Pagina</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3"><label for="iptNombreEspPagina">Nombre&nbsp;Espanol</label></div>
+                    <div class="col-md-2"><input type="text" id="iptNombreEspPagina" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><label for="iptNombreIngPagina">Nombre&nbsp;Ingles</label></div>
+                    <div class="col-md-2"><input type="text" id="iptNombreIngPagina" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><label for="iptControladorPagina">Controlador</label></div>
+                    <div class="col-md-2"><input type="text" id="iptControladorPagina" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><label for="iptControladorPagina">Accion</label></div>
+                    <div class="col-md-2"><input type="text" id="iptAccionPagina" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><label for="iptOrdenPagina">Orden</label></div>
+                    <div class="col-md-2"><input type="number" min="1" max="20" id="iptOrdenPagina" placeholder="1-20" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><label for="cmbTipoPagina">TipoDePagina</label></div>
+                    <div class="col-md-2">@Html.Infragistics().Combo("cmbTipoPagina").DataSource(ViewBag.TiposDePagina).TextKey("Value").ValueKey("Id").Render()</div>
+                </div>
+
+            </div>
+        </div>
+        <div id="panelModulo" class="panel panel-default panelEspecifico ocultoCustom" style="display:none;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Configuracion&nbsp;Modulo</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3"><label for="iptNombreEspModulo">Nombre&nbsp;Espanol</label></div>
+                    <div class="col-md-2"><input type="text" id="iptNombreEspModulo" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><label for="iptNombreIngModulo">Nombre&nbsp;Ingles</label></div>
+                    <div class="col-md-2"><input type="text" id="iptNombreIngModulo" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><label for="iptOrdenModulo">Orden</label></div>
+                    <div class="col-md-2"><input type="number" min="1" max="20" id="iptOrdenModulo" placeholder="1-20" /></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var nsMenu = nsMenu || {};
+    nsMenu.NoSelected = true;
+    nsMenu.UrlTryCreateModulo = '@Url.Action("AddModulo")';
+    nsMenu.UrlTryDeleteModulos = '@Url.Action("DeleteOpciones")';
+    nsMenu.UrlTryCreatePaginas = '@Url.Action("AddPaginas")';
+    nsMenu.UrlTryUpdateModulos = '@Url.Action("UpdateModulos")';
+    nsMenu.UrlTryUpdatePaginas = '@Url.Action("UpdatePaginas")';
+    nsMenu.SomeSelected = false; //para indicar si hay seleccionado algun modulo o pagina
+    nsMenu.TipoDeModuloSelected = null; //true= Modulo false= pagina
+    nsMenu.IdOpcionSelected = null; //el id del modulo actualmente seleccionado
+    /*Mensajes*/
+    nsMenu.MsjEliminar = 'DeseaEliminar';
+    nsMenu.MsjLlenarParametros = 'DebeDigitarParametros';
+    nsMenu.MsjCampoObligatorio = 'Los Campos No Deben Ser Vacios';
+    nsGral.TituloPagina = 'Opciones';
+    nsGral.ModuloPagina = "Administración";
+
+    $("#btnEliminar").click(function () {
+        if (nsMenu.SomeSelected) {
+            nsGral.PromptSweet(nsMenu.MsjEliminar, nsMenu.PromiseDelete)
+        }
+    });
+
+    nsMenu.PromiseDelete = function () {
+        var opcionesArr = new Array();
+        opcionesArr.push(nsMenu.IdOpcionSelected);
+        $.ajax(
+            {
+                url: nsMenu.UrlTryDeleteModulos,
+                data: { opciones: opcionesArr },
+                type: 'POST',
+                success: function (rp) {
+                    nsGral.ProcesarResponseBasicVm(rp);
+                    if (rp.Success) {
+                        $("#tgmOpciones").igTreeGrid("dataBind");
+                        nsMenu.DesactivarMetadatos();
+                    }
+                }, error: function (rp) {
+                    //debugger
+                    nsGral.ProcesarResponseBasicVm(rp);
+                }
+            });
+    }
+
+    nsMenu.ActivarMetadatosModulo = function (obj) {
+        //debugger
+        nsMenu.SomeSelected = true;
+        nsMenu.TipoDeModuloSelected = true;
+        nsMenu.IdModuloSeleccionado = obj.IdOpcion;
+        $("#btnEliminar").prop("disabled", false);
+        $("#iptNuevaPagina").prop("disabled", false);
+        $("#iptNuevoModulo").prop("disabled", true);
+        $("#panelModulo").removeClass("ocultoCustom").show();
+        $("#panelPagina").addClass("ocultoCustom");
+        $("#panelBtnMetadatos").removeClass("ocultoCustom").show();
+        $("#iptNombreEspModulo").val(obj.NombreEspanol);
+        $("#iptNombreIngModulo").val(obj.NombreIngles);
+        $("#iptOrdenModulo").val(obj.Orden);
+    }
+
+    nsMenu.ActivarMetadatosPagina = function (obj) {
+        //debugger
+        nsMenu.SomeSelected = true;
+        nsMenu.TipoDeModuloSelected = false;
+        nsMenu.IdModuloSeleccionado = obj.IdOpcion;
+        $("#btnEliminar").prop("disabled", false);
+        $("#iptNuevaPagina").prop("disabled", false);
+        $("#iptNuevoModulo").prop("disabled", true);
+        $("#panelPagina").removeClass("ocultoCustom").show();
+        $("#panelModulo").addClass("ocultoCustom");
+        $("#panelBtnMetadatos").removeClass("ocultoCustom").show();
+        $("#iptNombreEspPagina").val(obj.NombreEspanol);
+        $("#iptNombreIngPagina").val(obj.NombreIngles);
+        $("#iptControladorPagina").val(obj.Controlador);
+        $("#iptAccionPagina").val(obj.Accion);
+        $("#iptOrdenPagina").val(obj.Orden);
+        $("#cmbTipoPagina").igCombo("value", obj.Tipo);
+    }
+
+    nsMenu.DesactivarMetadatos = function () {
+        nsMenu.TipoDeModuloSelected = null;
+        nsMenu.IdOpcionSelected = null;
+        nsMenu.SomeSelected = false;
+        $("#iptNuevaPagina").prop("disabled", true);
+        $("#iptNuevoModulo").prop("disabled", false);
+        $("#btnEliminar").prop("disabled", true);
+        $("#panelPagina").addClass("ocultoCustom");
+        $("#panelModulo").addClass("ocultoCustom");
+        $("#panelBtnMetadatos").addClass("ocultoCustom");
+        $("#iptNombreEspPagina").val("");
+        $("#iptNombreIngPagina").val("");
+        $("#iptControladorPagina").val("");
+        $("#iptAccionPagina").val("");
+        $("#iptOrdenPagina").val("");
+        $("#cmbTipoPagina").igCombo("clearInput");
+        $("#iptNombreEspModulo").val("");
+        $("#iptNombreIngModulo").val("");
+        $("#iptOrdenModulo").val("");
+    }
+
+    function IgTreeGridOpcionesSelected(evt, ui) {
+        if (ui.selectedRows.length > 0) {
+            //debugger
+            var idRecord = ui.row.id;
+            nsMenu.IdOpcionSelected = idRecord;
+            var nameSpanish = $("#tgmOpciones").igTreeGrid("getCellValue", idRecord, "NombreEspanol");
+            var nameEnglish = $("#tgmOpciones").igTreeGrid("getCellValue", idRecord, "NombreIngles");
+            var nameController = $("#tgmOpciones").igTreeGrid("getCellValue", idRecord, "Controlador");
+            var nameAccion = $("#tgmOpciones").igTreeGrid("getCellValue", idRecord, "Accion");
+            var nameTipo = $("#tgmOpciones").igTreeGrid("getCellValue", idRecord, "NombreTipo");
+            var idTipoOpcion = $("#tgmOpciones").igTreeGrid("getCellValue", idRecord, "Tipo");
+            var idOpcionPadre = $("#tgmOpciones").igTreeGrid("getCellValue", idRecord, "IdOpcionPadre");
+            var orden = $("#tgmOpciones").igTreeGrid("getCellValue", idRecord, "Orden");
+
+            var objSelected = {
+                IdOpcion: idRecord,
+                IdOpcionPadre: idOpcionPadre,
+                NombreEspanol: nameSpanish,
+                NombreIngles: nameEnglish,
+                Controlador: nameController,
+                Accion: nameAccion,
+                Tipo: idTipoOpcion,
+                NombreTipo: nameTipo,
+                Orden: orden
+            };
+            if (idOpcionPadre == null) {
+                nsMenu.ActivarMetadatosModulo(objSelected);
+            } else {
+                nsMenu.ActivarMetadatosPagina(objSelected);
+            }
+        } else {
+            nsMenu.DesactivarMetadatos();
+        }
+    }
+
+    $("#btnSalvarParametro").click(function () {
+        //debugger
+        if (nsMenu.SomeSelected) {
+            if (nsMenu.TipoDeModuloSelected) {//actualiza modulo
+                var nombreEspModulo = $("#iptNombreEspModulo").val();
+                var nombreIngModulo = $("#iptNombreIngModulo").val();
+                var ordenModulo = $("#iptOrdenModulo").val();
+                if (nombreEspModulo != null && nombreEspModulo != "" &&
+                   nombreIngModulo != null && nombreIngModulo != "" &&
+                    ordenModulo != null && ordenModulo != "") {
+                    var modulosToUpdate = new Array();
+                    modulosToUpdate.push({
+                        IdOpcion: nsMenu.IdOpcionSelected,
+                        NombreEspanol: nombreEspModulo.toUpperCase(),
+                        NombreIngles: nombreIngModulo.toUpperCase(),
+                        Orden: ordenModulo
+                    });
+                    $.ajax({
+                        url: nsMenu.UrlTryUpdateModulos,
+                        type: 'POST',
+                        data: { modulosToUpdate: modulosToUpdate },
+                        success: function (rp) {
+                            nsGral.ProcesarResponseBasicVm(rp);
+                            if (rp.Success) {
+                                $("#tgmOpciones").igTreeGrid("dataBind");
+                            }
+                        }, error: function (rp) {
+                            debugger
+                            alert(rp);
+                        }
+                    });
+
+                } else {
+                    if (nombreEspModulo == null || nombreEspModulo == "") {
+                        $("#iptNombreEspModulo").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+                    }
+                    if (nombreIngModulo == null || nombreIngModulo == "") {
+                        $("#iptNombreIngModulo").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+                    }
+                    if (ordenModulo == null || ordenModulo == "") {
+                        $("#iptOrdenModulo").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+                    }
+                    nsGral.MensajeAlert(nsMenu.MsjLlenarParametros);
+                }
+            } else {//actualiza  pagina
+                var nombreEspPagina = $("#iptNombreEspPagina").val();
+                var nombreIngPagina = $("#iptNombreIngPagina").val();
+                var nameControladorPag = $("#iptControladorPagina").val();
+                var nameAccionPag = $("#iptAccionPagina").val();
+                var ordenPag = $("#iptOrdenPagina").val();
+                var tipoPagina = $("#cmbTipoPagina").igCombo("value");
+                if (nombreEspPagina != null && nombreEspPagina != "" &&
+                    nombreIngPagina != null && nombreIngPagina != "" &&
+                    nameControladorPag != null && nameControladorPag != "" &&
+                    nameAccionPag != null && nameAccionPag != "" &&
+                    ordenPag != null && ordenPag != "" &&
+                    tipoPagina > 0) {
+
+                    var modulosToUpdate = new Array();
+                    var idModuloParent = null;
+                    if (nsMenu.TipoDeModuloSelected) {
+                        idModuloParent = nsMenu.IdOpcionSelected;
+                    } else {
+                        vidModuloParent = $("#tgmOpciones").igTreeGrid("getCellValue", nsMenu.IdOpcionSelected, "IdOpcionPadre");
+                    }
+                    modulosToUpdate.push({
+                        IdOpcionPadre: idModuloParent,
+                        IdOpcion: nsMenu.IdOpcionSelected,
+                        NombreEspanol: nombreEspPagina.toUpperCase(),
+                        NombreIngles: nombreIngPagina.toUpperCase(),
+                        Controlador: nameControladorPag,
+                        Accion: nameAccionPag,
+                        Tipo: tipoPagina,
+                        Orden: ordenPag
+                    });
+                    $.ajax({
+                        url: nsMenu.UrlTryUpdatePaginas,
+                        type: 'POST',
+                        data: { modulosToUpdate: modulosToUpdate },
+                        success: function (rp) {
+                            nsGral.ProcesarResponseBasicVm(rp);
+                            if (rp.Success) {
+                                $("#tgmOpciones").igTreeGrid("dataBind");
+                            }
+                        }, error: function (rp) {
+                            debugger
+                            alert(rp);
+                        }
+                    });
+
+                } else {
+                    if (nombreEspPagina == null || nombreEspPagina == "") {
+                        $("#iptNombreEspPagina").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+                    }
+                    if (nombreIngPagina == null || nombreIngPagina == "") {
+                        $("#iptNombreIngPagina").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+                    }
+                    if (nameControladorPag == null || nameControladorPag == "") {
+                        $("#iptControladorPagina").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+                    }
+                    if (nameAccionPag == null || nameAccionPag == "") {
+                        $("#iptAccionPagina").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+                    }
+                    if (ordenPag == null || ordenPag == "") {
+                        $("#iptOrdenPagina").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+                    }
+                    //lanzar required de combo
+                    nsGral.MensajeAlert(nsMenu.MsjLlenarParametros);
+                }
+            }
+        }
+    });
+
+    $("#btnCrear").click(function () {
+        //debugger
+        //crea modulo siempre que no se tenga ninguna selección
+        if (!nsMenu.SomeSelected) {
+            var valueModulo = $("#iptNuevoModulo").val();
+            if (valueModulo == null || valueModulo == "") {
+                $("#iptNuevoModulo").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+            } else {
+                $.ajax(
+                        {
+                            url: nsMenu.UrlTryCreateModulo,
+                            type: 'POST',
+                            cache: false,
+                            data: { nombre: valueModulo },
+                            success: function (rp) {
+                                nsGral.ProcesarResponseBasicVm(rp);
+                                if (rp.Success) {
+                                    $("#iptNuevoModulo").val("");
+                                    $("#tgmOpciones").igTreeGrid("dataBind");
+                                    var idRecord = rp.Data.IdOpcion;
+                                    nsMenu.IdOpcionSelected = idRecord;
+                                    var objCreated = {
+                                        IdOpcion: rp.Data.IdOpcion,
+                                        IdOpcionPadre: rp.Data.IdOpcionPadre,
+                                        NombreEspanol: rp.Data.NombreEspanol,
+                                        NombreIngles: rp.Data.NombreIngles,
+                                        Controlador: rp.Data.Controlador,
+                                        Accion: rp.Data.Accion,
+                                        Tipo: rp.Data.IdTipoOpcionHija,
+                                        Orden: rp.Data.Orden
+                                    };
+                                    nsMenu.ActivarMetadatosModulo(objCreated);
+                                    $("#tgmOpciones").igTreeGridSelection("selectRowById", idRecord);
+                                }
+                            },
+                            error: function (er1, er2) {
+                                debugger
+                                alert(er1);
+                            }
+                        });
+            }
+        } else {//Crea paginas del modulo seleccionado o pagina sibling de la seleccionada
+            var valuePagina = $("#iptNuevaPagina").val();
+            if (valuePagina == null || valuePagina == "") {
+                $("#iptNuevaPagina").igNotifier({ state: "warning", direction: "top", mode: "popover" }).igNotifier("setContent", nsMenu.MsjCampoObligatorio).igNotifier("show");
+            } else {
+                var nombrePagina = valuePagina.toUpperCase();
+                var idModuloParent = null;
+                if (nsMenu.TipoDeModuloSelected) {
+                    idModuloParent = nsMenu.IdOpcionSelected;
+                } else {
+                    idModuloParent = $("#tgmOpciones").igTreeGrid("getCellValue", nsMenu.IdOpcionSelected, "IdOpcionPadre");
+                }
+                var nombres = new Array();
+                nombres.push({
+                    key: nombrePagina,
+                    value: idModuloParent
+                });
+                $.ajax(
+                        {
+                            url: nsMenu.UrlTryCreatePaginas,
+                            type: 'POST',
+                            cache: false,
+                            data: { namesWithParentModule: nombres },
+                            success: function (rp) {
+                                nsGral.ProcesarResponseBasicVm(rp);
+                                if (rp.Success) {
+                                    $("#iptNuevaPagina").val("");
+                                    $("#tgmOpciones").igTreeGrid("dataBind");
+                                    var objCreado = rp.Data[nombrePagina];
+                                    var idRecord = objCreado.IdOpcion;
+                                    nsMenu.IdOpcionSelected = idRecord;
+                                    nsMenu.ActivarMetadatosPagina(objCreado);
+                                    $("#tgmOpciones").igTreeGridSelection("selectRowById", idRecord);
+                                }
+                            },
+                            error: function (er1, er2) {
+                                debugger
+                                alert(er1);
+                            }
+                        });
+            }
+        }
+    });
+
+</script>
+
