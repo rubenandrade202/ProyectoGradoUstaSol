@@ -22,6 +22,7 @@ namespace ProyectoGradoUstaWeb.Controllers.Negocio
         #region [MVC]
         public ActionResult Index()
         {
+            var someTest = true;
             var cmbVentaUno = Controls.CmbRemoteGeneric("cmbVenta_1", false, false, Url.Action("HandlerRemoteProductos", "Helper"));            
             cmbVentaUno.Width = "450px";
             cmbVentaUno.Height = "25px";
@@ -346,14 +347,14 @@ namespace ProyectoGradoUstaWeb.Controllers.Negocio
         #region [API]
 
         [HttpPost]
-        public JsonResult Add(VentaAddVm candidate)
+        public async Task<JsonResult> Add(VentaAddVm candidate)
         {
             var rp = new ResponseBasicVm();
             if (candidate != null && candidate.Venta.Count > 0)
             {
                 ventaBl = new VentaBl();
                 var idUsuario = Convert.ToInt32(Session["UserId"]);
-                rp = ventaBl.Add(candidate, idUsuario);
+                rp = await ventaBl.Add(candidate, idUsuario);
                 if (rp.Success)
                 {
 

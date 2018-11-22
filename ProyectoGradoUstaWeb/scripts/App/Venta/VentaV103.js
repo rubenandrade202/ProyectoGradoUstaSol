@@ -32,6 +32,8 @@ nsVen.LimpiarCaja = function (idCaja) {
     var bufferSelectorSpan = $("#cambioVenta_" + idCaja);
     //var bufferSelectorBillete = $("#txtBilleteVenta_" + idCaja);
 
+    $("#chbPrintVenta_" + idCaja).prop("checked", false);
+
     //bufferSelectorSpan.css("color", "White");
     //bufferSelectorSpan.html(0);
     //bufferSelectorBillete.igCurrencyEditor("value", 0);
@@ -304,10 +306,19 @@ nsVen.RealizarVenta = function (idCaja, idCliente, abono, esCredito) {
         var venta = new Array();
         for (var i = 0; i < rows.length; i++) {
             //venta.push({ Id: Number(rows[i].cells[0].innerText), IdParent: Number(rows[i].cells[4].innerText), Value: Number(rows[i].cells[5].innerText) });
-            venta.push({ Id: rows[i].Id, IdParent: rows[i].Cantidad, Value: rows[i].Subtotal });
+            venta.push(
+                {
+                    Id: rows[i].Id,
+                    IdParent: rows[i].Cantidad,
+                    Value: rows[i].Subtotal
+                });
         }
         var candidate = {
-            IdCliente: idCliente, Abono: abono, Venta: venta, EsCredito: esCredito
+            IdCliente: idCliente,
+            Abono: abono,
+            Venta: venta,
+            EsCredito: esCredito,
+            ToPrint: $("#chbPrintVenta_" + idCaja).is(":checked")
         }
 
         $.ajax({

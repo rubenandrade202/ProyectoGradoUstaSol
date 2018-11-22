@@ -2,10 +2,12 @@
 using ProyectoUstaDomain;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ProyectoGradoUstaBus
@@ -24,6 +26,18 @@ namespace ProyectoGradoUstaBus
         #endregion
         
         #region [GET]
+
+        public Task<List<BasicVm>> GetProductosBasicDTO(List<int> ids)
+        {
+            return domainCtx.ProductosProyectoUsta
+                .Where(x => ids.Contains(x.Id))
+                .Select(x => new BasicVm()
+                {
+                    Id = x.Id,
+                    Value = x.Nombre
+                }).ToListAsync();
+        }
+
         public IQueryable<ProductoIgMainVm> Get(string cbFilter, string pvFilter)
         {         
             //dos nulos          

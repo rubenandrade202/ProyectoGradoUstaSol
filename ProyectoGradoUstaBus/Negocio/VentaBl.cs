@@ -1,8 +1,10 @@
 ﻿using ProyectoGradoUstaCommon;
 using ProyectoGradoUstaUtility;
+using ProyectoGradoUstaUtility.Utility;
 using ProyectoUstaDomain;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,13 +51,21 @@ namespace ProyectoGradoUstaBus
         /// </param>
         /// <param name="idVendedor">El id del vendedor que procesa la venta</param>
         /// <returns></returns>
-        public ResponseBasicVm Add(VentaAddVm candidate, int idVendedor)
+        public async Task<ResponseBasicVm> Add(VentaAddVm candidate, int idVendedor)
         {
 		    var rp = new ResponseBasicVm();
             using (var dbContextTransaction = ctxDomain.Database.BeginTransaction())
             {
 			    try
-			    {                                     
+			    {
+                    var productoBl = new ProductoBl();
+
+                    var idProducts = candidate.Venta
+                        .Where(x =>
+                        x.Id != 150000 && x.Id != 150001 && x.Id != 150002 && x.Id != 150003)
+                        .Select(x => x.Id).ToList();
+                    var productsPromise = await productoBl.GetProductosBasicDTO(idProducts);
+
                     var lstRecordVenta = new List<VentasProyectoUsta>();//colección destinada a guardar records de venta en DB de ventas                    								
                     //proyección a las entidades correspondientes Entity	
 				    candidate.Venta.ForEach(x =>
@@ -138,7 +148,45 @@ namespace ProyectoGradoUstaBus
                         }     
                         if(candidate.ToPrint)
                         {
+                            var securityBl = new SecurityBl();
+                            var sealerRaw = securityBl.GetUsuarioSistema().Where(x => x.Id == idVendedor).FirstOrDefault();
+                            var sealerName = sealerRaw == null ? "Nombre de vendedor no asignado" : sealerRaw.Value;
+                            var header = ConfigurationManager.AppSettings["headerFacturacion"] == null ? "Header no setado en config": ConfigurationManager.AppSettings["headerFacturacion"];
+                            var footer = ConfigurationManager.AppSettings["bottomFacturacion"] == null ? "Footer no setado en config" : ConfigurationManager.AppSettings["bottomFacturacion"];
+                            var printerName = ConfigurationManager.AppSettings["printerFacturacion"] == null ? "Printer no setado en config" : ConfigurationManager.AppSettings["printerFacturacion"];
+                            var data = new List<BasicDependantVm>();
+                            candidate.Venta.ForEach(x =>
+                            {
+                                var value = string.Empty;
+                                switch(x.Id)
+                                {
+                                    case 150000:
+                                        value = "GENERICO $50";
+                                        break;
+                                    case 150001:
+                                        value = "GENERICO $100";
+                                        break;
+                                    case 150002:
+                                        value = "GENERICO $200";
+                                        break;
+                                    case 150003:
+                                        value = "GENERICO $500";
+                                        break;
+                                    default:
+                                        value = productsPromise.Where(y => y.Id == x.Id).FirstOrDefault().Value;
+                                        break;
+                                }
+                                
 
+                                data.Add(new BasicDependantVm()
+                                {
+                                    Id = x.IdParent,
+                                    IdParent = x.Value,
+                                    Value = value
+                                });
+                            });
+                            var printer = new Printer(header, footer, sealerName, data, printerName);
+                            printer.Print();                            
                         }
                     }
                     else
