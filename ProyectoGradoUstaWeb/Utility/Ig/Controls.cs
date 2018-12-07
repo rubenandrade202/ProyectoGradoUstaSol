@@ -69,6 +69,7 @@ namespace ProyectoGradoUstaWeb
                 Required = new ValidatorRule("Required")
             }
             : null;
+
             ComboMultiSelectionSettings objMulti = new ComboMultiSelectionSettings()
             {
                 ShowCheckBoxes = true,
@@ -76,7 +77,8 @@ namespace ProyectoGradoUstaWeb
                 ItemSeparator = ";"
             };
             var cmb = new ComboModel()
-            {                
+            {          
+                
                 MultiSelectionSettings = objMulti,
                 FilteringType = ComboFilteringType.Remote,
                 HighlightMatchesMode = ComboHighlightMatchesMode.Contains,
