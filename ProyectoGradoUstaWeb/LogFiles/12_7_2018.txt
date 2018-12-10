@@ -1,0 +1,10 @@
+System.Net.Mail.SmtpException: The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.5.1 Authentication Required. Learn more at
+   at System.Net.Mail.SendMailAsyncResult.End(IAsyncResult result)
+   at System.Net.Mail.SmtpClient.SendMailCallback(IAsyncResult result)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at ProyectoGradoUstaUtility.Mail.<Send>d__0.MoveNext() in D:\POS\ProyectoGradoUstaSol\ProyectoGradoUstaSol\ProyectoGradoUstaUtility\Utility\Mail.cs:line 39
+GRAVE
+12/7/2018_5:47 PM
