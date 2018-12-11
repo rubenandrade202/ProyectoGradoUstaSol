@@ -13,7 +13,7 @@
     nsVen.UrlTryUpdateProducto = '@Url.Action("Update", "Producto")';
     nsVen.UrlTryVenta = '@Url.Action("Add")';
 </script>
-<script id="templateFormaDinamica" type="x-tmpl-mustache">    
+<script id="templateFormaDinamica" type="x-tmpl-mustache">
     <form id="formaDnm_{{ IdContenedorVenta }}" class="formaDinamica" onsubmit="return false" action="javascript:0">
         <div class="row">
             <div class="col-md-6">
@@ -28,7 +28,7 @@
                     <input id="iptPrecioDnm_{{ IdContenedorVenta }}" type="number" value="{{NewPrecio}}" />
                 </div>
             </div>
-        </div>                   
+        </div>
         <div class="row">
             <div class="col-md-3">
                 <input type="button" value="Cancelar" onclick="javascript:nsGral.DesbloquearElemento('{{ SelectorContenedorVenta }}')" />
@@ -37,7 +37,7 @@
                 <input type="button" value="Activar" onclick="javascript: nsVen.TryToActivateProduct({{ IdContenedorVenta }})" />
             </div>
         </div>
-        </form>
+    </form>
 </script>
 <script id="templateVentaCliente" type="x-tmpl-mustache">
     <form id="formaDnmVentaCliente_{{ IdContenedorVenta }}" class="formaDinamicaVentaCliente" onsubmit="return false" action="javascript:0">
@@ -48,14 +48,14 @@
                     <input type="checkbox" class="chbSwitchBs" id="chbCredito_{{IdContenedorVenta}}">
                 </div>
             </div>
-        </div>        
+        </div>
         <div class="row" id="rowHidden_{{ IdContenedorVenta }}" style="display:none;">
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label col-xs-3 col-sm-3 col-md-12 col-lg-6" for="iptAbonoDnm_{{ IdContenedorVenta }}">Abono:</label>
                     <input id="iptAbonoDnm_{{ IdContenedorVenta }}" type="number" min="0" max="300000" value="" />
                 </div>
-            </div>           
+            </div>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -65,252 +65,262 @@
                 <input type="button" value="Realizar Venta" onclick="javascript: nsVen.ChequearCreditoAbono({{ IdContenedorVenta }}, {{IdCLiente}})" />
             </div>
         </div>
-        </form>
+    </form>
     <script>
         $(".chbSwitchBs").bootstrapSwitch();
 
-        $('.chbSwitchBs').on('switchChange.bootstrapSwitch', function (event, state) {            
+        $('.chbSwitchBs').on('switchChange.bootstrapSwitch', function (event, state) {
             var bufferRow = this.id.replace("chbCredito_", "#rowHidden_");
             if ($(this).is(":checked")) {
                 $(bufferRow).css("display", "block");
             } else {
                 $(bufferRow).css("display", "none");
             }
-        });               
+        });
     </script>
 </script>
 
 @*<style>
-      .anchoRow{
-          height:246px;
-      }
-      .page-bar{
-          display:none;
-      }
-      .page-content{
-          padding:10px 15px 0px !important;
-      }
-      /*Modal de codigo de barras inactivo*/
-      .ui-dialog {
-          width: 50% !important;
-      }
-      /*Popover titulo*/
-      .popover-title{
-        color: black;
-      }
+          .anchoRow{
+              height:246px;
+          }
+          .page-bar{
+              display:none;
+          }
+          .page-content{
+              padding:10px 15px 0px !important;
+          }
+          /*Modal de codigo de barras inactivo*/
+          .ui-dialog {
+              width: 50% !important;
+          }
+          /*Popover titulo*/
+          .popover-title{
+            color: black;
+          }
 
 
-      /*Bajar height and width de la pagina*/
-      div > div.ui-widget.ui-helper-clearfix {
-        height: 25px;
-      }
+          /*Bajar height and width de la pagina*/
+          div > div.ui-widget.ui-helper-clearfix {
+            height: 25px;
+          }
 
-      .portlet.box>.portlet-body {
-        background-color: #fff;
-        padding: 1px;
-      }
+          .portlet.box>.portlet-body {
+            background-color: #fff;
+            padding: 1px;
+          }
 
-      .ui-iggrid-summaries-footer-text-container {
-        font-size: 110%;
-        margin-left: 25px;
-        font-weight: bolder;
-      }
+          .ui-iggrid-summaries-footer-text-container {
+            font-size: 110%;
+            margin-left: 25px;
+            font-weight: bolder;
+          }
 
-      .page-footer {
-        padding: 8px 20px 5px;
-        font-size: 13px;
-        height: 3px;
-      }  
-</style>*@
+          .page-footer {
+            padding: 8px 20px 5px;
+            font-size: 13px;
+            height: 3px;
+          }
+    </style>*@
+<style>
+    @@media only screen and (max-width: 882px){
+        .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta > .flex-container:nth-child(2n+1) {
+            display: none;
+        }
+    }
+    .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta > .flex-container {
+        flex: 1 0 50%;
+    }
+    .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta > .flex-container > .box {
+        margin: 5px;
+    }
+</style>
 <div id="contenedorVenta">
-    <div class="row anchoRow" id="rowFirst">
-            <div class="col-md-6">
-                <div class="portlet box grey-mint" id="bodyContentVenta_1">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <span><i class="fa fa-user" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbClienteVentaUno)</span>
-                            <span><i class="fa fa-money" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbBilleteUno)</span>
-                            <span><i class="fa fa-print" style="margin-right:10px"></i><input type="checkbox" id="chbPrintVenta_1"></span>                            
-                            &nbsp;&nbsp;&nbsp;
-                            <span>$</span>
-                            <span id="cambioVenta_1">0</span>
-                        </div>
-                        <div class="actions">
-                            <a id="btn-Cancelar-Venta-1" href="#" class="btn btn-default btn-sm confirmation-callback-Cancelar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnCancelarVenta">
-                                <i class="fa fa-close"></i>
-                            </a>
-                            <a id="btn-Aprobar-Venta-1" href="#" class="btn btn-default btn-sm confirmation-callback-Aprobar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnRealizarVenta">
-                                <i class="fa fa-check"></i>
-                            </a>
-                            <a id="btn-050-Venta-1" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                50
-                            </a>
-                            <a id="btn-100-Venta-1" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                100
-                            </a>
-                            <a id="btn-200-Venta-1" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                200
-                            </a>
-                            <a id="btn-500-Venta-1" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                500
-                            </a>
-                        </div>
-                    </div>
-                    <div class="portlet-body anchoRow">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="fa fa-barcode"></i>
-                            </span>                                                        
-                            @Html.Infragistics().Combo(Model.CmbVentaUno)
-                        </div>
-                        @Html.Infragistics().Grid(Model.GmVentaUno)
-                        <span class="label label-primary" id="total-venta-1">$0</span>
-                    </div>
-                </div>
+    <div class="flex-container">
+        <div class="portlet box grey-mint" id="bodyContentVenta_1">
+        <div class="portlet-title">
+            <div class="caption">
+                <span><i class="fa fa-user" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbClienteVentaUno)</span>
+                <span><i class="fa fa-money" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbBilleteUno)</span>
+                <span><i class="fa fa-print" style="margin-right:10px"></i><input type="checkbox" id="chbPrintVenta_1"></span>
+                &nbsp;&nbsp;&nbsp;
+                <span>$</span>
+                <span id="cambioVenta_1">0</span>
             </div>
-
-        <div class="col-md-6">
-            <div class="portlet box grey-mint" id="bodyContentVenta_2">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <span><i class="fa fa-user" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbClienteVentaDos)</span>
-                        <span><i class="fa fa-money" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbBilleteDos)</span>
-                        <span><i class="fa fa-print" style="margin-right:10px"></i><input type="checkbox" id="chbPrintVenta_2"></span>
-                        &nbsp;&nbsp;&nbsp;
-                        <span>$</span>
-                        <span id="cambioVenta_2">0</span>
-                    </div>
-                    <div class="actions">
-                        <a id="btn-Cancelar-Venta-2" href="#" class="btn btn-default btn-sm confirmation-callback-Cancelar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnCancelarVenta">
-                            <i class="fa fa-close"></i>
-                        </a>
-                        <a id="btn-Aprobar-Venta-2" href="#" class="btn btn-default btn-sm confirmation-callback-Aprobar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnRealizarVenta">
-                            <i class="fa fa-check"></i>
-                        </a>
-                        <a id="btn-050-Venta-2" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                            50
-                        </a>
-                        <a id="btn-100-Venta-2" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                            100
-                        </a>
-                        <a id="btn-200-Venta-2" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                            200
-                        </a>
-                        <a id="btn-500-Venta-2" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                            500
-                        </a>
-                    </div>
-                </div>
-                <div class="portlet-body anchoRow">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="fa fa-barcode"></i>
-                        </span>
-                        @Html.Infragistics().Combo(Model.CmbVentaDos)
-                    </div>
-                    @Html.Infragistics().Grid(Model.GmVentaDos)
-                    <span class="label label-primary" id="total-venta-2">$0</span>
-                </div>
+            <div class="actions">
+                <a id="btn-Cancelar-Venta-1" href="#" class="btn btn-default btn-sm confirmation-callback-Cancelar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnCancelarVenta">
+                    <i class="fa fa-close"></i>
+                </a>
+                <a id="btn-Aprobar-Venta-1" href="#" class="btn btn-default btn-sm confirmation-callback-Aprobar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnRealizarVenta">
+                    <i class="fa fa-check"></i>
+                </a>
+                <a id="btn-050-Venta-1" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    50
+                </a>
+                <a id="btn-100-Venta-1" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    100
+                </a>
+                <a id="btn-200-Venta-1" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    200
+                </a>
+                <a id="btn-500-Venta-1" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    500
+                </a>
             </div>
         </div>
-
-            
-        </div>
-        <div class="row" id="rowSecond">
-            <div class="col-md-6">
-                <div class="portlet box grey-mint" id="bodyContentVenta_3">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <span><i class="fa fa-user" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbClienteVentaTres)</span>
-                            <span><i class="fa fa-money" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbBilleteTres)</span>
-                            <span><i class="fa fa-print" style="margin-right:10px"></i><input type="checkbox" id="chbPrintVenta_3"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <span>$</span>
-                            <span id="cambioVenta_3">0</span>
-                        </div>
-                        <div class="actions">
-                            <a id="btn-Cancelar-Venta-3" href="#" class="btn btn-default btn-sm confirmation-callback-Cancelar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnCancelarVenta">
-                                <i class="fa fa-close"></i>
-                            </a>
-                            <a id="btn-Aprobar-Venta-3" href="#" class="btn btn-default btn-sm confirmation-callback-Aprobar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnRealizarVenta">
-                                <i class="fa fa-check"></i>
-                            </a>
-                            <a id="btn-050-Venta-3" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                50
-                            </a>
-                            <a id="btn-100-Venta-3" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                100
-                            </a>
-                            <a id="btn-200-Venta-3" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                200
-                            </a>
-                            <a id="btn-500-Venta-3" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                500
-                            </a>
-                        </div>
-                    </div>
-                    <div class="portlet-body anchoRow">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="fa fa-barcode"></i>
-                            </span>
-                            @Html.Infragistics().Combo(Model.CmbVentaTres)
-                        </div>
-                        @Html.Infragistics().Grid(Model.GmVentaTres)
-                        <span class="label label-primary" id="total-venta-1">$0</span>
-                    </div>
-                </div>
+        <div class="portlet-body anchoRow">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-barcode"></i>
+                </span>
+                @Html.Infragistics().Combo(Model.CmbVentaUno)
             </div>
-
-            <div class="col-md-6">
-                <div class="portlet box grey-mint" id="bodyContentVenta_4">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <span><i class="fa fa-user" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbClienteVentaCuatro)</span>
-                            <span><i class="fa fa-money" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbBilleteCuatro)</span>
-                            <span><i class="fa fa-print" style="margin-right:10px"></i><input type="checkbox" id="chbPrintVenta_4"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <span>$</span>
-                            <span id="cambioVenta_4">0</span>
-                        </div>
-                        <div class="actions">
-                            <a id="btn-Cancelar-Venta-4" href="#" class="btn btn-default btn-sm confirmation-callback-Cancelar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnCancelarVenta">
-                                <i class="fa fa-close"></i>
-                            </a>
-                            <a id="btn-Aprobar-Venta-4" href="#" class="btn btn-default btn-sm confirmation-callback-Aprobar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnRealizarVenta">
-                                <i class="fa fa-check"></i>
-                            </a>
-                            <a id="btn-050-Venta-4" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                50
-                            </a>
-                            <a id="btn-100-Venta-4" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                100
-                            </a>
-                            <a id="btn-200-Venta-4" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                200
-                            </a>
-                            <a id="btn-500-Venta-4" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
-                                500
-                            </a>
-                        </div>
-                    </div>
-                    <div class="portlet-body anchoRow">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="fa fa-barcode"></i>
-                            </span>
-                            @Html.Infragistics().Combo(Model.CmbVentaCuatro)
-                        </div>
-                        @Html.Infragistics().Grid(Model.GmVentaCuatro)
-                        <span class="label label-primary" id="total-venta-4">$0</span>
-                    </div>
-                </div>
+            @Html.Infragistics().Grid(Model.GmVentaUno)
+            <span class="label label-primary" id="total-venta-1">$0</span>
+        </div>
+    </div>
+    </div>
+    <div class="flex-container">
+        <div class="portlet box grey-mint" id="bodyContentVenta_2">
+        <div class="portlet-title">
+            <div class="caption">
+                <span><i class="fa fa-user" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbClienteVentaDos)</span>
+                <span><i class="fa fa-money" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbBilleteDos)</span>
+                <span><i class="fa fa-print" style="margin-right:10px"></i><input type="checkbox" id="chbPrintVenta_2"></span>
+                &nbsp;&nbsp;&nbsp;
+                <span>$</span>
+                <span id="cambioVenta_2">0</span>
+            </div>
+            <div class="actions">
+                <a id="btn-Cancelar-Venta-2" href="#" class="btn btn-default btn-sm confirmation-callback-Cancelar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnCancelarVenta">
+                    <i class="fa fa-close"></i>
+                </a>
+                <a id="btn-Aprobar-Venta-2" href="#" class="btn btn-default btn-sm confirmation-callback-Aprobar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnRealizarVenta">
+                    <i class="fa fa-check"></i>
+                </a>
+                <a id="btn-050-Venta-2" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    50
+                </a>
+                <a id="btn-100-Venta-2" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    100
+                </a>
+                <a id="btn-200-Venta-2" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    200
+                </a>
+                <a id="btn-500-Venta-2" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    500
+                </a>
             </div>
         </div>
+        <div class="portlet-body anchoRow">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-barcode"></i>
+                </span>
+                @Html.Infragistics().Combo(Model.CmbVentaDos)
+            </div>
+            @Html.Infragistics().Grid(Model.GmVentaDos)
+            <span class="label label-primary" id="total-venta-2">$0</span>
+        </div>
+    </div>
+    </div>
+
+    <div class="flex-container">
+        <div class="portlet box grey-mint" id="bodyContentVenta_3">
+        <div class="portlet-title">
+            <div class="caption">
+                <span><i class="fa fa-user" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbClienteVentaTres)</span>
+                <span><i class="fa fa-money" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbBilleteTres)</span>
+                <span><i class="fa fa-print" style="margin-right:10px"></i><input type="checkbox" id="chbPrintVenta_3"></span>
+                &nbsp;&nbsp;&nbsp;
+                <span>$</span>
+                <span id="cambioVenta_3">0</span>
+            </div>
+            <div class="actions">
+                <a id="btn-Cancelar-Venta-3" href="#" class="btn btn-default btn-sm confirmation-callback-Cancelar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnCancelarVenta">
+                    <i class="fa fa-close"></i>
+                </a>
+                <a id="btn-Aprobar-Venta-3" href="#" class="btn btn-default btn-sm confirmation-callback-Aprobar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnRealizarVenta">
+                    <i class="fa fa-check"></i>
+                </a>
+                <a id="btn-050-Venta-3" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    50
+                </a>
+                <a id="btn-100-Venta-3" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    100
+                </a>
+                <a id="btn-200-Venta-3" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    200
+                </a>
+                <a id="btn-500-Venta-3" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    500
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body anchoRow">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-barcode"></i>
+                </span>
+                @Html.Infragistics().Combo(Model.CmbVentaTres)
+            </div>
+            @Html.Infragistics().Grid(Model.GmVentaTres)
+            <span class="label label-primary" id="total-venta-1">$0</span>
+        </div>
+    </div>
+    </div>
+    <div class="flex-container">
+        <div class="portlet box grey-mint" id="bodyContentVenta_4">
+        <div class="portlet-title">
+            <div class="caption">
+                <span><i class="fa fa-user" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbClienteVentaCuatro)</span>
+                <span><i class="fa fa-money" style="margin-right:10px"></i>@Html.Infragistics().Combo(Model.CmbBilleteCuatro)</span>
+                <span><i class="fa fa-print" style="margin-right:10px"></i><input type="checkbox" id="chbPrintVenta_4"></span>
+                &nbsp;&nbsp;&nbsp;
+                <span>$</span>
+                <span id="cambioVenta_4">0</span>
+            </div>
+            <div class="actions">
+                <a id="btn-Cancelar-Venta-4" href="#" class="btn btn-default btn-sm confirmation-callback-Cancelar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnCancelarVenta">
+                    <i class="fa fa-close"></i>
+                </a>
+                <a id="btn-Aprobar-Venta-4" href="#" class="btn btn-default btn-sm confirmation-callback-Aprobar-Venta" data-toggle="confirmation" data-placement="bottom" data-singleton="true" data-on-confirm="nsVen.HandlerBtnRealizarVenta">
+                    <i class="fa fa-check"></i>
+                </a>
+                <a id="btn-050-Venta-4" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    50
+                </a>
+                <a id="btn-100-Venta-4" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    100
+                </a>
+                <a id="btn-200-Venta-4" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    200
+                </a>
+                <a id="btn-500-Venta-4" href="javascript:;" class="btn btn-default btn-sm click-Generic-Sale">
+                    500
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body anchoRow">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-barcode"></i>
+                </span>
+                @Html.Infragistics().Combo(Model.CmbVentaCuatro)
+            </div>
+            @Html.Infragistics().Grid(Model.GmVentaCuatro)
+            <span class="label label-primary" id="total-venta-4">$0</span>
+        </div>
+    </div>
+    </div>
 </div>
 
 <script>
     //inicializacion de popover cancelación y aprobación venta :(
     $(".confirmation-callback-Cancelar-Venta").confirmation("hide");
-    $(".confirmation-callback-Aprobar-Venta").confirmation("hide");    
+    $(".confirmation-callback-Aprobar-Venta").confirmation("hide");
 </script>
