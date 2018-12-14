@@ -123,15 +123,36 @@
           }
     </style>*@
 <style>
-    @@media only screen and (max-width: 882px){
-        .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta > .flex-container:nth-child(2n+1) {
+    @@media screen and (max-height: 500px){
+        .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta > .flex-container:nth-child(n+2) {
             display: none;
         }
     }
+    @@media screen and (max-height: 720px) {
+        .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta > .flex-container:nth-child(n+3) {
+            display: none;
+        }
+    }
+    @@media screen and (max-width: 1024px) {
+        .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta > .flex-container:nth-child(n+3) {
+            display: none;
+        }
+    }
+    @@media (min-height: 720px) {
+        .page-full-width .page-content-wrapper .page-content{
+            min-height: 1140px !important;
+        }
+        .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta > .flex-container > .box {
+            height: 553px;
+        }
+        .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta > .flex-container > .box > .portlet-body {
+            height: 91.5%;
+        }
+    }
     #PartialDiv {
-        position: relative;
-        height: 100%;
-        width: 100%;
+        position: absolute;
+        height: 98%;
+        width: 98%;
     }
     .page-content-wrapper > .page-content > #PartialDiv > #contenedorVenta {
         display: flex;
