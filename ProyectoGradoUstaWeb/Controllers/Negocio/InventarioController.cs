@@ -354,6 +354,7 @@ namespace ProyectoGradoUstaWeb.Controllers.Negocio
             var gm = new GridModel().Crud_Selection(10, true, true);
             gm.ID = "gmProductosBufferAInventario";
             gm.PrimaryKey = "Id";
+            gm.AutoCommit = true;
             gm.DataSource = new InventarioBl().GetProductosBufferAInventario(-1, new DateTime(1990,1,1));
             gm.DataSourceUrl = Url.Action("HandlerGridProductosBufferAinventario");
             gm.Columns.Add(new GridColumn() { Key = "Id", DataType = "number", Hidden = true });
@@ -377,7 +378,8 @@ namespace ProyectoGradoUstaWeb.Controllers.Negocio
                 ftUpt.AddClientEvent("editCellEnded", "gridProductosBufferEditCellEnded");
                 ftUpt.EditMode = GridEditMode.Cell;
                 ftUpt.EnableAddRow = false;
-                ftUpt.EnableDeleteRow = false;             
+                ftUpt.EnableDeleteRow = false;          
+                
 
                 //var colProductoUpt = new ColumnUpdatingSetting();
                 //colProductoUpt.ColumnKey = "ProductoNombre";

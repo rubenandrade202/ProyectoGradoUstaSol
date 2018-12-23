@@ -9,6 +9,7 @@ nsGral.UrlRegistrarPedidoRecibido;//Seteado en home index
 
 //Carga las vistas dinamicamente
 nsGral.ProcesarPagina = function (controller, action) {
+    //debugger
     nsGral.CheckSession();
     var urlCurrent = "../" + controller + "/" + action + "?thereIsL=1";
     nsGral.BloquearPantalla();
@@ -42,7 +43,7 @@ nsGral.CheckSession = function () {
             type: 'HEAD',
             complete: function (request) {
                 if (request.getResponseHeader('SessionChecking') == 'true') {
-                    return
+                    return;
                 } else {
                     location.href = loginUrl;
                 }

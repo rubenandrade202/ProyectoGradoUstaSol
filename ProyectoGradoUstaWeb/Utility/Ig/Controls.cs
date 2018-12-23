@@ -77,9 +77,8 @@ namespace ProyectoGradoUstaWeb
                 ItemSeparator = ";"
             };
             var cmb = new ComboModel()
-            {          
-                
-                MultiSelectionSettings = objMulti,
+            {                          
+                //MultiSelectionSettings = null,//objMulti,
                 FilteringType = ComboFilteringType.Remote,
                 HighlightMatchesMode = ComboHighlightMatchesMode.Contains,
                 FilteringLogic = ComboFilteringLogic.Or,
@@ -94,8 +93,8 @@ namespace ProyectoGradoUstaWeb
                 TextKey = "Value",
                 Width = width,
                 DropDownWidth = 400,
-                ValueKey = "Id",
-                ValidatorOptions = objValidator
+                ValueKey = "Id"//,
+                //ValidatorOptions = objValidator
             };
             return cmb;
         }

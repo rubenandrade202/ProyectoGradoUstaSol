@@ -109,7 +109,7 @@ function keyupBillete(evt, ui) {
     ////prevalidación limpieza
     if (ui.element.value == null || ui.element.value == undefined || ui.element.value == "" || ui.element.value.length == 0) {
         bufferSelectorSpan.css("color", "White");
-        bufferSelectorSpan.html(cambio);
+        bufferSelectorSpan.html(cambio.toLocaleString('es'));
         bufferSelectorBillete.igCurrencyEditor("value", 0);
         return;
     }
@@ -128,6 +128,7 @@ function rowDeletedGridVenta(evt, ui) {
 }
 
 nsVen.SetVueltas = function (idCaja) {
+    //debugger
     var bufferSelectorSpan = $("#cambioVenta_" + idCaja);
     var bufferSelectorBillete = $("#cmbBillete_" + idCaja);
     var valorDefault = 0;
@@ -153,7 +154,7 @@ nsVen.SetVueltas = function (idCaja) {
     }
 
     bufferSelectorSpan.css("color", colorDefault);
-    bufferSelectorSpan.html(valorDefault);
+    bufferSelectorSpan.html(valorDefault.toLocaleString('es'));
 }
 
 nsVen.AddItemToGrid = function (idCaja, idProducto, precioProducto, nombreProducto) {

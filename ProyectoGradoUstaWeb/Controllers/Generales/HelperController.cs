@@ -64,7 +64,9 @@ namespace ProyectoGradoUstaWeb.Controllers.Generales
             }
             else
             {
-                return Json(null, JsonRequestBehavior.AllowGet);
+                gralBlDomain = gralBlDomain == null ? new GeneralDomainBl() : gralBlDomain;
+                var dataEmpty = gralBlDomain.GetProductos().Where(x => x.Nombre.ToLower().Contains("y")).Take(0).Select(y => new BasicDependantVm() { Id = (int)y.Id, Value = y.Nombre.Trim(), IdParent = y.Precio }).ToList(); ;
+                return Json(dataEmpty, JsonRequestBehavior.AllowGet);
             }
         }
 

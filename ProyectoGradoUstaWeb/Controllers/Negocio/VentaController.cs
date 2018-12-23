@@ -140,10 +140,10 @@ namespace ProyectoGradoUstaWeb.Controllers.Negocio
                     new ColumnSummariesSetting {ColumnKey = "Subtotal", AllowSummaries = true,
                      Operands = new List<SummaryOperand>()
                      {
-                        new SummaryOperand { RowDisplayLabel="Avg",Type= SummaryFunction.Avg,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Count",Type= SummaryFunction.Count,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Min",Type= SummaryFunction.Min,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Sum",Type= SummaryFunction.Sum,  Active=true}
+                        //new SummaryOperand { RowDisplayLabel="Avg",Type= SummaryFunction.Avg,  Active=false},
+                        //new SummaryOperand { RowDisplayLabel="Count",Type= SummaryFunction.Count,  Active=false},
+                        //new SummaryOperand { RowDisplayLabel="Min",Type= SummaryFunction.Min,  Active=false},
+                        new SummaryOperand { RowDisplayLabel="Sum",Type= SummaryFunction.Sum,  Active=true, Format="{0:c}"}
                      }},
                 };
             }          
@@ -202,10 +202,10 @@ namespace ProyectoGradoUstaWeb.Controllers.Negocio
                     new ColumnSummariesSetting {ColumnKey = "Subtotal", AllowSummaries = true,
                      Operands = new List<SummaryOperand>()
                      {
-                        new SummaryOperand { RowDisplayLabel="Avg",Type= SummaryFunction.Avg,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Count",Type= SummaryFunction.Count,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Min",Type= SummaryFunction.Min,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Sum",Type= SummaryFunction.Sum,  Active=true}
+                        //new SummaryOperand { RowDisplayLabel="Avg",Type= SummaryFunction.Avg,  Active=false},
+                        //new SummaryOperand { RowDisplayLabel="Count",Type= SummaryFunction.Count,  Active=false},
+                        //new SummaryOperand { RowDisplayLabel="Min",Type= SummaryFunction.Min,  Active=false},
+                        new SummaryOperand { RowDisplayLabel="Sum",Type= SummaryFunction.Sum,  Active=true, Format="{0:c}"}
                      }},
                 };
             }
@@ -264,10 +264,10 @@ namespace ProyectoGradoUstaWeb.Controllers.Negocio
                     new ColumnSummariesSetting {ColumnKey = "Subtotal", AllowSummaries = true,
                      Operands = new List<SummaryOperand>()
                      {
-                        new SummaryOperand { RowDisplayLabel="Avg",Type= SummaryFunction.Avg,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Count",Type= SummaryFunction.Count,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Min",Type= SummaryFunction.Min,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Sum",Type= SummaryFunction.Sum,  Active=true}
+                        //new SummaryOperand { RowDisplayLabel="Avg",Type= SummaryFunction.Avg,  Active=false},
+                        //new SummaryOperand { RowDisplayLabel="Count",Type= SummaryFunction.Count,  Active=false},
+                        //new SummaryOperand { RowDisplayLabel="Min",Type= SummaryFunction.Min,  Active=false},
+                        new SummaryOperand { RowDisplayLabel="Sum",Type= SummaryFunction.Sum,  Active=true, Format="{0:c}"}
                      }},
                 };
             }
@@ -326,10 +326,10 @@ namespace ProyectoGradoUstaWeb.Controllers.Negocio
                     new ColumnSummariesSetting {ColumnKey = "Subtotal", AllowSummaries = true,
                      Operands = new List<SummaryOperand>()
                      {
-                        new SummaryOperand { RowDisplayLabel="Avg",Type= SummaryFunction.Avg,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Count",Type= SummaryFunction.Count,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Min",Type= SummaryFunction.Min,  Active=false},
-                        new SummaryOperand { RowDisplayLabel="Sum",Type= SummaryFunction.Sum,  Active=true}
+                        //new SummaryOperand { RowDisplayLabel="Avg",Type= SummaryFunction.Avg,  Active=false},
+                        //new SummaryOperand { RowDisplayLabel="Count",Type= SummaryFunction.Count,  Active=false},
+                        //new SummaryOperand { RowDisplayLabel="Min",Type= SummaryFunction.Min,  Active=false},
+                        new SummaryOperand { RowDisplayLabel="Sum",Type= SummaryFunction.Sum,  Active=true, Format="{0:c}"}
                      }},
                 };
             }

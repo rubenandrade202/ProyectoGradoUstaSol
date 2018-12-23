@@ -160,8 +160,9 @@ namespace ProyectoGradoUstaWeb.Controllers
                     var user = rp.Data as UsuariosProyectoUsta;                   
                     Session["UserName"] = logInUsuarioVm.Id;                   
                     Session["UserId"] = user.Id;
-                    Session["UserIdIdioma"] = user.IdIdioma;                                                         
+                    Session["UserIdIdioma"] = user.IdIdioma;
                     return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Venta");
                 }
                 else
                 {

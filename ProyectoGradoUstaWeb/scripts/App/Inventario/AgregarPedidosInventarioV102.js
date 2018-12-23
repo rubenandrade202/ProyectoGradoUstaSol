@@ -151,6 +151,7 @@ function gridProductosBufferEditCellEnded(evt, ui) {
 function dropDownClosedCmbSearch(evt, ui) {
     var items = $("#cmbSearchProduct").igCombo("selectedItems");
     if (items != undefined && items != null && items.length > 0) {
+        //debugger
         var idProducto = items[0].data.Id;
         nsApi.CargarProductoABuffer(idProducto);
 
@@ -175,12 +176,14 @@ function dropDownClosedCmbSearch(evt, ui) {
 }
 
 nsApi.CargarProductoABuffer = function (idProducto) {
+    //debugger;
     $.ajax(
             {
                 url: nsApi.UrlIngresarProductoABuffer,
                 type: 'POST',
                 data: { idProducto: idProducto },
-                success: function (rp) {
+            success: function (rp) {
+                    //debugger
                     nsApi.SelectorGridProductosBuffer = $("#gmProductosBufferAInventario");
                     nsApi.SelectorGridProductosBuffer.igGrid("dataBind");
                     nsApi.SelectorGridProductosBuffer.igGridSelection("clearSelection");
